@@ -10,20 +10,7 @@
     flex-direction: row;
   }
 
-  &__threejs {
-    background-color: transparent;
-    position: relative;
-    height: calc(100% - 134px);
-
-    @media (min-width: 768px) {
-      height: calc(100% - 200px);
-    }
-
-    @media (min-width: 1024px) {
-      width: calc(100% / 3 * 2);
-      height: 100%;
-    }
-
+  .morse-code {
     & .info-message {
       position: absolute;
       z-index: 500;
@@ -32,7 +19,7 @@
       padding: 0 10px;
       width: 100%;
       justify-content: flex-end;
-      min-height: 175px;  
+      min-height: 175px;
 
       &.show {
         opacity: 1;
@@ -81,7 +68,92 @@
         display: flex;
         justify-content: center;
 
-        & > div {
+        &>div {
+          font-size: 30px;
+          line-height: 60px;
+          color: $input-text-color;
+          font-family: $font-optima;
+          width: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+        }
+      }
+    }
+  }
+
+  &__threejs {
+    background-color: transparent;
+    position: relative;
+    height: calc(100% - 134px);
+
+    @media (min-width: 768px) {
+      height: calc(100% - 200px);
+    }
+
+    @media (min-width: 1024px) {
+      width: calc(100% / 3 * 2);
+      height: 100%;
+    }
+
+    & .info-message {
+      position: absolute;
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      padding: 0 10px;
+      width: 100%;
+      justify-content: flex-end;
+      min-height: 175px;
+
+      &.show {
+        opacity: 1;
+        transition: all 1s ease;
+      }
+
+      &.hide {
+        opacity: 0;
+        transition: all 1s ease;
+      }
+
+      & .morse-code__single {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        &__letter {
+          display: flex;
+          width: 40px;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column-reverse;
+          border-width: 1px solid black;
+        }
+
+        &--dot {
+          display: block;
+          margin: 5px 0;
+          width: 6px;
+          height: 6px;
+          border-radius: 3px;
+          background-color: $input-morse-code;
+        }
+
+        &--dash {
+          display: block;
+          margin: 5px 0;
+          width: 6px;
+          height: 16px;
+          border-radius: 0px;
+          background-color: $input-morse-code;
+        }
+      }
+
+      & .message-info__single {
+        display: flex;
+        justify-content: center;
+
+        &>div {
           font-size: 30px;
           line-height: 60px;
           color: $input-text-color;
@@ -113,7 +185,7 @@
         transition: all 1s ease;
       }
 
-      & > img {
+      &>img {
         max-width: 45px;
         height: 26.67px;
 
@@ -130,7 +202,7 @@
         right: auto;
       }
 
-      & > div {
+      &>div {
         color: $title-color;
         font-family: $font-optima;
         font-size: 14px;
@@ -292,14 +364,17 @@
       &__link {
         flex: 1;
         text-align: right;
-        & > a {
+
+        &>a {
           font-family: $font-optima;
           color: $title-color;
           font-style: italic;
+
           &:hover {
             text-decoration: none;
           }
         }
+
         &.colors {
           text-align: left;
         }
@@ -372,12 +447,12 @@
             height: 100%;
           }
 
-          & > span:first-child {
+          &>span:first-child {
             color: $title-color;
             text-align: center;
           }
 
-          & > span:last-child {
+          &>span:last-child {
             color: rgba($sub-title-color, 0.65);
             text-align: center;
           }
@@ -526,17 +601,17 @@
                 opacity: 1;
                 transform: rotate(180deg);
                 transition: opacity 0.3s ease;
-    
+
                 &.swiper-button-disabled {
                   opacity: 0;
                   transition: opacity 0.3s ease;
                 }
-                
+
                 &:hover {
                   cursor: pointer;
                 }
               }
-    
+
               .swiper-button-prev {
                 height: 30px;
                 width: 30px;
@@ -546,12 +621,12 @@
                 z-index: 50;
                 opacity: 1;
                 transition: opacity 0.3s ease;
-    
+
                 &.swiper-button-disabled {
                   opacity: 0;
                   transition: opacity 0.3s ease;
                 }
-                
+
                 &:hover {
                   cursor: pointer;
                 }
@@ -566,7 +641,7 @@
                 text-align: center;
                 width: 100%;
 
-                & > .hexagon {
+                &>.hexagon {
                   display: inline;
                   font-size: 20px;
                 }

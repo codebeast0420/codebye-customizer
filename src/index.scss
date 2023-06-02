@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media screen and (max-width: 600px) {
+    .cbe-canvas {
+      width: 300px;
+      height: 600px;
+    }
+  }
+  
+  /* Styles for desktop devices with screen width over 600px */
+  @media screen and (min-width: 601px) {
+    .cbe-canvas {
+      width: 800px;
+      height: 800px;
+    }
+  }
+  @font-face {
+    font-family: "Optima nova";
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    // src: url("./optima.woff") format("woff2");
+  }
+  .cbe-bg-green {
+    background: #183e3f;
+  }
+  .cbe-bg-green-lighter {
+    background: #3c6668;
+  }
+  .cbe-bg-green-lightest {
+    background: #d4e4e4;
+  }
+  .cbe-btn {
+    background: #305253;
+    color: #ffffff;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    /*letter-spacing: 0.1em;*/
+    font-family: "Cormorant Garamond", Arial, sans-serif;
+    font-style: italic;
+    font-size: 20px;
+  }
+  .cbe-btn-svg-fill {
+    filter: brightness(80%) sepia(100%) hue-rotate(30deg);
+  }
+  .cbe-btn-text-green {
+    color: #305253;
+  }
+  .cbe-btn-text-font {
+    font-family: "Optima nova", sans-serif;
+  }
+  .cbe-text-color-teal {
+    color: #183e3f;
+  }
+  .cbe-dot-bg-override {
+    background-color: unset !important;
+  }
+  .cbe-font {
+    font-family: "Cormorant", serif !important;
+    font-weight: 500 !important;
+    letter-spacing: 0px !important;
+    line-height: 1 !important;
+  }
+  .cbe-font-black {
+    font-weight: 800;
+  }
+  .cbe-font-comorant {
+    font-family: "Comorant", serif !important;
+  }
+  .cbe-font-comorant-garamond {
+    font-family: "Cormorant Garamond", Arial, sans-serif;
+  }
+  .cbe-font-optima {
+    font-family: "Optima nova", sans-serif !important;
+  }
+  .cbe-font-label {
+    font-family: "Optima nova", sans-serif !important;
+    letter-spacing: 0.025em !important;
+    line-height: 1.4 !important;
+  }
+  .cbe-font-mono {
+    /* font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important; */
+    font-family: "Optima nova", sans-serif !important;
+    /* font-size: 2rem !important; */
+    line-height: 2 !important;
+  }
+  .cbe-font-select-label {
+    text-transform: uppercase !important;
+    letter-spacing: 0.3em !important;
+    font-size: 0.8em !important;
+    font-weight: 400 !important;
+    font-family: "Optima nova", sans-serif !important;
+    color: #305253 !important;
+  }
+  .cbe-footer-text {
+    font-family: "Optima nova", sans-serif !important;
+    color: #305253 !important;
+  }
+  .cbe-message-placeholder-fix {
+    position: unset !important;
+  }
+  .cbe-select {
+    background-color: inherit !important;
+    color: inherit !important;
+    appearance: none !important;
+    padding-right: 28px !important;
+    padding-top: 8px !important;
+    padding-left: 8px !important;
+    padding-bottom: 4px !important;
+    text-indent: 0.01px !important;
+    border: 1px solid !important;
+    border-color: #e8e8e1 !important;
+    background-image: url(https://cdn.shopify.com/s/files/1/0719/6907/9593/t/2/assets/ico-select.svg) !important;
+    background-repeat: no-repeat !important;
+    background-position: right 10px center !important;
+    background-size: 11px !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    font-family: "Optima nova", sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    -webkit-text-size-adjust: 100% !important;
+    letter-spacing: 0.025em !important;
+    line-height: 1.4 !important;
+  }
+  .cbe-spacing {
+    letter-spacing: 1.6rem;
+  }
+  .cbe-spinner {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    content: "";
+    /* display: block; */
+    width: 24px;
+    height: 24px;
+    /*position: absolute;*/
+    /* left: 50%; */
+    /* top: 50%; */
+    /*margin-left: -12px;*/
+    /* margin-top: -12px;*/
+    border-radius: 50%;
+    border: 3px solid;
+    border-color: #fff;
+    border-color: #305253;
+    border-top-color: transparent;
+  
+    animation: spin 1s linear infinite;
+  }
+  .cbe-table {
+    border-spacing: 1.25px !important;
+    border-width: 1px !important;
+    border-color: #305253 !important;
+    font-family: "Optima nova", sans-serif !important;
+  }
+  .cbe-table-head {
+    background-color: #305253 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-align: left !important;
+    padding: 10px 15px !important;
+    letter-spacing: 0.025em !important;
+    line-height: 1.4 !important;
+    font-family: "Cormorant Garamond", Arial, sans-serif;
+    font-size: 1.2rem;
+    border: 2px !important;
+    border-color: #ffffff !important;
+    border-radius: 0px !important;
+  }
+  .cbe-td {
+    border-spacing: 1.25px !important;
+    border-width: 1px !important;
+    border-color: #305253 !important;
+    border-color: #305253 !important;
+    padding: 10px 15px !important;
+    font-family: "Optima nova", sans-serif !important;
+  }
+  @-moz-keyframes spin {
+    from {
+      -moz-transform: rotate(0deg);
+    }
+    to {
+      -moz-transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

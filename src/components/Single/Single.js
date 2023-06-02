@@ -5,14 +5,14 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import _ from "underscore";
 import { Redirect } from "react-router-dom";
-import { JewerlyRingsRenderer } from "../common/JewerlyRenderer";
+// import { JewerlyRingsRenderer } from "../common/JewerlyRenderer";
 import SingleMenu from "../common/SingleMenu";
 import MorseCode from "../../lib/morse_code";
 import { setImageFuncAction } from "../../store/actions";
 import GalleryModal from "../common/GalleryModal";
-import ClickableDiv from "../common/ClickableDiv";
 import icon360 from "../../assets/images/code-360-icon.gif";
 import Pricing from "../../lib/pricing";
+import Loading from './Infinity-1s-197px.gif';
 
 class Single extends React.Component {
   state = {};
@@ -20,6 +20,7 @@ class Single extends React.Component {
   constructor(props) {
     super(props);
     const { configuration, product } = props;
+    console.log('sccess')
     if (product.data.id !== 2096 && product.data.id !== 2124) {
       const rings = [];
       const letters = configuration.message.split("");
@@ -81,6 +82,7 @@ class Single extends React.Component {
         load: false,
         galleryModal: false,
         showInfos: true,
+        msg: "",
       };
       this.units_to_cm_coef = 2.02;
       this.chainElementCmSize = {
@@ -125,6 +127,7 @@ class Single extends React.Component {
         load: false,
         galleryModal: false,
         showInfos: true,
+        msg: ""
       };
 
       if (product.data.id === 2096) {
@@ -319,7 +322,7 @@ class Single extends React.Component {
     if (
       product.data.id === 408 &&
       prevProps.configuration.pa_hook_type_earrings.id !==
-        configuration.pa_hook_type_earrings.id
+      configuration.pa_hook_type_earrings.id
     ) {
       this.setState(
         { chainLength: configuration.pa_hook_type_earrings.id },
@@ -380,6 +383,12 @@ class Single extends React.Component {
 
   getChainElementSize(elementName) {
     return this.chainElementSize[elementName] || 0;
+  }
+
+  onChangeMsg = (e) => {
+    console.log('aaa', e.target.value);
+    this.setState({ msg: e.target.value });
+    console.log('state', this.state.msg)
   }
 
 
@@ -1141,11 +1150,11 @@ class Single extends React.Component {
           const item =
             j === 0
               ? self.create_link(
-                  "../assets/jewerly/ringsAquafiore/Aquafiore_RDJR.glb"
-                )
+                "../assets/jewerly/ringsAquafiore/Aquafiore_RDJR.glb"
+              )
               : self.create_link(
-                  "../assets/jewerly/ringsAquafiore/Aquafiore_RD.glb"
-                );
+                "../assets/jewerly/ringsAquafiore/Aquafiore_RD.glb"
+              );
 
           links_array_3.push(item);
 
@@ -1156,11 +1165,11 @@ class Single extends React.Component {
           const item =
             j === 0
               ? self.create_link(
-                  "../assets/jewerly/ringsAquafiore/Aquafiore_OBJR.glb"
-                )
+                "../assets/jewerly/ringsAquafiore/Aquafiore_OBJR.glb"
+              )
               : self.create_link(
-                  "../assets/jewerly/ringsAquafiore/Aquafiore_OB.glb"
-                );
+                "../assets/jewerly/ringsAquafiore/Aquafiore_OB.glb"
+              );
 
           links_array_3.push(item);
 
@@ -1746,7 +1755,7 @@ class Single extends React.Component {
                 }}
               />
             </div>
-            {load && (
+            {/* {load && (
               <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
                 stoneColor={stoneColor}
@@ -1756,16 +1765,10 @@ class Single extends React.Component {
                 onReadyToUse={this.handleOnReadyToUse}
                 onInteraction={this.handleOnInteraction}
               />
-            )}
+            )} */}
             <div className={`view-gallery ${showInfos ? "show" : "hide"}`}>
               <img src={icon360} alt="" />
             </div>
-            <ClickableDiv
-              className={`view-gallery ${showInfos ? "hide" : "show"}`}
-              onClick={() => this.setState({ galleryModal: true })}
-            >
-              <div>View Gallery</div>
-            </ClickableDiv>
           </div>
           <SingleMenu
             finishAnime={() => this.setState({ load: true })}
@@ -1791,7 +1794,7 @@ class Single extends React.Component {
                 }}
               />
             </div>
-            {load && (
+            {/* {load && (
               <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
                 stoneColor={stoneColor}
@@ -1806,16 +1809,10 @@ class Single extends React.Component {
                 onProgress={this.handleOnRingOnProgress}
                 onInteraction={this.handleOnInteraction}
               />
-            )}
+            )} */}
             <div className={`view-gallery ${showInfos ? "show" : "hide"}`}>
               <img src={icon360} alt="" />
             </div>
-            <ClickableDiv
-              className={`view-gallery ${showInfos ? "hide" : "show"}`}
-              onClick={() => this.setState({ galleryModal: true })}
-            >
-              <div>View Gallery</div>
-            </ClickableDiv>
           </div>
           <SingleMenu
             finishAnime={() => this.setState({ load: true })}
@@ -1829,7 +1826,7 @@ class Single extends React.Component {
     return (
       <div className="single" style={{ height }}>
         <div className="single__threejs">
-          <div className={`info-message ${showInfos ? "show" : "hide"}`}>
+          <div className={`info-message show`}>
             <div className="morse-code__single">
               {this.buildMorseCode(configuration.message)}
             </div>
@@ -1840,38 +1837,86 @@ class Single extends React.Component {
               }}
             />
           </div>
-          {load && (
-            <JewerlyRingsRenderer
-              ringsUrls={ringsUrls}
-              stoneColor={stoneColor}
-              ringColor={ringColor}
-              createChainType={createChainType}
-              chainElementsNames={chainElementsNames}
-              chainLength={chainLength}
-              onReadyToUse={this.handleOnReadyToUse}
-              onBeforeLoad={this.handleOnRingOnBeforeLoad}
-              onLoad={this.handleOnRingOnLoad}
-              onInteraction={this.handleOnInteraction}
-            />
-            // <button onClick={console.log(this.handleOnReadyToUse)}>test</button>
-          )}
-          <div className={`view-gallery ${showInfos ? "show" : "hide"}`}>
-            <img src={icon360} alt="" />
-          </div>
-          <ClickableDiv
-            className={`view-gallery ${showInfos ? "hide" : "show"}`}
-            onClick={() => this.setState({ galleryModal: true })}
-          >
-            <div>View Gallery</div>
-          </ClickableDiv>
+          {/* {load && ( */}
+          {/* <JewerlyRingsRenderer
+            ringsUrls={ringsUrls}
+            stoneColor={stoneColor}
+            ringColor={ringColor}
+            createChainType={createChainType}
+            chainElementsNames={chainElementsNames}
+            chainLength={chainLength}
+            onReadyToUse={this.handleOnReadyToUse}
+            onBeforeLoad={this.handleOnRingOnBeforeLoad}
+            onLoad={this.handleOnRingOnLoad}
+            onInteraction={this.handleOnInteraction}
+          /> */}
+          {/* )} */}
         </div>
-        <SingleMenu
-          finishAnime={() => this.setState({ load: true })}
-          showLoading={showLoading}
-          product={product.data}
-        />
-        {this.modals()}
-      </div>
+        <div className="basis-5/12 flex pr-1 py-4 justify-content">
+          <div className="basis-3/12"></div>
+          <div className="basis-9/12 flex flex-col">
+            <div className="flex flex-row justify-content">
+              <div className="basis-4/12 pr-1">
+                <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-6 w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
+                  <div className="flex flex-row content-center justify-center gap-x-2">
+                    <div className="basis-3/4">
+                      <p className="font-bold">Message</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+              <div className="basis-4/12 pr-1">
+                <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
+                  <div className="flex flex-row content-center justify-center gap-x-2">
+                    <div className="basis-3/4 flex flex-col">
+                      <p className="italic text-xs">Select</p>
+                      <p className="font-bold">Metal</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+              <div className="basis-4/12">
+                <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
+                  <div className="flex flex-row content-center justify-center gap-x-2">
+                    <div className="basis-3/4 flex flex-col">
+                      <p className="italic text-xs">Select</p>
+                      <p className="font-bold">Size</p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-row mt-4 justify-content">
+              <div className="`basis-11/12`">
+                <div className="message__inputs">
+                  <div className="message__input-container">
+                    <div className="morse-code" id="morseContainer">
+                      <div className={`info-message show`}>
+                        <div className="morse-code__single">
+                          {this.buildMorseCode(this.state.msg)}
+                        </div>
+                      </div>
+                    </div>
+                    <input className="message__input cbe-font-mono tracking-[30px]" value={this.state.msg} onChange={this.onChangeMsg} id="messageInput" />
+                    <div className="message__placeholder message__placeholder--visible cbe-font cbe-message-placeholder-fix mt-1">Please enter your message</div>
+                  </div>
+                </div>
+                {load && (
+                  <div className="col-span-3 align-middle grid grid-cols-3 content-center">
+                    <div className="flex justify-center"><img className="text-center align-middle" src={Loading} /></div>
+                  </div>
+                )}
+                {!load && (
+                  <div className="col-span-3 align-middle">
+                    <p className="text-center text-stone-500 cbe-font-label mt-1 text-sm">Zoom: Mouse Wheel, Rotate: Left Mouse Button, Pan: Right Mouse Button</p>
+                  </div>
+                )}
+
+              </div>
+            </div >
+          </div >
+        </div >
+      </div >
     );
   }
 }

@@ -42,11 +42,8 @@ class Layout extends React.PureComponent {
     const back = preMadeProduct.isPremade ? `${URL}ready-to-wear` : `${URL}shop-the-range`;
     console.log('success');
     return (
-      <Router basename="/customiser">
-        <Header
-          onBack={back}
-          onClose={!_.isEmpty(product.data) ? '/product' : false}
-        />
+      <Router>
+        <Header />
         <Loading>
           <Switch>
             <Route exact path="/" component={RoutedArchive} />
