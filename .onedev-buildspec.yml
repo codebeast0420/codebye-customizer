@@ -1,0 +1,114 @@
+version: 19
+jobs:
+- name: Build
+  jobExecutor: linux-executor
+  steps:
+  - !UseTemplateStep
+    name: Checkout and build
+    templateName: Initial step
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  triggers:
+  - !PullRequestUpdateTrigger
+    branches: master
+  - !BranchUpdateTrigger
+    branches: development staging
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 3600
+- name: staging
+  jobExecutor: linux-executor
+  steps:
+  - !CommandStep
+    name: Create .env
+    runInContainer: false
+    interpreter: !DefaultInterpreter
+      commands:
+      - echo REACT_APP_API_URL=https://code.stg.brief.com.pt/ >> .env
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !UseTemplateStep
+    name: Build
+    templateName: Initial step
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !CommandStep
+    name: Rsync
+    runInContainer: false
+    interpreter: !DefaultInterpreter
+      commands:
+      - echo "Rsync Staging"
+      - rsync -arq --exclude '.git' --info=progress2 -e "ssh -i /root/.ssh/id_rsa_ci
+        -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -o StrictHostKeyChecking=no"
+        . root@@code.stg.brief.com.pt:/var/www/customiser/
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  triggers:
+  - !BranchUpdateTrigger
+    branches: staging
+    projects: code/react-customiser
+  jobDependencies:
+  - jobName: Build
+    requireSuccessful: true
+    artifacts: '**'
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 3600
+- name: production
+  jobExecutor: linux-executor
+  steps:
+  - !CommandStep
+    name: Create .env
+    runInContainer: false
+    interpreter: !DefaultInterpreter
+      commands:
+      - echo REACT_APP_API_URL=https://codebyedge.com/ >> .env
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !UseTemplateStep
+    name: Build
+    templateName: Initial step
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !CommandStep
+    name: Rsync
+    runInContainer: false
+    interpreter: !DefaultInterpreter
+      commands:
+      - echo "Rsync Production"
+      - rsync -arq --exclude '.git' --info=progress2 -e "ssh -i /root/.ssh/id_rsa_ci
+        -o UserKnownHostsFile=/dev/null -o LogLevel=quiet -o StrictHostKeyChecking=no"
+        . root@@codebyedge.com:/var/www/customiser/
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  triggers:
+  - !BranchUpdateTrigger
+    branches: production
+    projects: code/react-customiser
+  jobDependencies:
+  - jobName: Build
+    requireSuccessful: true
+    artifacts: '**'
+  retryCondition: never
+  maxRetries: 3
+  retryDelay: 30
+  timeout: 3600
+stepTemplates:
+- name: Initial step
+  steps:
+  - !CheckoutStep
+    name: Checkout code
+    cloneCredential: !DefaultCredential {}
+    withLfs: false
+    withSubmodules: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL
+  - !CommandStep
+    name: Build dist
+    runInContainer: false
+    interpreter: !DefaultInterpreter
+      commands:
+      - . /root/.nvm/nvm.sh
+      - export COMPOSER_ALLOW_SUPERUSER=1
+      - export COMPOSER_HOME=/root/.composer
+      - . scripts/build.sh
+    useTTY: false
+    condition: ALL_PREVIOUS_STEPS_WERE_SUCCESSFUL

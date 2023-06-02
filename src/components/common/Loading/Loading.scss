@@ -1,0 +1,133 @@
+@import '../../../styles/index.scss';
+
+.dash {
+  width: 30px;
+  height: 10px;
+  border-radius: 3px;
+  background: $main-color;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background: $main-color;
+}
+
+.cs-loader {
+  position: absolute;
+  top: 3px;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 999999;
+  color: $main-color;
+
+  &:first-child {
+    font-family: $font-cormorant;
+    font-size: 50px;
+  }
+
+  &--hidden {
+    visibility: hidden;
+    animation: fadeout 300ms;
+  }
+
+  &--visible {
+    visibility: visible;
+    animation: fadein 300ms;
+  }
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeout {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.cs-loader-inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.cs-loader-inner span {
+  opacity: 0;
+  margin: 0 5px;
+  display: block;
+  background: $main-color;;
+}
+
+@keyframes lol {
+  0% {
+    opacity: 0;
+    transform: translateX(-300px);
+  }
+  33% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  66% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+}
+
+@-webkit-keyframes lol {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-300px);
+  }
+  33% {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+  }
+  66% {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translateX(300px);
+  }
+}
+
+.cs-loader-inner span:nth-child(6) {
+  -webkit-animation: lol 1500ms infinite ease-in-out;
+  animation: lol 1500ms infinite ease-in-out;
+}
+
+.cs-loader-inner span:nth-child(5) {
+  -webkit-animation: lol 1500ms 100ms infinite ease-in-out;
+  animation: lol 1500ms 100ms infinite ease-in-out;
+}
+
+.cs-loader-inner span:nth-child(4) {
+  -webkit-animation: lol 1500ms 200ms infinite ease-in-out;
+  animation: lol 1500ms 200ms infinite ease-in-out;
+}
+
+.cs-loader-inner span:nth-child(3) {
+  -webkit-animation: lol 1500ms 300ms infinite ease-in-out;
+  animation: lol 1500ms 300ms infinite ease-in-out;
+}
+
+.cs-loader-inner span:nth-child(2) {
+  -webkit-animation: lol 1500ms 400ms infinite ease-in-out;
+  animation: lol 1500ms 400ms infinite ease-in-out;
+}
+
+.cs-loader-inner span:nth-child(1) {
+  -webkit-animation: lol 1500ms 500ms infinite ease-in-out;
+  animation: lol 1500ms 500ms infinite ease-in-out;
+}

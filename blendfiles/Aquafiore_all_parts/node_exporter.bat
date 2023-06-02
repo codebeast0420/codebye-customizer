@@ -1,0 +1,2 @@
+node node_exporter.js Aquafiore_all_parts.blend
+pause

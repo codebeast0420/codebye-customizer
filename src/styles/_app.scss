@@ -1,0 +1,36 @@
+@import "variables";
+@import "animations";
+
+div {
+  outline: none;
+}
+a {
+  outline: none;
+}
+a img {
+  outline: none;
+}
+
+a.link--underline {
+  text-decoration: underline;
+}
+
+svg.back {
+  transform: rotateY(180deg);
+  & g {
+    stroke: $title-color;
+  }
+}
+
+.hexagon {
+  display: block;
+  color: #BDCDCD;
+  font-size: 15px;
+  transform: rotate(30deg);
+}
+
+.size-guide-link, .size-guide-link:hover {
+  font-style: italic;
+  color: $title-color;
+  font-family: $font-optima;
+}

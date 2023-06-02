@@ -1,0 +1,52 @@
+@import "../../../styles/index.scss";
+
+.footer {
+  height: 40px;
+  //width: 100vw;
+  width: 174px;
+  // position: fixed;
+  bottom: 0px;
+  left: 0;
+  z-index: 50;
+  background-color: $title-color;
+  border-radius: 3px;
+
+  @media (min-width: 768px) {
+    width: 174px;
+    position: relative;
+  }
+
+  & > a:hover {
+    text-decoration: none;
+  }
+
+  &--enable {
+    opacity: 1;
+    transition: opacity 300ms ease;
+  }
+
+  &--disabled {
+    opacity: 0.3;
+    transition: opacity 300ms ease;
+  }
+
+  &__item {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: $font-cormorant;
+    font-style: italic;
+    font-size: 20px;
+
+    & > svg {
+      & polygon {
+        fill: white;
+      }
+      & path {
+        fill: white;
+      }
+    }
+  }
+}

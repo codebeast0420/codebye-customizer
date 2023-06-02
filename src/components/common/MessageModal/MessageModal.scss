@@ -1,0 +1,349 @@
+@import "../../../styles/index.scss";
+
+.ReactModal__Body--open {
+  overflow: hidden;
+}
+
+.ReactModal__Overlay {
+  transform: translateY(100%);
+  transition: transform 300ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+  transform: translateY(0%);
+}
+
+.ReactModal__Overlay--before-close{
+  transform: translateY(100%);
+}
+
+.modal {
+  &__overlay {
+    padding: 0;
+  }
+
+  &__container {
+    max-width: 100%;
+    width: 100%;
+    min-height: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &--enter {
+    transform: translateY(100%);
+  }
+
+  &--enter-active {
+    transform: translateY(0);
+    transition: transform 400ms ease;
+  }
+
+  &--exit {
+    transform: translateY(0);
+  }
+
+  &--exit-active {
+    transform: translateY(100%);
+    transition: transform 400ms ease;
+  }
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // padding-bottom: 40px;
+  flex: 1;
+  max-width: 738px;
+
+  @media (min-width: 768px) {
+    padding-bottom: 0px;
+  }
+
+  &__placeholder {
+    position: absolute;
+    bottom: 7px;
+    text-align: center;
+    font-family: $font-optima;
+    font-size: 30px;
+    width: 100%;
+    color: rgba($sub-title-color, 0.4);
+    pointer-events: none;
+    letter-spacing: 2px;
+    overflow: hidden;
+
+    &--visible {
+      opacity: 1;
+      transition: opacity 200ms ease;
+    }
+
+    &--hidden {
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+  }
+
+  &__inputs {
+    width: 100%;
+    display: flex;
+
+    .message__input-container.two {
+      &:first-child {
+        margin-right: 20px;
+      }
+      &:last-child {
+        margin-left: 20px;
+      }
+    }
+
+  }
+
+  &__input-container {
+    width: 100%;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+
+    .message__input {
+      border: none;
+      border-bottom: 1px solid $input-borders;
+      width: 100%;
+      font-family: $font-optima;
+      font-size: 30px;
+      line-height: 60px;
+      padding: 0 10px;
+      color: $input-text-color;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      text-align: center;
+
+      > div {
+        width: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .morse-code {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      padding: 0 10px;
+
+      &__letter {
+        display: flex;
+        width: 40px;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column-reverse;
+        border-width: 1px solid black;
+      }
+
+      &--dot {
+        display: block;
+        margin: 5px 0;
+        width: 6px;
+        height: 0px;
+        border-radius: 3px;
+        background-color: $input-morse-code;
+      }
+
+      &--dash {
+        display: block;
+        margin: 5px 0;
+        width: 6px;
+        height: 0px;
+        border-radius: 0px;
+        background-color: $input-morse-code;
+      }
+    }
+  }
+
+  &__maxCharactersText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 30px auto;
+    text-align: center;
+    font-size: 14px;
+    font-family: $font-optima;
+    max-width: 500px;
+    color: rgba($title-color, 0.6);
+    min-height: 70px;
+
+    @media (min-width: 768px) {
+      max-width: 500px;
+      margin: 30px auto;
+      justify-content: flex-start;
+      flex: 0;
+    }
+
+    @media (min-width: 1025px) {
+      margin: 50px auto;
+    }
+
+    &.size {
+      opacity: 0;
+      transform: translateY(40px);
+      color: #c5969c;
+
+      & > div > a {
+        color: #c5969c;
+        text-decoration: underline;
+      }
+
+      &.too-big {
+        &-enter {
+          opacity: 0;
+        }
+        &-enter-active {
+          opacity: 1;
+          transform: translateY(0px);
+          transition: all 500ms;
+        }
+        &-enter-done {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+        &-exit {
+          opacity: 1;
+          transform: translateY(0px);
+        }
+        &-exit-active {
+          opacity: 0;
+          transform: translateY(40px);
+          transition: all 500ms;
+        }
+        &-exit-done {
+          opacity: 0;
+        }
+      }
+    }
+
+    &.max-char{
+
+      &-enter {
+        opacity: 1;
+      }
+      &-enter-active {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 500ms;
+      }
+      &-enter-done {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      &-exit {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      &-exit-active {
+        opacity: 1;
+        transform: translateY(0px);
+        transition: all 500ms;
+      }
+      &-exit-done {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__tips {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    padding-top: 20px;
+    overflow: hidden;
+    margin-top: 40px; 
+    flex: 1;
+
+    @media (min-width: 768px) {
+      margin-top: 40px; 
+      flex: 1;
+    }
+
+    @media (min-width: 1025px) {
+      margin-top: 170px;
+      flex: 1;
+    }
+
+    &::before {
+      content: "";
+      opacity: 0.35;
+      background-image: linear-gradient(180deg, #edf4f4 1%, #bdcdcd 15%);
+      position: absolute;
+      width: 200vw;
+      height: 200vw;
+      border-radius: 50%;
+      top: 0;
+      left: calc(50% -100vw);
+      z-index: 0;
+    }
+
+    > div {
+      z-index: 1;
+    }
+
+    &__title {
+      font-family: $font-optima;
+      color: $title-color;
+    }
+
+    &__examples {
+      display: flex;
+      justify-content: space-evenly;
+      min-width: 260px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+
+      @media (min-width: 768px) {
+        margin-top: 30px;
+      }
+
+      &__tip {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 10px 10px 0px 10px;
+
+        & > span {
+          font-family: $font-optima;
+          font-weight: normal;
+          font-style: italic;
+          color: rgba($title-color, 0.5);
+          font-size: 12.5px;
+
+          &:first-child {
+            color: $title-color;
+            font-style: normal;
+            font-size: 13.5px;
+            min-width: 50px;
+            padding: 5px 15px;
+            text-align: center;
+            background-color: white;
+            outline: none;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}

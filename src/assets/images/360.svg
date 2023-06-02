@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="35px" height="21px" viewBox="0 0 35 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+    <title>Icon - 360</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Personaliser---Necklaces" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Necklaces---Customiser---main-screen" transform="translate(-266.000000, -395.000000)">
+            <g id="Icon---360" transform="translate(267.000000, 394.000000)">
+                <g id="Group-3">
+                    <path d="M29.6540009,20.2636851 C31.388106,19.117246 32.3999991,17.7370195 32.3999991,16.2517529 C32.3999991,14.3490668 30.7394179,12.6187582 28.0272431,11.3314884 C25.0712062,9.92847519 20.8659685,9.05175312 16.1999996,9.05175312 C12.1419513,9.05175312 8.43239944,9.71490451 5.59003788,10.8106767 C2.16568125,12.1308165 0,14.0788799 0,16.2517529 C0,17.8981857 1.24340849,19.4155458 3.33564186,20.6284626" id="Oval" stroke="#BDCDCD" stroke-width="1.79999995" stroke-linecap="round" stroke-linejoin="round" transform="translate(16.200000, 14.840108) scale(1, -1) translate(-16.200000, -14.840108) "></path>
+                    <text id="360" font-family="Helvetica" font-size="13.4999996" font-weight="normal" fill="#BDCDCD">
+                        <tspan x="5.39999986" y="13">360</tspan>
+                    </text>
+                    <circle id="Oval" stroke="#BDCDCD" stroke-width="1.34999996" cx="27.4499993" cy="3.14999992" r="1.34999996"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

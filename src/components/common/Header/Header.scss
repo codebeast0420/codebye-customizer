@@ -1,0 +1,32 @@
+@import "../../../styles/index.scss";
+
+.header {
+  padding-top: 15px;
+  height: 80px;
+
+  &.header-product {
+    @media (min-width: 1024px) {
+      max-width: calc(100% / 3 * 2);
+      margin-left: 0;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+
+    &:last-child {
+      justify-content: flex-end;
+    }
+  }
+
+  &__button {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__logo {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,29 @@
+@import '../../styles/index.scss';
+
+.threeD {
+    display: flex;
+    min-height: 500px;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    border: 1px solid gray;
+    border-top: none;
+    flex-direction: column;
+}
+
+.message-output {
+    background-color: lightgray;
+    border: 1px solid gray;
+    border-bottom: none;
+}
+
+.options {
+    display: flex;
+    padding-right: 10px;
+    min-height: 150px;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    border: 1px solid gray;
+    flex-direction: row;
+}

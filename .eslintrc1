@@ -1,0 +1,58 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "airbnb"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true,
+    "browser": true
+  },
+  "rules": {
+    "valid-jsdoc": 1,
+    "react/jsx-uses-react": 1,
+    "react/jsx-no-undef": 2,
+    "react/jsx-wrap-multilines": 2,
+    "react/no-string-refs": 0,
+    "react/jsx-first-prop-new-line": 2,
+    "react/jsx-filename-extension": [
+      1,
+      {
+          "extensions": [
+              ".js",
+              ".jsx"
+          ]
+      }
+    ],
+    "react/destructuring-assignment": [
+      0,
+      {
+        "functional": "always",
+        "class": "never",
+        "createClass": "never"
+      }
+    ],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "yoda": [0]
+
+  },
+  "plugins": [
+    "import",
+    "react"
+  ]
+}

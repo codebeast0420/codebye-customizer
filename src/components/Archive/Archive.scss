@@ -1,0 +1,21 @@
+@import "../../styles/index.scss";
+
+.archive {
+  margin-top: 30px;
+  margin-bottom: 40px;
+  max-width: 738px;
+ 
+  &__title {
+    font-family: $font-cormorant;
+    font-style: italic;
+    color: $title-color;
+    text-align: center;
+    margin-bottom: 60px;
+
+    & > h1 {
+      font-size: 30px;
+      line-height: 35px;
+      font-weight: 600;
+    }
+  }
+}
