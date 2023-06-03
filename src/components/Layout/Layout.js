@@ -43,11 +43,11 @@ class Layout extends React.PureComponent {
     console.log('success');
     return (
       <Router>
-        <Header />
         <Loading>
           <Switch>
             <Route exact path="/" component={RoutedArchive} />
             <Route exact path="/product" component={RoutedSingle} />
+            <Route exact path="/bracelet" component={RoutedSingle} />
             <Route exact path="/product/:id" component={RoutedArchive} />
             <Route exact path="/s_product/:id" component={RoutedShare} />
             <Route path="/share/:hash" component={RoutedShare} />

@@ -142,6 +142,7 @@ class SingleMenu extends React.Component {
       product, configuration, productParts, preMadeProduct,
     } = this.props;
     const menus = new Menus(product.attributes, this, configuration, preMadeProduct);
+    console.log('single menu product attribute', product.attributes);
     if (type === 'solid_color') {
       return menus.getSolidColorsSubMenu().map(value => (
         <div

@@ -41,6 +41,8 @@ class MessageModal extends React.Component {
     let text = message;
     let htmlTwo = '';
     let textTwo = '';
+    console.log('configuration in MessageModa redux', props.configuration);
+    console.log('changingProduct in MessageModa redux', props.changingProduct);
     if (!_.isEmpty(product) && product.id === 408) {
       const messageSplitted = message.split('');
       html = this.wrapChars(message.split('')[0]);

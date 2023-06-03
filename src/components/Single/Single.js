@@ -5,14 +5,20 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import _ from "underscore";
 import { Redirect } from "react-router-dom";
-// import { JewerlyRingsRenderer } from "../common/JewerlyRenderer";
+import { JewerlyRingsRenderer } from "../common/JewerlyRenderer";
 import SingleMenu from "../common/SingleMenu";
 import MorseCode from "../../lib/morse_code";
 import { setImageFuncAction } from "../../store/actions";
+import { getProductAction } from "../../store/actions";
+import { setProductConfigurationAction } from "../../store/actions";
+import { changingProductAction } from "../../store/actions";
 import GalleryModal from "../common/GalleryModal";
 import icon360 from "../../assets/images/code-360-icon.gif";
 import Pricing from "../../lib/pricing";
 import Loading from './Infinity-1s-197px.gif';
+import SettingMenu from "../common/SettingMenu";
+import Menus from "../common/SingleMenu/menus";
+import Header from "../common/Header";
 
 class Single extends React.Component {
   state = {};
@@ -20,10 +26,60 @@ class Single extends React.Component {
   constructor(props) {
     super(props);
     const { configuration, product } = props;
-    console.log('sccess')
+    if (product.data.id !== 2096 && product.data.id !== 2124) {
+      this.test1();
+    } else {
+
+    }
+    this.chainElementSize = this.chainElementUnitsSize;
+  }
+
+  componentDidMount() {
+    window.addEventListener("resize", this.updateDimensions);
+    const { product, configuration, dispatchSetImageFunc, productParts } = this.props;
+    console.log('conf', configuration);
+    if (
+      product.data.id !== 186 &&
+      product.data.id !== 185 &&
+      product.data.id !== 2096 &&
+      product.data.id !== 2124
+    ) {
+      this.create_chain(configuration.message);
+    }
+    dispatchSetImageFunc(this.getImage);
+
+    window.dataLayer = window.dataLayer || [];
+    const dataLayerArgs = {
+      event: "view_item",
+      ecommerce: {
+        items: [
+          {
+            item_name: product.data.name,
+            item_id: product.data.id,
+            price: Pricing.priceCalc(
+              product.data.id,
+              productParts.data,
+              configuration
+            ).price,
+            quantity: 1,
+          },
+        ],
+      },
+    };
+    window.dataLayer.push(dataLayerArgs);
+    /* setTimeout(() => {
+      this.setState({ showInfos: false });
+    }, 15000); */
+  }
+
+  test1() {
+    const { product, configuration, productParts } = this.props;
+    console.log('productparts data', productParts.data);
+    console.log('product', product);
     if (product.data.id !== 2096 && product.data.id !== 2124) {
       const rings = [];
       const letters = configuration.message.split("");
+      console.log('letters', letters);
       if (product.data.id === 186) {
         _.each(letters, (letter) =>
           rings.push(
@@ -66,7 +122,14 @@ class Single extends React.Component {
           jewerly = "";
           break;
       }
+
       this.jewerlyRingsRenderer = null;
+      this.newPrice = Pricing.priceCalc(
+        product.data.id,
+        productParts.data,
+        configuration
+      ).price;
+
       this.state = {
         ringsUrls: rings,
         stoneColor: "#FFFFFF",
@@ -82,6 +145,7 @@ class Single extends React.Component {
         load: false,
         galleryModal: false,
         showInfos: true,
+        price: this.newPrice,
         msg: "",
       };
       this.units_to_cm_coef = 2.02;
@@ -116,155 +180,7 @@ class Single extends React.Component {
         Aquafiore_RDJR: 0.4,
         Aquafiore_SP: 0.9263,
       };
-    } else {
-      this.jewerlyRingsRenderer = null;
-      this.state = {
-        ringsUrls: [],
-        stoneColor: "#ffffff",
-        ringColor: configuration.pa_material.color,
-        bangleSize: configuration.pa_size.name,
-        height: window.innerHeight - 80,
-        load: false,
-        galleryModal: false,
-        showInfos: true,
-        msg: ""
-      };
-
-      if (product.data.id === 2096) {
-        this.gltfBasePath = "../assets/jewerly/banglesMaifair/";
-
-        this.safetyMargin = 0.2; // % from full length
-
-        this.distance_between_letters = 5.3; // 4, because of models ...
-
-        this.dash = {
-          url: this.gltfBasePath + "Bangle_Mayfair_Dash.glb",
-          size: 5.3, // 4 , because of models ...
-        };
-
-        this.dot = {
-          url: this.gltfBasePath + "Bangle_Mayfair_Dot.glb",
-          size: 2.8, // 2, because of models ...
-        };
-
-        this.bangleSizes = {
-          Large: {
-            url: this.gltfBasePath + "Bangle_Mayfair_large.glb",
-            size: {
-              width: 65,
-              height: 50,
-            },
-          },
-          Medium: {
-            url: this.gltfBasePath + "Bangle_Mayfair_medium.glb",
-            size: {
-              width: 60,
-              height: 50,
-            },
-          },
-          Small: {
-            url: this.gltfBasePath + "Bangle_Mayfair_small.glb",
-            size: {
-              width: 55,
-              height: 50,
-            },
-          },
-          "M/L": {
-            url: this.gltfBasePath + "Bangle_Mayfair_medium.glb",
-            size: {
-              width: 60,
-              height: 50,
-            },
-          },
-          "S/M": {
-            url: this.gltfBasePath + "Bangle_Mayfair_small.glb",
-            size: {
-              width: 55,
-              height: 50,
-            },
-          },
-        };
-      }
-      if (product.data.id === 2124) {
-        this.gltfBasePath = "../assets/jewerly/banglesAmanti/";
-
-        this.safetyMargin = 0.6; // % from full length
-
-        this.distance_between_letters = 5.3; // 4, because of models ...
-
-        this.dash = {
-          url: this.gltfBasePath + "Bangle_Amanti_Dash.glb",
-          size: 5.3, // 4 , because of models ...
-        };
-
-        this.dot = {
-          url: this.gltfBasePath + "Bangle_Amanti_Dot.glb",
-          size: 2.8, // 2, because of models ...
-        };
-
-        this.bangleSizes = {
-          Large: {
-            url: this.gltfBasePath + "Bangle_Amanti_Large.glb",
-            size: {
-              width: 65,
-              height: 50,
-            },
-          },
-          Medium: {
-            url: this.gltfBasePath + "Bangle_Amanti_Medium.glb",
-            size: {
-              width: 60,
-              height: 50,
-            },
-          },
-          Small: {
-            url: this.gltfBasePath + "Bangle_Amanti_small.glb",
-            size: {
-              width: 55,
-              height: 50,
-            },
-          },
-        };
-      }
     }
-    this.chainElementSize = this.chainElementUnitsSize;
-  }
-
-  componentDidMount() {
-    window.addEventListener("resize", this.updateDimensions);
-    const { product, configuration, dispatchSetImageFunc, productParts } = this.props;
-    if (
-      product.data.id !== 186 &&
-      product.data.id !== 185 &&
-      product.data.id !== 2096 &&
-      product.data.id !== 2124
-    ) {
-      this.create_chain(configuration.message);
-    }
-    dispatchSetImageFunc(this.getImage);
-
-    window.dataLayer = window.dataLayer || [];
-    const dataLayerArgs = {
-      event: "view_item",
-      ecommerce: {
-        items: [
-          {
-            item_name: product.data.name,
-            item_id: product.data.id,
-            price: Pricing.priceCalc(
-              product.data.id,
-              productParts.data,
-              configuration
-            ).price,
-            quantity: 1,
-          },
-        ],
-      },
-    };
-    window.dataLayer.push(dataLayerArgs);
-    /* setTimeout(() => {
-      this.setState({ showInfos: false });
-    }, 15000); */
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -287,7 +203,7 @@ class Single extends React.Component {
             )
           );
         }
-        this.setState({ ringsUrls: rings });
+        // this.setState({ ringsUrls: rings });
       } else if (product.data.id === 2096 || product.data.id === 2124) {
         this.createBangle(configuration.message, this.state.bangleSize);
       } else {
@@ -388,11 +304,149 @@ class Single extends React.Component {
   onChangeMsg = (e) => {
     console.log('aaa', e.target.value);
     this.setState({ msg: e.target.value });
-    console.log('state', this.state.msg)
+    console.log('state', this.state.msg);
+
+    const { product, configuration, productParts } = this.props;
+    if (product.data.id !== 2096 && product.data.id !== 2124) {
+      const rings = [];
+      const letters = e.target.value.split("");
+      if (product.data.id === 186) {
+        _.each(letters, (letter) =>
+          rings.push(
+            `../assets/jewerly/rings_amanti/ring_${letter.toUpperCase()}.glb`
+          )
+        );
+      }
+      if (product.data.id === 185) {
+        _.each(letters, (letter) =>
+          rings.push(
+            `../assets/jewerly/rings_mayfair/ring_mayfair_${letter.toUpperCase()}.glb`
+          )
+        );
+      }
+      if (product.data.id !== 186 && product.data.id !== 185) {
+        for (let i = 0; i < 26; i++) {
+          // C5R
+          rings.push(
+            this.create_link(
+              "../assets/jewerly/ringsAquafiore/Aquafiore_Chain_element.glb"
+            )
+          );
+        }
+      }
+      let jewerly = "";
+      switch (product.data.id) {
+        case 83:
+          jewerly = "NECKLACE";
+          break;
+        case 402:
+          jewerly = "BRACELET";
+          break;
+        case 405:
+          jewerly = "PENDANT";
+          break;
+        case 408:
+          jewerly = "EARRINGS";
+          break;
+        default:
+          jewerly = "";
+          break;
+      }
+      // this.jewerlyRingsRenderer = null;
+
+      this.createNew(e.target.value, product.data, configuration, Pricing, productParts);
+
+      this.setState({
+        ringsUrls: rings,
+        stoneColor: "#FFFFFF",
+        ringColor: configuration.pa_material.color,
+        createChainType: jewerly,
+        chainElementsNames: ["Aquafiore_Chain_element.glb"],
+        stoneColorMessage: [],
+        chainLength:
+          product.data.id === 408
+            ? configuration.pa_hook_type_earrings.id
+            : parseInt(configuration.pa_size.name, 10),
+        height: window.innerHeight - 80,
+        load: false,
+        galleryModal: false,
+        showInfos: true,
+        price: this.newPrice,
+        msg: e.target.value,
+      });
+      // if (product.data.id == 402) this.create_BRACELET(e.target.value);
+      // if(product.data.id == 186) 
+    }
+    this.chainElementSize = this.chainElementUnitsSize;
   }
 
+  createNew = (message, product, configuration, Pricing, productParts) => {
+    const paStone = _.find(Menus.getColorsSubMenu(), item => item.selected);
+    const { themes, dispatchChangingProduct, dispatchSetConfiguration } = this.props;
+    let newStone = { ...paStone, choice: Menus.lettersChoices(message, _.find(_.find(product.attributes, item => item.slug === 'pa_stone').options, option => option.selected)) };
+    if (message !== configuration.message && configuration.pa_stone.id === 'solid_color') {
+      newStone = {
+        ...paStone,
+        choice: Menus.lettersChoices(message, configuration.pa_stone.choice[0].value),
+      };
+    }
+    if (message !== configuration.message && configuration.pa_stone.id === 'themes') {
+      newStone = {
+        ...configuration.pa_stone,
+        id: 'themes',
+        name: 'Themes',
+        subtitle: '',
+        choice: Menus.lettersChoices(message, _.find(themes.data, theme => configuration.pa_stone.selected_theme === theme.slug).stones, true),
+      };
+    }
+    let newConf = {
+      ...configuration,
+      message: message.trim(),
+      pa_stone: message !== configuration.message ? newStone : configuration.pa_stone,
+    };
+    let paSize = configuration.pa_size;
+    if (product.id === 83) {
+      const innerSize = Pricing.necklaceSize(productParts.data, newConf);
+      if (
+        !_.isEmpty(paSize)
+        && parseInt(configuration.pa_size.name, 10) < innerSize
+      ) {
+        paSize = _.find(_.find(product.attributes, item => item.slug === 'pa_size').options, item => parseInt(item.name, 10) > innerSize);
+      }
+    }
+    const tooBigSizes = [];
+    if (product.id === 2096 || product.id === 2124) {
+      paSize = _.find(_.find(product.attributes, item => item.slug === 'pa_size').options, item => item.name === configuration.pa_size.name);
+      const innerSizes = Pricing.mayfairBangleSize(productParts.data, { ...configuration, pa_size: paSize, message });
+      const ringSize = Pricing.mayfairBangleRingSize(productParts.data, { ...configuration, pa_size: paSize, message });
+      _.each(innerSizes, (size, index) => {
+        if (size > ringSize) {
+          tooBigSizes.push(index + 1);
+        }
+      });
+      if (!_.isEmpty(tooBigSizes)) {
+        paSize = false;
+      }
+    }
+    newConf = {
+      ...configuration,
+      message: message.trim(),
+      pa_stone: message !== configuration.message ? newStone : configuration.pa_stone,
+      pa_size: paSize,
+    };
+    if (paSize || product.id === 408) {
+      dispatchSetConfiguration(newConf);
+      dispatchChangingProduct(false);
+    }
+    this.newPrice = Pricing.priceCalc(
+      product.id,
+      productParts.data,
+      configuration
+    ).price;
+  }
 
   getImage = () => {
+    console.log('getImage');
     const { product } = this.props;
     /* if (!this.jewerlyRingsRenderer) {
       return null;
@@ -431,6 +485,7 @@ class Single extends React.Component {
   };
 
   handleOnRingOnLoad(jewerlyRingsRenderer, gltfs) {
+    console.log('handleOnRingOnLoad');
     const renderer = jewerlyRingsRenderer.renderer;
 
     renderer.getStoneMaterialUniform(null, (object) => {
@@ -467,6 +522,7 @@ class Single extends React.Component {
   }
 
   genCharArray = (charA, charZ) => {
+    console.log('gencharArray');
     var a = [],
       i = charA.charCodeAt(0),
       j = charZ.charCodeAt(0);
@@ -477,6 +533,7 @@ class Single extends React.Component {
   };
 
   validate_msg(msg) {
+    console.log('valadate_msg')
     const self = this;
 
     const chars = self.genCharArray("a", "z");
@@ -496,6 +553,7 @@ class Single extends React.Component {
   }
 
   create_chain(message) {
+    console.log('create_chain')
     const self = this;
     const chainType = self.state.createChainType;
     if (self["create_" + chainType]) {
@@ -514,6 +572,7 @@ class Single extends React.Component {
   }
 
   createBangle(message, bangleSize, onError) {
+    console.log('createBangle');
     const self = this;
 
     // for bagles ringsUrls is
@@ -1742,20 +1801,11 @@ class Single extends React.Component {
     }
     if (product.data.id === 186 || product.data.id === 185) {
       return (
-        <div className="single" style={{ height }}>
-          <div className="single__threejs">
-            <div className={`info-message ${showInfos ? "show" : "hide"}`}>
-              <div className="morse-code__single">
-                {this.buildMorseCode(configuration.message)}
-              </div>
-              <div
-                className="message-info__single"
-                dangerouslySetInnerHTML={{
-                  __html: this.wrapChars(configuration.message),
-                }}
-              />
-            </div>
-            {/* {load && (
+        <div>
+          <Header price={this.state.price} />
+          <div className="single" style={{ height }}>
+            <div className="single__threejs">
+              {/* {load && ( */}
               <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
                 stoneColor={stoneColor}
@@ -1765,25 +1815,148 @@ class Single extends React.Component {
                 onReadyToUse={this.handleOnReadyToUse}
                 onInteraction={this.handleOnInteraction}
               />
-            )} */}
-            <div className={`view-gallery ${showInfos ? "show" : "hide"}`}>
-              <img src={icon360} alt="" />
+              {/* )} */}
+              <div className={`view-gallery ${showInfos ? "show" : "hide"}`}>
+                <img src={icon360} alt="" />
+              </div>
             </div>
+            <SettingMenu
+              load={load}
+              Loading={Loading}
+              msg={this.state.msg}
+              buildMorseCode={this.buildMorseCode}
+              onChangeMsg={this.onChangeMsg}
+              product={product.data}
+            />
           </div>
-          <SingleMenu
-            finishAnime={() => this.setState({ load: true })}
-            showLoading={showLoading}
-            product={product.data}
-          />
-          {this.modals()}
         </div>
       );
     }
     if (product.data.id === 2096 || product.data.id === 2124) {
       return (
+        <div>
+          <Header price={this.state.price} />
+          <div className="single" style={{ height }}>
+            <div className="single__threejs">
+              <div className={`info-message ${showInfos ? "show" : "hide"}`}>
+                <div className="morse-code__single">
+                  {this.buildMorseCode(configuration.message)}
+                </div>
+                <div
+                  className="message-info__single"
+                  dangerouslySetInnerHTML={{
+                    __html: this.wrapChars(configuration.message),
+                  }}
+                />
+              </div>
+              {/* {load && ( */}
+              <JewerlyRingsRenderer
+              ringsUrls={ringsUrls}
+              stoneColor={stoneColor}
+              ringColor={ringColor}
+              createChainType={false}
+              createBangle={{
+                bangel_options_there: true,
+              }}
+              onReadyToUse={this.handleOnReadyToUse}
+              onBeforeLoad={this.handleOnRingOnBeforeLoad}
+              onLoad={this.handleOnRingOnLoad}
+              onProgress={this.handleOnRingOnProgress}
+              onInteraction={this.handleOnInteraction}
+            />
+              {/* )} */}
+              <div className={`view-gallery ${showInfos ? "show" : "hide"}`}>
+                <img src={icon360} alt="" />
+              </div>
+            </div>
+            {/* <SingleMenu
+            finishAnime={() => this.setState({ load: true })}
+            showLoading={showLoading}
+            product={product.data}
+          />
+          {this.modals()} */}
+            <SettingMenu
+              load={load}
+              Loading={Loading}
+              msg={this.state.msg}
+              buildMorseCode={this.buildMorseCode}
+              onChangeMsg={this.onChangeMsg}
+              product={product.data}
+            />
+            <div className="basis-5/12 flex pr-1 py-4 justify-content">
+              <div className="basis-3/12"></div>
+              <div className="basis-9/12 flex flex-col">
+                <div className="flex flex-row justify-content">
+                  <div className="basis-4/12 pr-1">
+                    <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-6 w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
+                      <div className="flex flex-row content-center justify-center gap-x-2">
+                        <div className="basis-3/4">
+                          <p className="font-bold">Message</p>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                  <div className="basis-4/12 pr-1">
+                    <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
+                      <div className="flex flex-row content-center justify-center gap-x-2">
+                        <div className="basis-3/4 flex flex-col">
+                          <p className="italic text-xs">Select</p>
+                          <p className="font-bold">Metal</p>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                  <div className="basis-4/12">
+                    <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
+                      <div className="flex flex-row content-center justify-center gap-x-2">
+                        <div className="basis-3/4 flex flex-col">
+                          <p className="italic text-xs">Select</p>
+                          <p className="font-bold">Size</p>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+                <div className="flex flex-row mt-4 justify-content">
+                  <div className="`basis-11/12`">
+                    <div className="message__inputs">
+                      <div className="message__input-container">
+                        <div className="morse-code" id="morseContainer">
+                          <div className={`info-message show`}>
+                            <div className="morse-code__single">
+                              {this.buildMorseCode(this.state.msg)}
+                            </div>
+                          </div>
+                        </div>
+                        <input className="message__input cbe-font-mono tracking-[30px]" value={this.state.msg} onChange={this.onChangeMsg} id="messageInput" />
+                        <div className="message__placeholder message__placeholder--visible cbe-font cbe-message-placeholder-fix mt-1">Please enter your message</div>
+                      </div>
+                    </div>
+                    {load && (
+                      <div className="col-span-3 align-middle grid grid-cols-3 content-center">
+                        <div className="flex justify-center"><img className="text-center align-middle" src={Loading} /></div>
+                      </div>
+                    )}
+                    {!load && (
+                      <div className="col-span-3 align-middle">
+                        <p className="text-center text-stone-500 cbe-font-label mt-1 text-sm">Zoom: Mouse Wheel, Rotate: Left Mouse Button, Pan: Right Mouse Button</p>
+                      </div>
+                    )}
+
+                  </div>
+                </div >
+              </div >
+            </div >
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Header price={this.state.price} />
         <div className="single" style={{ height }}>
           <div className="single__threejs">
-            <div className={`info-message ${showInfos ? "show" : "hide"}`}>
+            <div className={`info-message show`}>
               <div className="morse-code__single">
                 {this.buildMorseCode(configuration.message)}
               </div>
@@ -1794,129 +1967,39 @@ class Single extends React.Component {
                 }}
               />
             </div>
-            {/* {load && (
-              <JewerlyRingsRenderer
-                ringsUrls={ringsUrls}
-                stoneColor={stoneColor}
-                ringColor={ringColor}
-                createChainType={false}
-                createBangle={{
-                  bangel_options_there: true,
-                }}
-                onReadyToUse={this.handleOnReadyToUse}
-                onBeforeLoad={this.handleOnRingOnBeforeLoad}
-                onLoad={this.handleOnRingOnLoad}
-                onProgress={this.handleOnRingOnProgress}
-                onInteraction={this.handleOnInteraction}
-              />
-            )} */}
-            <div className={`view-gallery ${showInfos ? "show" : "hide"}`}>
-              <img src={icon360} alt="" />
-            </div>
+
+            {/* {load && ( */}
+            <JewerlyRingsRenderer
+              ringsUrls={ringsUrls}
+              stoneColor={stoneColor}
+              ringColor={ringColor}
+              createChainType={createChainType}
+              chainElementsNames={chainElementsNames}
+              chainLength={chainLength}
+              onReadyToUse={this.handleOnReadyToUse}
+              onBeforeLoad={this.handleOnRingOnBeforeLoad}
+              onLoad={this.handleOnRingOnLoad}
+              onInteraction={this.handleOnInteraction}
+            />
+
+            {/* )} */}
           </div>
-          <SingleMenu
+          {/* <button onClick={() => console.log(ringsUrls, stoneColor, ringColor, createChainType, chainElementsNames, chainLength)}>asdf</button> */}
+          <SettingMenu
+            load={load}
+            Loading={Loading}
+            msg={this.state.msg}
+            buildMorseCode={this.buildMorseCode}
+            onChangeMsg={this.onChangeMsg}
+            product={product.data}
+          />
+          {/* <SingleMenu
             finishAnime={() => this.setState({ load: true })}
             showLoading={showLoading}
             product={product.data}
-          />
-          {this.modals()}
-        </div>
-      );
-    }
-    return (
-      <div className="single" style={{ height }}>
-        <div className="single__threejs">
-          <div className={`info-message show`}>
-            <div className="morse-code__single">
-              {this.buildMorseCode(configuration.message)}
-            </div>
-            <div
-              className="message-info__single"
-              dangerouslySetInnerHTML={{
-                __html: this.wrapChars(configuration.message),
-              }}
-            />
-          </div>
-          {/* {load && ( */}
-          {/* <JewerlyRingsRenderer
-            ringsUrls={ringsUrls}
-            stoneColor={stoneColor}
-            ringColor={ringColor}
-            createChainType={createChainType}
-            chainElementsNames={chainElementsNames}
-            chainLength={chainLength}
-            onReadyToUse={this.handleOnReadyToUse}
-            onBeforeLoad={this.handleOnRingOnBeforeLoad}
-            onLoad={this.handleOnRingOnLoad}
-            onInteraction={this.handleOnInteraction}
           /> */}
-          {/* )} */}
-        </div>
-        <div className="basis-5/12 flex pr-1 py-4 justify-content">
-          <div className="basis-3/12"></div>
-          <div className="basis-9/12 flex flex-col">
-            <div className="flex flex-row justify-content">
-              <div className="basis-4/12 pr-1">
-                <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-6 w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
-                  <div className="flex flex-row content-center justify-center gap-x-2">
-                    <div className="basis-3/4">
-                      <p className="font-bold">Message</p>
-                    </div>
-                  </div>
-                </button>
-              </div>
-              <div className="basis-4/12 pr-1">
-                <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
-                  <div className="flex flex-row content-center justify-center gap-x-2">
-                    <div className="basis-3/4 flex flex-col">
-                      <p className="italic text-xs">Select</p>
-                      <p className="font-bold">Metal</p>
-                    </div>
-                  </div>
-                </button>
-              </div>
-              <div className="basis-4/12">
-                <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
-                  <div className="flex flex-row content-center justify-center gap-x-2">
-                    <div className="basis-3/4 flex flex-col">
-                      <p className="italic text-xs">Select</p>
-                      <p className="font-bold">Size</p>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-row mt-4 justify-content">
-              <div className="`basis-11/12`">
-                <div className="message__inputs">
-                  <div className="message__input-container">
-                    <div className="morse-code" id="morseContainer">
-                      <div className={`info-message show`}>
-                        <div className="morse-code__single">
-                          {this.buildMorseCode(this.state.msg)}
-                        </div>
-                      </div>
-                    </div>
-                    <input className="message__input cbe-font-mono tracking-[30px]" value={this.state.msg} onChange={this.onChangeMsg} id="messageInput" />
-                    <div className="message__placeholder message__placeholder--visible cbe-font cbe-message-placeholder-fix mt-1">Please enter your message</div>
-                  </div>
-                </div>
-                {load && (
-                  <div className="col-span-3 align-middle grid grid-cols-3 content-center">
-                    <div className="flex justify-center"><img className="text-center align-middle" src={Loading} /></div>
-                  </div>
-                )}
-                {!load && (
-                  <div className="col-span-3 align-middle">
-                    <p className="text-center text-stone-500 cbe-font-label mt-1 text-sm">Zoom: Mouse Wheel, Rotate: Left Mouse Button, Pan: Right Mouse Button</p>
-                  </div>
-                )}
-
-              </div>
-            </div >
-          </div >
         </div >
-      </div >
+      </div>
     );
   }
 }
@@ -1928,17 +2011,24 @@ Single.propTypes = {
   product: PropTypes.instanceOf(Object).isRequired,
   productParts: PropTypes.instanceOf(Object).isRequired,
   configuration: PropTypes.instanceOf(Object).isRequired,
+  dispatchChangingProduct: PropTypes.func.isRequired,
+  dispatchSetConfiguration: PropTypes.func.isRequired,
   dispatchSetImageFunc: PropTypes.func.isRequired,
+  dispatchGetProduct: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   product: state.product,
   configuration: state.configuration,
   productParts: state.productParts,
+  themes: state.themes,
 });
 
 const mapDispatchToProps = {
   dispatchSetImageFunc: setImageFuncAction,
+  dispatchGetProduct: getProductAction,
+  dispatchSetConfiguration: setProductConfigurationAction,
+  dispatchChangingProduct: changingProductAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Single);

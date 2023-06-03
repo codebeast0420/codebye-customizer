@@ -13,6 +13,7 @@ class Menus {
 
   getList = () => {
     let objects = _.reject(this.list, item => _.size(item.options) <= 1 && item.slug !== 'pa_material');
+    console.log('objects', objects);
     const order = ['message', 'pa_material', 'pa_stone-type', 'pa_stone', 'pa_size', 'pa_hook-type-earrings'];
     objects = objects.sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug));
     const newList = [];
@@ -20,7 +21,7 @@ class Menus {
       newList[0] = {
         name: 'Message',
         slug: 'message',
-        onClick: () => this.element.setState({ open: !this.preMadeProduct.isPremade }),
+        // onClick: () => this.element.setState({ open: !this.preMadeProduct.isPremade }),
         subtitle: `“${this.configuration.message}“`,
       };
       if (object.slug === 'pa_material') {
@@ -33,8 +34,8 @@ class Menus {
           name: 'Type of Material',
           subtitle: this.configuration.pa_material.name,
           onClick: () => {
-            this.element.setState({ title: 'Type of Material' });
-            this.element.menuAnimation(i + 1, true, 'bottom', 'pa_material');
+            // this.element.setState({ title: 'Type of Material' });
+            // this.element.menuAnimation(i + 1, true, 'bottom', 'pa_material');
           },
           options: optionsMenu,
         };
@@ -48,8 +49,8 @@ class Menus {
           name: 'Type of Stone',
           subtitle: this.configuration.pa_stone_type.name,
           onClick: () => {
-            this.element.setState({ title: 'Type of Stone' });
-            this.element.menuAnimation(i + 1, true, 'bottom', 'pa_stone-type');
+            // this.element.setState({ title: 'Type of Stone' });
+            // this.element.menuAnimation(i + 1, true, 'bottom', 'pa_stone-type');
           },
         };
         if (object.options.length > 1) {
@@ -62,8 +63,8 @@ class Menus {
           name: 'Type of Stone',
           subtitle: this.configuration.pa_stone.name,
           onClick: () => {
-            this.element.setState({ title: 'Type of Stone' });
-            this.element.menuAnimation(i + 1, true, 'bottom', 'pa_stone');
+            // this.element.setState({ title: 'Type of Stone' });
+            // this.element.menuAnimation(i + 1, true, 'bottom', 'pa_stone');
           },
           optionsColors: Menus.getColorsSubMenu(),
         };
@@ -77,8 +78,8 @@ class Menus {
           name: 'Size',
           subtitle: this.configuration.pa_size.name,
           onClick: () => {
-            this.element.setState({ title: 'Size' });
-            this.element.menuAnimation(i + 1, true, 'bottom', 'pa_size');
+            // this.element.setState({ title: 'Size' });
+            // this.element.menuAnimation(i + 1, true, 'bottom', 'pa_size');
           },
         };
         if (object.options.length > 1) {
@@ -91,8 +92,8 @@ class Menus {
           name: 'Style',
           subtitle: this.configuration.pa_hook_type_earrings.name,
           onClick: () => {
-            this.element.setState({ title: 'Style' });
-            this.element.menuAnimation(i + 1, true, 'bottom', 'pa_hook-type-earrings');
+            // this.element.setState({ title: 'Style' });
+            // this.element.menuAnimation(i + 1, true, 'bottom', 'pa_hook-type-earrings');
           },
         };
         if (object.options.length > 1) {
@@ -100,6 +101,7 @@ class Menus {
         }
       }
     });
+    console.log('newList', newList);
     return newList;
   };
 
@@ -142,7 +144,7 @@ class Menus {
         onClick: (e) => {
           e.preventDefault();
           if (each.id === 'talk_to_us' && type === 'pa_material') {
-            this.element.setState({ infoModal: true });
+            // this.element.setState({ infoModal: true });
           }
           if (each.id !== 'talk_to_us' && type !== 'pa_stone') {
             this.element.props.dispatchSetConfiguration({
@@ -157,8 +159,8 @@ class Menus {
             }
           }
           if (type === 'pa_stone') {
-            this.element.menuAnimation(i, false, 'bottom', each.id);
-            this.element.setState({ standardMenu: false, title: each.name });
+            // this.element.menuAnimation(i, false, 'bottom', each.id);
+            // this.element.setState({ standardMenu: false, title: each.name });
             setTimeout(() => {
               const slides = document.getElementsByClassName('single__menu__middle__item__choice__symbols__symbol');
               if (!_.isEmpty(slides)) {
