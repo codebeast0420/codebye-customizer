@@ -27,6 +27,7 @@ const SettingMenu = (props) => {
     },
     colorSliders: [],
   };
+
   const [menus, setMenus] = useState(
     new Menus(
       props.product.attributes,
@@ -49,6 +50,25 @@ const SettingMenu = (props) => {
       props.product.attributes.filter((attr) => attr.name == "Material")[0]
     );
   }, []);
+
+	const changeMetal = (metal) => {
+		setActiveMetal(metal.name);
+		console.log('configuration', configuration);
+		console.log('confi meta', configuration[metal.id]);
+		console.log('metal', metal);
+		dispatch(setProductConfigurationAction({
+			...configuration,
+			pa_material: {
+				color: metal.color,
+				id: metal.id,
+				name: metal.name,
+				selected: true
+			},
+		}))
+		// if (configuration[metal.id].id !== metal.id) {
+		// 	dispatch(setSavedAction(false));
+		// }
+	}
 
   return (
     <div className="basis-5/12 flex pr-1 py-4 justify-content">
@@ -160,7 +180,7 @@ const SettingMenu = (props) => {
                       ? "cbe-bg-green-lightest"
                       : "bg-gray-100 hover:bg-gray-200"
                   } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                  onClick={() => setActiveMetal(metal.name)}
+                  onClick={() => changeMetal(metal)}
                 >
                   <div className="flex justify-between px-8 justify-between">
                     <p className="cbe-btn-text-font text-sm font-medium">

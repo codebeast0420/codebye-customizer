@@ -1816,7 +1816,7 @@ class Single extends React.Component {
           <div className="single" style={{ height }}>
             <div className="single__threejs">
               {/* {load && ( */}
-              {/* <JewerlyRingsRenderer
+              <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
                 stoneColor={stoneColor}
                 ringColor={ringColor}
@@ -1824,7 +1824,7 @@ class Single extends React.Component {
                 onLoad={this.handleOnRingOnLoad}
                 onReadyToUse={this.handleOnReadyToUse}
                 onInteraction={this.handleOnInteraction}
-              /> */}
+              />
             </div>
             <SettingMenu
               load={load}
@@ -1856,7 +1856,7 @@ class Single extends React.Component {
                 />
               </div>
               {/* {load && ( */}
-              {/* <JewerlyRingsRenderer
+              <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
                 stoneColor={stoneColor}
                 ringColor={ringColor}
@@ -1869,7 +1869,7 @@ class Single extends React.Component {
                 onLoad={this.handleOnRingOnLoad}
                 onProgress={this.handleOnRingOnProgress}
                 onInteraction={this.handleOnInteraction}
-              /> */}
+              />
             </div>
             {/* <SingleMenu
             finishAnime={() => this.setState({ load: true })}
