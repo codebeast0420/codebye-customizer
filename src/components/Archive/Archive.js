@@ -66,9 +66,13 @@ class Archive extends React.PureComponent {
       if (_.isEmpty(productID)) {
         productID = {};
       }
+      const tempProducts = products.data.map(value => ({ product: value, value: value.slug }));
+      const filterProducts = tempProducts.filter((product) => product.product.id === 186 || product.product.id === 185 || product.product.id === 402);
+      console.log('products', tempProducts);
+      console.log('filter result', filterProducts);
       this.setState(
         {
-          productsGroup: products.data.map(value => ({ product: value, value: value.slug })),
+          productsGroup: filterProducts,
           modalVisible: !!match.params.id && !_.isEmpty(productID),
           selectedProduct: match.params.id
             ? productID
