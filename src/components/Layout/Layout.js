@@ -12,10 +12,12 @@ import Loading from '../common/Loading';
 import Share from '../Share';
 import NoMatch from '../common/NoMatch';
 import { URL } from '../../lib/env';
-import { setProductConfigurationAction } from '../../store/actions';
+import { setProductConfigurationAction, getProductPartsAction, getThemesAction } from '../../store/actions';
+import Bracelet from '../Bracelet/Bracelet';
 
 const RoutedArchive = props => <Loading><Archive {...props} /></Loading>;
 const RoutedSingle = props => <Loading><Single {...props} /></Loading>;
+const RoutedBracelet = props => <Loading><Bracelet {...props} /></Loading>;
 const RoutedShare = props => <Loading><Share {...props} /></Loading>;
 
 class Layout extends React.PureComponent {
@@ -26,20 +28,8 @@ class Layout extends React.PureComponent {
  
   state = {}
 
-  componentDidMount() {
-    window.addEventListener('popstate', this.popState);
-  }
-
-  popState = (e) => {
-    e.preventDefault();
-    const { preMadeProduct } = this.props;
-    const back = preMadeProduct.isPremade ? `${URL}ready-to-wear` : `${URL}shop-the-range`;
-    window.location = back;
-  }
-
   render() {
     const { product, preMadeProduct } = this.props;
-    const back = preMadeProduct.isPremade ? `${URL}ready-to-wear` : `${URL}shop-the-range`;
     console.log('success');
     return (
       <Router>
@@ -47,7 +37,7 @@ class Layout extends React.PureComponent {
           <Switch>
             <Route exact path="/" component={RoutedArchive} />
             <Route exact path="/product" component={RoutedSingle} />
-            <Route exact path="/bracelet" component={RoutedSingle} />
+            <Route exact path="/bracelet" component={RoutedBracelet} />
             <Route exact path="/product/:id" component={RoutedArchive} />
             <Route exact path="/s_product/:id" component={RoutedShare} />
             <Route path="/share/:hash" component={RoutedShare} />
@@ -67,6 +57,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchSetConfiguration: setProductConfigurationAction,
+  dispatchGetProductParts: getProductPartsAction,
+  dispatchGetThemes: getThemesAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

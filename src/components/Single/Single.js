@@ -26,6 +26,7 @@ class Single extends React.Component {
   constructor(props) {
     super(props);
     const { configuration, product } = props;
+    console.log("hey", product)
     if (product.data.id !== 2096 && product.data.id !== 2124) {
       this.test1();
     } else {
@@ -302,15 +303,15 @@ class Single extends React.Component {
   }
 
   onChangeMsg = (e) => {
-    console.log('aaa', e.target.value);
-    this.setState({ msg: e.target.value });
-    console.log('state', this.state.msg);
-
     const { product, configuration, productParts } = this.props;
+    let text = e.target.value;
+
     if (product.data.id !== 2096 && product.data.id !== 2124) {
       const rings = [];
       const letters = e.target.value.split("");
       if (product.data.id === 186) {
+        this.setState({ msg: e.target.value });
+        console.log('state', this.state.msg);
         _.each(letters, (letter) =>
           rings.push(
             `../assets/jewerly/rings_amanti/ring_${letter.toUpperCase()}.glb`
@@ -318,6 +319,8 @@ class Single extends React.Component {
         );
       }
       if (product.data.id === 185) {
+        this.setState({ msg: e.target.value });
+        console.log('state', this.state.msg);
         _.each(letters, (letter) =>
           rings.push(
             `../assets/jewerly/rings_mayfair/ring_mayfair_${letter.toUpperCase()}.glb`
@@ -325,6 +328,14 @@ class Single extends React.Component {
         );
       }
       if (product.data.id !== 186 && product.data.id !== 185) {
+        // if (e.target.value.length > 1) {
+        //   text = e.target.value.substring(0, e.target.value.length - 1);
+        //   this.setState({ msg: text });
+          
+        //   console.log('text', text);
+        // }
+        text = e.target.value[0] || "";
+        this.setState({ msg: text });
         for (let i = 0; i < 26; i++) {
           // C5R
           rings.push(
@@ -354,7 +365,7 @@ class Single extends React.Component {
       }
       // this.jewerlyRingsRenderer = null;
 
-      this.createNew(e.target.value, product.data, configuration, Pricing, productParts);
+      this.createNew(text, product.data, configuration, Pricing, productParts);
 
       this.setState({
         ringsUrls: rings,
@@ -372,9 +383,8 @@ class Single extends React.Component {
         galleryModal: false,
         showInfos: true,
         price: this.newPrice,
-        msg: e.target.value,
       });
-      // if (product.data.id == 402) this.create_BRACELET(e.target.value);
+      if (product.data.id == 402) this.create_BRACELET(text);
       // if(product.data.id == 186) 
     }
     this.chainElementSize = this.chainElementUnitsSize;
@@ -1806,7 +1816,7 @@ class Single extends React.Component {
           <div className="single" style={{ height }}>
             <div className="single__threejs">
               {/* {load && ( */}
-              <JewerlyRingsRenderer
+              {/* <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
                 stoneColor={stoneColor}
                 ringColor={ringColor}
@@ -1814,11 +1824,7 @@ class Single extends React.Component {
                 onLoad={this.handleOnRingOnLoad}
                 onReadyToUse={this.handleOnReadyToUse}
                 onInteraction={this.handleOnInteraction}
-              />
-              {/* )} */}
-              <div className={`view-gallery ${showInfos ? "show" : "hide"}`}>
-                <img src={icon360} alt="" />
-              </div>
+              /> */}
             </div>
             <SettingMenu
               load={load}
@@ -1850,24 +1856,20 @@ class Single extends React.Component {
                 />
               </div>
               {/* {load && ( */}
-              <JewerlyRingsRenderer
-              ringsUrls={ringsUrls}
-              stoneColor={stoneColor}
-              ringColor={ringColor}
-              createChainType={false}
-              createBangle={{
-                bangel_options_there: true,
-              }}
-              onReadyToUse={this.handleOnReadyToUse}
-              onBeforeLoad={this.handleOnRingOnBeforeLoad}
-              onLoad={this.handleOnRingOnLoad}
-              onProgress={this.handleOnRingOnProgress}
-              onInteraction={this.handleOnInteraction}
-            />
-              {/* )} */}
-              <div className={`view-gallery ${showInfos ? "show" : "hide"}`}>
-                <img src={icon360} alt="" />
-              </div>
+              {/* <JewerlyRingsRenderer
+                ringsUrls={ringsUrls}
+                stoneColor={stoneColor}
+                ringColor={ringColor}
+                createChainType={false}
+                createBangle={{
+                  bangel_options_there: true,
+                }}
+                onReadyToUse={this.handleOnReadyToUse}
+                onBeforeLoad={this.handleOnRingOnBeforeLoad}
+                onLoad={this.handleOnRingOnLoad}
+                onProgress={this.handleOnRingOnProgress}
+                onInteraction={this.handleOnInteraction}
+              /> */}
             </div>
             {/* <SingleMenu
             finishAnime={() => this.setState({ load: true })}
