@@ -19,6 +19,7 @@ import Loading from './Infinity-1s-197px.gif';
 import SettingMenu from "../common/SettingMenu";
 import Menus from "../common/SingleMenu/menus";
 import Header from "../common/Header";
+import ContactModal from "./ContactModal";
 
 class Single extends React.Component {
   state = {};
@@ -125,11 +126,6 @@ class Single extends React.Component {
       }
 
       this.jewerlyRingsRenderer = null;
-      this.newPrice = Pricing.priceCalc(
-        product.data.id,
-        productParts.data,
-        configuration
-      ).price;
 
       this.state = {
         ringsUrls: rings,
@@ -146,8 +142,8 @@ class Single extends React.Component {
         load: false,
         galleryModal: false,
         showInfos: true,
-        price: this.newPrice,
         msg: "",
+        showContact: false,
       };
       this.units_to_cm_coef = 2.02;
       this.chainElementCmSize = {
@@ -184,9 +180,16 @@ class Single extends React.Component {
     }
   }
 
+  showContactModal = () => {
+    this.setState({ showContact: true });
+  }
+
+  closeContactModal = () => {
+    this.setState({ showContact: false });
+  }
+
   componentDidUpdate(prevProps, prevState) {
-    console.log('uipd');
-    const { configuration, product } = this.props;
+    const { configuration, product, productParts } = this.props;
     if (prevProps.configuration.message !== configuration.message) {
       if (product.data.id === 186 || product.data.id === 185) {
         const rings = [];
@@ -390,7 +393,6 @@ class Single extends React.Component {
         load: false,
         galleryModal: false,
         showInfos: true,
-        price: this.newPrice,
       });
       if (product.data.id == 402) this.create_BRACELET(text);
       if (product.data.id == 405) this.create_PENDANT(text);
@@ -458,12 +460,6 @@ class Single extends React.Component {
       dispatchSetConfiguration(newConf);
       dispatchChangingProduct(false);
     }
-    this.newPrice = Pricing.priceCalc(
-      product.id,
-      productParts.data,
-      configuration,
-    ).price;
-    console.log('newPrice', this.newPrice);
   }
 
   getImage = () => {
@@ -1815,7 +1811,17 @@ class Single extends React.Component {
       showInfos,
     } = this.state;
     const { chainElementsNames } = this.state || [];
-    const { showLoading, product, configuration } = this.props;
+    const { showLoading, product, configuration, productParts } = this.props;
+    console.log('uipd');
+    const price = configuration.message != "" ? Pricing.priceCalc(
+      product.data.id,
+      productParts.data,
+      configuration,
+    ).price : 0;
+    console.log('price product', product);
+    console.log('price productPart', productParts);
+    console.log('price conf', configuration);
+    console.log('price', price);
 
     if (_.isEmpty(product.data)) {
       return <Redirect to="/" />;
@@ -1823,7 +1829,7 @@ class Single extends React.Component {
     if (product.data.id === 186 || product.data.id === 185) {
       return (
         <div>
-          <Header value={this.state.price} />
+          <Header showContactModal={this.showContactModal} value={price} />
           <div className="single" style={{ height }}>
             <div className="single__threejs">
               <JewerlyRingsRenderer
@@ -1845,13 +1851,16 @@ class Single extends React.Component {
               product={product.data}
             />
           </div>
+          {this.state.showContact && (
+            <ContactModal hide={this.closeContactModal} />
+          )}
         </div>
       );
     }
     if (product.data.id === 2096 || product.data.id === 2124) {
       return (
         <div>
-          <Header value={this.state.price} />
+          <Header showContactModal={this.showContactModal} value={price} />
           <div className="single" style={{ height }}>
             <div className="single__threejs">
               <div className={`info-message ${showInfos ? "show" : "hide"}`}>
@@ -1865,20 +1874,22 @@ class Single extends React.Component {
                   }}
                 />
               </div>
-              <JewerlyRingsRenderer
-                ringsUrls={ringsUrls}
-                stoneColor={stoneColor}
-                ringColor={ringColor}
-                createChainType={false}
-                createBangle={{
-                  bangel_options_there: true,
-                }}
-                onReadyToUse={this.handleOnReadyToUse}
-                onBeforeLoad={this.handleOnRingOnBeforeLoad}
-                onLoad={this.handleOnRingOnLoad}
-                onProgress={this.handleOnRingOnProgress}
-                onInteraction={this.handleOnInteraction}
-              />
+              {configuration.message != "" && (
+                <JewerlyRingsRenderer
+                  ringsUrls={ringsUrls}
+                  stoneColor={stoneColor}
+                  ringColor={ringColor}
+                  createChainType={false}
+                  createBangle={{
+                    bangel_options_there: true,
+                  }}
+                  onReadyToUse={this.handleOnReadyToUse}
+                  onBeforeLoad={this.handleOnRingOnBeforeLoad}
+                  onLoad={this.handleOnRingOnLoad}
+                  onProgress={this.handleOnRingOnProgress}
+                  onInteraction={this.handleOnInteraction}
+                />
+              )}
             </div>
 
             <SettingMenu
@@ -1889,77 +1900,17 @@ class Single extends React.Component {
               onChangeMsg={this.onChangeMsg}
               product={product.data}
             />
-            <div className="basis-5/12 flex pr-1 py-4 justify-content">
-              <div className="basis-3/12"></div>
-              <div className="basis-9/12 flex flex-col">
-                <div className="flex flex-row justify-content">
-                  <div className="basis-4/12 pr-1">
-                    <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-6 w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
-                      <div className="flex flex-row content-center justify-center gap-x-2">
-                        <div className="basis-3/4">
-                          <p className="font-bold">Message</p>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div className="basis-4/12 pr-1">
-                    <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
-                      <div className="flex flex-row content-center justify-center gap-x-2">
-                        <div className="basis-3/4 flex flex-col">
-                          <p className="italic text-xs">Select</p>
-                          <p className="font-bold">Metal</p>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  <div className="basis-4/12">
-                    <button className="bg-[#d4e4e4] text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none" style={{ fontFamily: "Optima nova" }}>
-                      <div className="flex flex-row content-center justify-center gap-x-2">
-                        <div className="basis-3/4 flex flex-col">
-                          <p className="italic text-xs">Select</p>
-                          <p className="font-bold">Size</p>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                </div>
-                <div className="flex flex-row mt-4 justify-content">
-                  <div className="`basis-11/12`">
-                    <div className="message__inputs">
-                      <div className="message__input-container">
-                        <div className="morse-code" id="morseContainer">
-                          <div className={`info-message show`}>
-                            <div className="morse-code__single">
-                              {this.buildMorseCode(this.state.msg)}
-                            </div>
-                          </div>
-                        </div>
-                        <input className="message__input cbe-font-mono tracking-[30px]" value={this.state.msg} onChange={this.onChangeMsg} id="messageInput" />
-                        <div className="message__placeholder message__placeholder--visible cbe-font cbe-message-placeholder-fix mt-1">Please enter your message</div>
-                      </div>
-                    </div>
-                    {load && (
-                      <div className="col-span-3 align-middle grid grid-cols-3 content-center">
-                        <div className="flex justify-center"><img className="text-center align-middle" src={Loading} /></div>
-                      </div>
-                    )}
-                    {!load && (
-                      <div className="col-span-3 align-middle">
-                        <p className="text-center text-stone-500 cbe-font-label mt-1 text-sm">Zoom: Mouse Wheel, Rotate: Left Mouse Button, Pan: Right Mouse Button</p>
-                      </div>
-                    )}
 
-                  </div>
-                </div >
-              </div >
-            </div >
           </div>
+          {this.state.showContact && (
+            <ContactModal hide={this.closeContactModal} />
+          )}
         </div>
       );
     }
     return (
       <div>
-        <Header value={this.state.price} />
+        <Header showContactModal={this.showContactModal} value={price} />
         <div className="single" style={{ height }}>
           <div className="single__threejs">
             <div className={`info-message show`}>
@@ -1973,19 +1924,21 @@ class Single extends React.Component {
                 }}
               />
             </div>
-
-            <JewerlyRingsRenderer
-              ringsUrls={ringsUrls}
-              stoneColor={stoneColor}
-              ringColor={ringColor}
-              createChainType={createChainType}
-              chainElementsNames={chainElementsNames}
-              chainLength={chainLength}
-              onReadyToUse={this.handleOnReadyToUse}
-              onBeforeLoad={this.handleOnRingOnBeforeLoad}
-              onLoad={this.handleOnRingOnLoad}
-              onInteraction={this.handleOnInteraction}
-            />
+            
+            {configuration.message != "" && (
+              <JewerlyRingsRenderer
+                ringsUrls={ringsUrls}
+                stoneColor={stoneColor}
+                ringColor={ringColor}
+                createChainType={createChainType}
+                chainElementsNames={chainElementsNames}
+                chainLength={chainLength}
+                onReadyToUse={this.handleOnReadyToUse}
+                onBeforeLoad={this.handleOnRingOnBeforeLoad}
+                onLoad={this.handleOnRingOnLoad}
+                onInteraction={this.handleOnInteraction}
+              />
+            )}
 
           </div>
           <SettingMenu
@@ -1997,6 +1950,9 @@ class Single extends React.Component {
             product={product.data}
           />
         </div >
+        {this.state.showContact && (
+          <ContactModal hide={this.closeContactModal} />
+        )}
       </div>
     );
   }

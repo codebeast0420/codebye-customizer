@@ -250,8 +250,9 @@ const SettingMenu = (props) => {
         {tabId == "metal" && (
           <div className="flex flex-col basis-12/12 w-full justify-center">
             <div className="mb-1">
-              {metals.map((metal) => (
+              {metals.map((metal, index) => (
                 <button
+                  key={index}
                   className={`${
                     metal.name == activeMetal
                       ? "cbe-bg-green-lightest"
@@ -294,8 +295,9 @@ const SettingMenu = (props) => {
         {tabId == "theme" && (
           <div className="flex flex-col basis-12/12 w-full justify-center">
             <div className="mb-1">
-              {themeCols.map((theme) => (
+              {themeCols.map((theme, index) => (
                 <button
+                  key={index}
                   className={`${
                     theme.name == activeTheme
                       ? "cbe-bg-green-lightest"
@@ -318,8 +320,9 @@ const SettingMenu = (props) => {
           <div className="flex flex-col basis-12/12 w-full justify-center">
             <div className="flex flex-row mb-1 justify-start">
               <div className="pr-1">
-                {sizes.map((size) => (
+                {sizes.map((size, index) => (
                   <button
+                    key={index}
                     className={`${
                       activeSize == size.name
                         ? "cbe-bg-green-lightest"
@@ -354,8 +357,9 @@ const SettingMenu = (props) => {
         {tabId == "style" && (
           <div className="flex flex-col basis-12/12 w-full justify-center">
             <div className="flex flex-row mb-1 justify-start">
-              {styles.map((style) => (
+              {styles.map((style, index) => (
                 <button
+                  key={index}
                   className={`${
                     activeStyle == style.name
                       ? "cbe-bg-green-lightest"

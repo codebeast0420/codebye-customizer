@@ -612,29 +612,32 @@ class Pricing {
     const stonesParts = [];
     const stoneTypes = _.filter(metalFilter, item => item['pa_stone-type'] === configuration.pa_stone_type.id);
     const ringBody = _.find(metalFilter, item => item['pa_part-type'] === 74);
-    _.each(configuration.message.split(''), (letter) => {
-      if (stonesParts[`bundle_quantity_${ringBody.bundled_item_id}`]) {
-        stonesParts[`bundle_quantity_${ringBody.bundled_item_id}`] += 1;
-      } else {
-        stonesParts[`bundle_quantity_${ringBody.bundled_item_id}`] = 1;
-      }
-      ringPrice += ringBody.price;
-      const morse = new MorseCode(letter);
-      const codes = morse.getLetterCode();
-      _.each(codes, (code) => {
-        let partType = 'rd';
-        if (code === 'dash') {
-          partType = 'ob';
-        }
-        const stone = _.find(stoneTypes, item => item['pa_part-type'] === Pricing.partTypes(partType));
-        price += stone.price;
-        if (stonesParts[`bundle_quantity_${stone.bundled_item_id}`]) {
-          stonesParts[`bundle_quantity_${stone.bundled_item_id}`] += 1;
+    console.log('ringBody', metalFilter);
+    if (ringBody !== undefined) {
+      _.each(configuration.message.split(''), (letter) => {
+        if (stonesParts[`bundle_quantity_${ringBody.bundled_item_id}`]) {
+          stonesParts[`bundle_quantity_${ringBody.bundled_item_id}`] += 1;
         } else {
-          stonesParts[`bundle_quantity_${stone.bundled_item_id}`] = 1;
+          stonesParts[`bundle_quantity_${ringBody.bundled_item_id}`] = 1;
         }
+        ringPrice += ringBody.price;
+        const morse = new MorseCode(letter);
+        const codes = morse.getLetterCode();
+        _.each(codes, (code) => {
+          let partType = 'rd';
+          if (code === 'dash') {
+            partType = 'ob';
+          }
+          const stone = _.find(stoneTypes, item => item['pa_part-type'] === Pricing.partTypes(partType));
+          price += stone.price;
+          if (stonesParts[`bundle_quantity_${stone.bundled_item_id}`]) {
+            stonesParts[`bundle_quantity_${stone.bundled_item_id}`] += 1;
+          } else {
+            stonesParts[`bundle_quantity_${stone.bundled_item_id}`] = 1;
+          }
+        });
       });
-    });
+    }
 
     price += ringPrice;
 
