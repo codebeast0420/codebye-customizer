@@ -537,7 +537,7 @@ class SingleMenu extends React.Component {
                   </div>
                     {title == 'Size' ? (
                       <div>
-                        <a className="size-guide-link" href="https://codebyedge.com/size-guide/" target="_blank">View Size Guide</a>
+                        {/* <a className="size-guide-link" href="https://codebyedge.com/size-guide/" target="_blank">View Size Guide</a> */}
                       </div>
                       
                     ): null}
