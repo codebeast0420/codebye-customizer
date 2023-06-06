@@ -185,6 +185,7 @@ class Single extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log('uipd');
     const { configuration, product } = this.props;
     if (prevProps.configuration.message !== configuration.message) {
       if (product.data.id === 186 || product.data.id === 185) {
@@ -255,11 +256,14 @@ class Single extends React.Component {
       product.data.id !== 2096 &&
       product.data.id !== 2124
     ) {
-      if (configuration.pa_stone.id === "solid_color") {
+      console.log('test', configuration);
+      if (configuration.pa_stone === "solid_color") {
+        console.log('one');
         this.handleOverrideAllMorseCharColors(
           configuration.pa_stone.choice[0].value.color
         );
       }
+
     }
     if (
       prevProps.configuration.message === this.props.configuration.message &&
@@ -268,10 +272,12 @@ class Single extends React.Component {
       product.data.id !== 2096 &&
       product.data.id !== 2124
     ) {
+
       if (
         configuration.pa_stone.id === "at_your_choice" ||
         configuration.pa_stone.id === "themes"
       ) {
+        console.log('here');
         const items = [];
         _.each(this.state.stoneColorMessage, (stoneColorMessageItem) => {
           _.each(stoneColorMessageItem.lCodeArray, (lCode) => {
@@ -328,13 +334,15 @@ class Single extends React.Component {
         );
       }
       if (product.data.id !== 186 && product.data.id !== 185) {
-        // if (e.target.value.length > 1) {
-        //   text = e.target.value.substring(0, e.target.value.length - 1);
-        //   this.setState({ msg: text });
-          
-        //   console.log('text', text);
-        // }
-        text = e.target.value[0] || "";
+        if (product.data.id == 402 || product.data.id == 405) {
+          console.log('405');
+          text = e.target.value[0] || "";
+        }
+        if (product.data.id == 408) {
+          text = e.target.value.substring(0, 2) || "";
+        }
+        else { text = e.target.value; }
+        console.log('text', text);
         this.setState({ msg: text });
         for (let i = 0; i < 26; i++) {
           // C5R
@@ -385,6 +393,8 @@ class Single extends React.Component {
         price: this.newPrice,
       });
       if (product.data.id == 402) this.create_BRACELET(text);
+      if (product.data.id == 405) this.create_PENDANT(text);
+      if (product.data.id == 408) this.create_EARRINGS(text);
       // if(product.data.id == 186) 
     }
     this.chainElementSize = this.chainElementUnitsSize;
@@ -451,8 +461,9 @@ class Single extends React.Component {
     this.newPrice = Pricing.priceCalc(
       product.id,
       productParts.data,
-      configuration
+      configuration,
     ).price;
+    console.log('newPrice', this.newPrice);
   }
 
   getImage = () => {
@@ -1812,10 +1823,9 @@ class Single extends React.Component {
     if (product.data.id === 186 || product.data.id === 185) {
       return (
         <div>
-          <Header price={this.state.price} />
+          <Header value={this.state.price} />
           <div className="single" style={{ height }}>
             <div className="single__threejs">
-              {/* {load && ( */}
               <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
                 stoneColor={stoneColor}
@@ -1841,7 +1851,7 @@ class Single extends React.Component {
     if (product.data.id === 2096 || product.data.id === 2124) {
       return (
         <div>
-          <Header price={this.state.price} />
+          <Header value={this.state.price} />
           <div className="single" style={{ height }}>
             <div className="single__threejs">
               <div className={`info-message ${showInfos ? "show" : "hide"}`}>
@@ -1855,7 +1865,6 @@ class Single extends React.Component {
                   }}
                 />
               </div>
-              {/* {load && ( */}
               <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
                 stoneColor={stoneColor}
@@ -1871,12 +1880,7 @@ class Single extends React.Component {
                 onInteraction={this.handleOnInteraction}
               />
             </div>
-            {/* <SingleMenu
-            finishAnime={() => this.setState({ load: true })}
-            showLoading={showLoading}
-            product={product.data}
-          />
-          {this.modals()} */}
+
             <SettingMenu
               load={load}
               Loading={Loading}
@@ -1955,7 +1959,7 @@ class Single extends React.Component {
     }
     return (
       <div>
-        <Header price={this.state.price} />
+        <Header value={this.state.price} />
         <div className="single" style={{ height }}>
           <div className="single__threejs">
             <div className={`info-message show`}>
@@ -1970,7 +1974,6 @@ class Single extends React.Component {
               />
             </div>
 
-            {/* {load && ( */}
             <JewerlyRingsRenderer
               ringsUrls={ringsUrls}
               stoneColor={stoneColor}
@@ -1984,9 +1987,7 @@ class Single extends React.Component {
               onInteraction={this.handleOnInteraction}
             />
 
-            {/* )} */}
           </div>
-          {/* <button onClick={() => console.log(ringsUrls, stoneColor, ringColor, createChainType, chainElementsNames, chainLength)}>asdf</button> */}
           <SettingMenu
             load={load}
             Loading={Loading}
@@ -1995,11 +1996,6 @@ class Single extends React.Component {
             onChangeMsg={this.onChangeMsg}
             product={product.data}
           />
-          {/* <SingleMenu
-            finishAnime={() => this.setState({ load: true })}
-            showLoading={showLoading}
-            product={product.data}
-          /> */}
         </div >
       </div>
     );

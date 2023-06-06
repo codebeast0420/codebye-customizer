@@ -5,7 +5,22 @@ import Pricing from '../../../lib/pricing';
 import { useSelector } from 'react-redux';
 import { store } from '../../../lib/env';
 
-const Header = ({ price }) => {
+const Header = ({ value }) => {
+  const product = useSelector((store) => store.product);
+  const productParts = useSelector((store) => store.productParts);
+  const configuration = useSelector((store) => store.configuration);
+  const [price, setPrice] = useState(0);
+
+  useEffect(() => {
+    setPrice(Pricing.priceCalc(
+      product.data.id,
+      productParts.data,
+      configuration,
+    ).price);
+    console.log('price product', product);
+    console.log('price productPart', productParts);
+    console.log('price conf', configuration);
+  }, [value])
   return (
     <div className="flex flex-row content-center justify-center mt-6">
       <div className="flex basis-1/12 justify-center items-center">

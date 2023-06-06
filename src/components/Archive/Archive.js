@@ -29,6 +29,10 @@ class Archive extends React.PureComponent {
     console.log("redux products in Archive", props.products);
     console.log("redux config in Archive", props.configuration);
     console.log("redux preMadeProduct in Archive", props.preMadeProduct);
+    props.dispatchSetConfiguration({
+      ...props.configuration,
+      message: ""
+    })
   }
 
   componentDidMount() {
@@ -67,9 +71,9 @@ class Archive extends React.PureComponent {
         productID = {};
       }
       const tempProducts = products.data.map(value => ({ product: value, value: value.slug }));
-      const filterProducts = tempProducts.filter((product) => product.product.id === 186 || product.product.id === 185 || product.product.id === 402);
+      const filterProducts = tempProducts.filter((product) => product.product.id !== 6336);
       console.log('products', tempProducts);
-      console.log('filter result', filterProducts);
+      // console.log('filter result', filterProducts);
       this.setState(
         {
           productsGroup: filterProducts,
