@@ -71,7 +71,7 @@ class Archive extends React.PureComponent {
         productID = {};
       }
       const tempProducts = products.data.map(value => ({ product: value, value: value.slug }));
-      const filterProducts = tempProducts.filter((product) => product.product.id !== 6336);
+      const filterProducts = tempProducts.filter((product) => product.product.id !== 6336 && product.product.id !== 2096);
       console.log('products', tempProducts);
       // console.log('filter result', filterProducts);
       this.setState(
