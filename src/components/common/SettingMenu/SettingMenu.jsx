@@ -110,8 +110,8 @@ const SettingMenu = (props) => {
 
   return (
     <div className="basis-5/12 flex pr-1 py-4 justify-content">
-      <div className="basis-3/12"></div>
-      <div className="basis-9/12 flex flex-col">
+      <div className="basis-3/12 hidden md:flex"></div>
+      <div className="md:basis-9/12 w-full flex flex-col-reverse md:flex-col">
         <div className="flex flex-row justify-content z-50">
           <div className="basis-4/12 pr-1">
             <button
@@ -203,176 +203,183 @@ const SettingMenu = (props) => {
             </div>
           )}
         </div>
-        {tabId == "message" && (
-          <div className="flex flex-row mt-4 justify-content">
-            <div className="`basis-11/12`">
-              <div className="message__inputs">
-                <div className="message__input-container">
-                  <div className="morse-code" id="morseContainer">
-                    <div className={`info-message show`}>
-                      <div className="morse-code__single">
-                        {props.buildMorseCode(props.msg)}
+        <div className="hidden md:flex">
+          {tabId == "message" && (
+            <div className="flex flex-row mt-4 justify-content">
+              <div className="md:basis-11/12 w-full">
+                <div className="message__inputs">
+                  <div className="message__input-container">
+                    <div className="morse-code" id="morseContainer">
+                      <div className={`info-message show`}>
+                        <div className="morse-code__single">
+                          {props.buildMorseCode(props.msg)}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <input
-                    className="message__input cbe-font-mono tracking-[30px]"
-                    value={props.msg}
-                    onChange={props.onChangeMsg}
-                    id="messageInput"
-                  />
-                  <div className="message__placeholder message__placeholder--visible cbe-font cbe-message-placeholder-fix mt-1">
-                    Please enter your message
-                  </div>
-                </div>
-              </div>
-              {props.load && (
-                <div className="col-span-3 align-middle grid grid-cols-3 content-center">
-                  <div className="flex justify-center">
-                    <img
-                      className="text-center align-middle"
-                      src={props.Loading}
+                    <input
+                      className="message__input cbe-font-mono tracking-[30px]"
+                      value={props.msg}
+                      onChange={props.onChangeMsg}
+                      id="messageInput"
                     />
+                    <div className="message__placeholder message__placeholder--visible cbe-font cbe-message-placeholder-fix mt-1">
+                      Please enter your message
+                    </div>
                   </div>
                 </div>
-              )}
-              {!props.load && (
-                <div className="col-span-3 align-middle">
-                  <p className="text-center text-stone-500 cbe-font-label mt-1 text-sm">
-                    Zoom: Mouse Wheel, Rotate: Left Mouse Button, Pan: Right
-                    Mouse Button
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-        {tabId == "metal" && (
-          <div className="flex flex-col basis-12/12 w-full justify-center">
-            <div className="mb-1">
-              {metals.map((metal, index) => (
-                <button
-                  key={index}
-                  className={`${
-                    metal.name == activeMetal
-                      ? "cbe-bg-green-lightest"
-                      : "bg-gray-100 hover:bg-gray-200"
-                  } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                  onClick={() => changeMetal(metal)}
-                >
-                  <div className="flex justify-between px-8 justify-between">
-                    <p className="cbe-btn-text-font text-sm font-medium">
-                      {metal.name}
-                    </p>
-                    <p className="text-sm text-gray-500"></p>
+                {props.load && (
+                  <div className="col-span-3 align-middle grid grid-cols-3 content-center">
+                    <div className="flex justify-center">
+                      <img
+                        className="text-center align-middle"
+                        src={props.Loading}
+                      />
+                    </div>
                   </div>
-                </button>
-              ))}
-            </div>
-            <div className="cbe-font cbe-btn-text-green italic mt-4 mb-12">
-              <p className="mb-4 font-semibold">Looking for another metal?</p>
-              <p className="mb-4 font-semibold">Contact Us</p>
-              <p className="mb-1 font-semibold">Call us on +44 20 3883 1388</p>
-              <p className="mb-1 font-semibold">
-                Monday to Friday - 10 AM - 5:30 PM
-              </p>
-              <p className="mb-1 font-semibold">Email</p>
-              <a
-                className="mb-1 font-semibold"
-                href="mailto:hello@codebyedge.com"
-              >
-                hello@codebyedge.com
-              </a>
-            </div>
-            <div className="cbe-font italic cbe-btn-text-green py-2">
-              <p className="leading-6 font-semibold">
-                Our precious metals and gemstones are all sourced in accordance
-                with the Responsible Jewellery Council Code of Conduct
-              </p>
-            </div>
-          </div>
-        )}
-        {tabId == "theme" && (
-          <div className="flex flex-col basis-12/12 w-full justify-center">
-            <div className="mb-1">
-              {themeCols.map((theme, index) => (
-                <button
-                  key={index}
-                  className={`${
-                    theme.name == activeTheme
-                      ? "cbe-bg-green-lightest"
-                      : "bg-gray-100 hover:bg-gray-200"
-                  } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                  onClick={() => changeTheme(theme)}
-                >
-                  <div className="flex justify-between px-8 justify-between">
-                    <p className="cbe-btn-text-font text-sm font-medium">
-                      {theme.name}
+                )}
+                {!props.load && (
+                  <div className="col-span-3 align-middle">
+                    <p className="text-center text-stone-500 cbe-font-label mt-1 text-sm">
+                      Zoom: Mouse Wheel, Rotate: Left Mouse Button, Pan: Right
+                      Mouse Button
                     </p>
-                    <p className="text-sm text-gray-500"></p>
                   </div>
-                </button>
-              ))}
+                )}
+              </div>
             </div>
-          </div>
-        )}
-        {tabId == "size" && (
-          <div className="flex flex-col basis-12/12 w-full justify-center">
-            <div className="flex flex-row mb-1 justify-start">
-              <div className="pr-1">
-                {sizes.map((size, index) => (
+          )}
+          {tabId == "metal" && (
+            <div className="flex flex-col basis-12/12 w-full justify-center">
+              <div className="mb-1">
+                {metals.map((metal, index) => (
                   <button
                     key={index}
                     className={`${
-                      activeSize == size.name
+                      metal.name == activeMetal
                         ? "cbe-bg-green-lightest"
                         : "bg-gray-100 hover:bg-gray-200"
-                    } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
-                    onClick={() => setActiveSize(size.name)}
+                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    onClick={() => changeMetal(metal)}
                   >
-                    {size.name}
+                    <div className="flex justify-between px-8 justify-between">
+                      <p className="cbe-btn-text-font text-sm font-medium">
+                        {metal.name}
+                      </p>
+                      <p className="text-sm text-gray-500"></p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+              <div className="cbe-font cbe-btn-text-green italic mt-4 mb-12">
+                <p className="mb-4 font-semibold">Looking for another metal?</p>
+                <p className="mb-4 font-semibold">Contact Us</p>
+                <p className="mb-1 font-semibold">
+                  Call us on +44 20 3883 1388
+                </p>
+                <p className="mb-1 font-semibold">
+                  Monday to Friday - 10 AM - 5:30 PM
+                </p>
+                <p className="mb-1 font-semibold">Email</p>
+                <a
+                  className="mb-1 font-semibold"
+                  href="mailto:hello@codebyedge.com"
+                >
+                  hello@codebyedge.com
+                </a>
+              </div>
+              <div className="cbe-font italic cbe-btn-text-green py-2">
+                <p className="leading-6 font-semibold">
+                  Our precious metals and gemstones are all sourced in
+                  accordance with the Responsible Jewellery Council Code of
+                  Conduct
+                </p>
+              </div>
+            </div>
+          )}
+          {tabId == "theme" && (
+            <div className="flex flex-col basis-12/12 w-full justify-center">
+              <div className="mb-1">
+                {themeCols.map((theme, index) => (
+                  <button
+                    key={index}
+                    className={`${
+                      theme.name == activeTheme
+                        ? "cbe-bg-green-lightest"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    onClick={() => changeTheme(theme)}
+                  >
+                    <div className="flex justify-between px-8 justify-between">
+                      <p className="cbe-btn-text-font text-sm font-medium">
+                        {theme.name}
+                      </p>
+                      <p className="text-sm text-gray-500"></p>
+                    </div>
                   </button>
                 ))}
               </div>
             </div>
-            <div className="cbe-font cbe-btn-text-green italic mt-4 mb-12">
-              <p className="mb-4 font-semibold">
-                Do you need help with sizing?
-              </p>
-              <p className="mb-4 font-semibold">Contact Us</p>
-              <p className="mb-1 font-semibold">Call us on +44 20 3883 1388</p>
-              <p className="mb-1 font-semibold">
-                Monday to Friday - 10 AM - 5:30 PM
-              </p>
-              <p className="mb-1 font-semibold">Email</p>
-              <a
-                className="mb-1 font-semibold"
-                href="mailto:hello@codebyedge.com"
-              >
-                hello@codebyedge.com
-              </a>
-            </div>
-          </div>
-        )}
-        {tabId == "style" && (
-          <div className="flex flex-col basis-12/12 w-full justify-center">
-            <div className="flex flex-row mb-1 justify-start">
-              {styles.map((style, index) => (
-                <button
-                  key={index}
-                  className={`${
-                    activeStyle == style.name
-                      ? "cbe-bg-green-lightest"
-                      : "bg-gray-100 hover:bg-gray-200"
-                  } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
-                  onClick={() => changeStyle(style)}
+          )}
+          {tabId == "size" && (
+            <div className="flex flex-col basis-12/12 w-full justify-center">
+              <div className="flex flex-row mb-1 justify-start">
+                <div className="pr-1">
+                  {sizes.map((size, index) => (
+                    <button
+                      key={index}
+                      className={`${
+                        activeSize == size.name
+                          ? "cbe-bg-green-lightest"
+                          : "bg-gray-100 hover:bg-gray-200"
+                      } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                      onClick={() => setActiveSize(size.name)}
+                    >
+                      {size.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="cbe-font cbe-btn-text-green italic mt-4 mb-12">
+                <p className="mb-4 font-semibold">
+                  Do you need help with sizing?
+                </p>
+                <p className="mb-4 font-semibold">Contact Us</p>
+                <p className="mb-1 font-semibold">
+                  Call us on +44 20 3883 1388
+                </p>
+                <p className="mb-1 font-semibold">
+                  Monday to Friday - 10 AM - 5:30 PM
+                </p>
+                <p className="mb-1 font-semibold">Email</p>
+                <a
+                  className="mb-1 font-semibold"
+                  href="mailto:hello@codebyedge.com"
                 >
-                  {style.name}
-                </button>
-              ))}
+                  hello@codebyedge.com
+                </a>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+          {tabId == "style" && (
+            <div className="flex flex-col basis-12/12 w-full justify-center">
+              <div className="flex flex-row mb-1 justify-start">
+                {styles.map((style, index) => (
+                  <button
+                    key={index}
+                    className={`${
+                      activeStyle == style.name
+                        ? "cbe-bg-green-lightest"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                    onClick={() => changeStyle(style)}
+                  >
+                    {style.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

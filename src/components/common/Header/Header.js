@@ -5,43 +5,74 @@ import Pricing from '../../../lib/pricing';
 import { useSelector } from 'react-redux';
 import { store } from '../../../lib/env';
 import axios from 'axios';
+import imageCompression from 'browser-image-compression';
+import { URL, client } from '../../../lib/env'
 
 const Header = ({ showContactModal, value }) => {
   const product = useSelector((store) => store.product);
   const productParts = useSelector((store) => store.productParts);
   const configuration = useSelector((store) => store.configuration);
+  const [productId, setProductId] = useState(0);
+  const imageFunc = useSelector((store) => store.imageFunc);
+  const queryString = useSelector((store) => store.queryString);
+  const preMadeProduct = useSelector((store) => store.preMadeProduct);
+  const [response, setResponse] = useState();
 
-  const buy = () => {
-    console.log('aa')
-    axios
-      .get(
-        "https://codebyedgesite.myshopify.com/admin/api/2023-04/products/8218132152617.json",
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Shopify-Access-Token': 'Bearer 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'
-          },
-        }
-      )
-      .then((response) => {
-        console.log('res', response);
-      })
-      .catch(function (error) {
-        console.log(error);
-        console.log(error.response);
-      });
+  useEffect(() => {
+    console.log('project', product);
+    switch(product.data.id) {
+      case 186: setProductId(8218132152617); break;
+      case 185: setProductId(8236553765161); break;
+      case 402: setProductId(8236574441769); break;
+      case 405: setProductId(8236577947945); break;
+      case 408: setProductId(8236587319593); break;
+      default: setProductId(8236619301161); break;
+    }
+  }, []);
+
+  const buy = async () => {
+    axios.post("http://localhost:5000/add-to-cart", {productId: productId}).then((res) => {
+          let variants = res.data.product?.variants;
+          let variant = "not_found";
+          variants.map((v) => {
+            if (parseInt(v.price) == parseInt(value)) {
+              variant = v;
+            }
+          });
+          console.log('variant', variant);
+          if (variant == "not_found") {
+            // create one
+            axios
+              .post("http://localhost:5000/create-cart", {
+                productId: productId,
+                price: value,
+              })
+              .then(function (response) {
+                variant = response.data.variant;
+                window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
+              })
+              .catch(function (error) {
+                console.log(error);
+                console.log(error.response);
+              });
+          } else {
+            // ready to redirect
+            window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
+          }
+      console.log(res);
+    })
   }
 
   return (
-    <div className="flex flex-row content-center justify-center mt-6">
-      <div className="flex basis-1/12 justify-center items-center">
+    <div className="flex md:flex-row lg:flex-row flex-col-reverse content-center  gap-4 justify-center mt-6">
+      <div className="md:flex basis-1/12 justify-center items-center mx-5 hidden">
         <div className="">
           <a role="button" tabIndex="0" href="https://codebyedge.co.uk" className="a a-link">
             <img src={Logo} alt="logo" srcSet="" width="100" />
           </a>
         </div>
       </div>
-      <div className="basis-6/12 flex justify-center items-center setting-menu-tab" onClick={() => showContactModal()}>
+      <div className="md:basis-6/12 basis-8/12 flex justify-center items-center setting-menu-tab" onClick={() => showContactModal()}>
         <button className="bg-gray-100 hover:bg-gray-200 cbe-btn-text-green cbe-btn-text-font py-2 px-12 rounded-none h-3/4">
           <div className="flex flex-row content-center justify-start gap-x-2">
             <div className="basis-1/4">
@@ -54,8 +85,7 @@ const Header = ({ showContactModal, value }) => {
         </button>
       </div>
       <div className="basis-5/12 flex pr-1 justify-end">
-        <div className="basis-3/12"></div>
-        <div className="basis-9/12 flex justify-center">
+        <div className="md:basis-9/12 w-full flex justify-center">
           <button className="bg-[#183e3f] hover:bg-teal-700 w-full py-8 px-4 rounded-lg justify-self-end text-2xl font-extrabold text-white" onClick={() => buy()}>
             <div className="flex justify-between items-center px-8 justify-between" >
               <p style={{ fontFamily: "Comorant" }}>£{value}</p>
