@@ -39,7 +39,7 @@ const Header = ({ showContactModal, value }) => {
   }, [value])
 
   const buy = async () => {
-    axios.post("http://localhost:5000/add-to-cart", { productId: productId }).then((res) => {
+    axios.post("https://codeby-backend.vercel.app/add-to-cart", { productId: productId }).then((res) => {
       let variants = res.data.product?.variants;
       let variant = "not_found";
       variants.map((v) => {
@@ -51,7 +51,7 @@ const Header = ({ showContactModal, value }) => {
       if (variant == "not_found") {
         // create one
         axios
-          .post("http://localhost:5000/create-cart", {
+          .post("https://codeby-backend.vercel.app/create-cart", {
             productId: productId,
             price: value,
           })
