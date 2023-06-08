@@ -12,6 +12,7 @@ const Header = ({ showContactModal, value }) => {
   const product = useSelector((store) => store.product);
   const productParts = useSelector((store) => store.productParts);
   const configuration = useSelector((store) => store.configuration);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [productId, setProductId] = useState(0);
   const imageFunc = useSelector((store) => store.imageFunc);
   const queryString = useSelector((store) => store.queryString);
@@ -20,7 +21,7 @@ const Header = ({ showContactModal, value }) => {
 
   useEffect(() => {
     console.log('project', product);
-    switch(product.data.id) {
+    switch (product.data.id) {
       case 186: setProductId(8218132152617); break;
       case 185: setProductId(8236553765161); break;
       case 402: setProductId(8236574441769); break;
@@ -30,35 +31,42 @@ const Header = ({ showContactModal, value }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!value) {
+      setIsDisabled(true);
+    }
+    else setIsDisabled(false);
+  }, [value])
+
   const buy = async () => {
-    axios.post("http://localhost:5000/add-to-cart", {productId: productId}).then((res) => {
-          let variants = res.data.product?.variants;
-          let variant = "not_found";
-          variants.map((v) => {
-            if (parseInt(v.price) == parseInt(value)) {
-              variant = v;
-            }
-          });
-          console.log('variant', variant);
-          if (variant == "not_found") {
-            // create one
-            axios
-              .post("http://localhost:5000/create-cart", {
-                productId: productId,
-                price: value,
-              })
-              .then(function (response) {
-                variant = response.data.variant;
-                window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
-              })
-              .catch(function (error) {
-                console.log(error);
-                console.log(error.response);
-              });
-          } else {
-            // ready to redirect
+    axios.post("http://localhost:5000/add-to-cart", { productId: productId }).then((res) => {
+      let variants = res.data.product?.variants;
+      let variant = "not_found";
+      variants.map((v) => {
+        if (parseInt(v.price) == parseInt(value)) {
+          variant = v;
+        }
+      });
+      console.log('variant', variant);
+      if (variant == "not_found") {
+        // create one
+        axios
+          .post("http://localhost:5000/create-cart", {
+            productId: productId,
+            price: value,
+          })
+          .then(function (response) {
+            variant = response.data.variant;
             window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
-          }
+          })
+          .catch(function (error) {
+            console.log(error);
+            console.log(error.response);
+          });
+      } else {
+        // ready to redirect
+        window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
+      }
       console.log(res);
     })
   }
@@ -86,13 +94,12 @@ const Header = ({ showContactModal, value }) => {
       </div>
       <div className="basis-5/12 flex pr-1 justify-end">
         <div className="md:basis-9/12 w-full flex justify-center">
-          <button className="bg-[#183e3f] hover:bg-teal-700 w-full py-8 px-4 rounded-lg justify-self-end text-2xl font-extrabold text-white" onClick={() => buy()}>
+          <button className={`${isDisabled ? "disabledBtn" : "bg-[#183e3f]"} hover:bg-teal-700 w-full py-8 px-4 rounded-lg justify-self-end text-2xl font-extrabold text-white`} disabled={isDisabled} onClick={() => buy()}>
             <div className="flex justify-between items-center px-8 justify-between" >
               <p style={{ fontFamily: "Comorant" }}>£{value}</p>
               <p style={{ fontFamily: "Cormorant Garamond" }}>Buy Now</p>
             </div>
           </button>
-          {/* <button v-if="$parent.working == true" type="button" className="cbe-spinner mt-4 sm:mt-4 lg:mt-6" disabled></button> */}
         </div>
       </div>
     </div>
