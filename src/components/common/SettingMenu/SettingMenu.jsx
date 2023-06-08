@@ -6,6 +6,7 @@ import { setProductConfigurationAction } from "../../../store/actions";
 import { setSavedAction } from "../../../store/actions";
 import Footer from "../Footer";
 import Menus from "../SingleMenu/menus";
+import { Close } from "../../../assets";
 
 const SettingMenu = (props) => {
   const [tabId, setTabId] = useState("message");
@@ -397,9 +398,15 @@ const SettingMenu = (props) => {
           )}
         </div>
         {showMobile && (
-          <div className="mobile-setting-menu mobile-setting-menu--after-open flex md:hidden w-full">
+          <div className="mobile-setting-menu mobile-setting-menu--after-open flex flex-col items-end md:hidden w-full">
+            <div className="mr-3" onClick={() => setShowMobile(false)}>
+              <Close />
+            </div>
             {tabId == "message" && (
-              <div className="flex flex-row mt-4 justify-content w-full">
+              <div
+                className="flex flex-row mt-4 justify-content w-full"
+                style={{ pointerEvents: "none" }}
+              >
                 <div className="md:basis-11/12 w-full">
                   <div className="message__inputs">
                     <div className="message__input-container">
