@@ -254,14 +254,6 @@ const SettingMenu = (props) => {
                     </div>
                   </div>
                 )}
-                {!props.load && (
-                  <div className="col-span-3 align-middle">
-                    <p className="text-center text-stone-500 cbe-font-label mt-1 text-sm">
-                      Zoom: Mouse Wheel, Rotate: Left Mouse Button, Pan: Right
-                      Mouse Button
-                    </p>
-                  </div>
-                )}
               </div>
             </div>
           )}
@@ -436,14 +428,6 @@ const SettingMenu = (props) => {
                           src={props.Loading}
                         />
                       </div>
-                    </div>
-                  )}
-                  {!props.load && (
-                    <div className="col-span-3 align-middle">
-                      <p className="text-center text-stone-500 cbe-font-label mt-1 text-sm">
-                        Zoom: Mouse Wheel, Rotate: Left Mouse Button, Pan: Right
-                        Mouse Button
-                      </p>
                     </div>
                   )}
                 </div>
