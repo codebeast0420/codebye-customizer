@@ -1826,15 +1826,24 @@ class Single extends React.Component {
       let necklaceLetters = db.filter((d) => d.id == product.data.id)[0].letters;
       console.log('necklace letters', necklaceLetters);
       let stonesNum = 0;
-      let letters = configuration.message.trim().split("").filter((e) => e !== " ");
+      let letters = configuration.message.trim().split("").filter((e) => e.charCodeAt() !== 160 && e.charCodeAt() !== 32);
       console.log('letters', letters);
       letters.map((e) => {
-        stonesNum += necklaceLetters[e.toUpperCase()];
+        if (necklaceLetters[e.toUpperCase()]) {
+          stonesNum += necklaceLetters[e.toUpperCase()];
+        }
       });
-      let wordNum = configuration.message.split(" ").length;
-      console.log('stone number', stonesNum);
-      total = stonesNum * temp2.stone + temp2.basic + temp2.spacer * (letters.length - wordNum) + temp2.hexagon * wordNum;
-      console.log('lenghts', configuration.message.split(" ").length, ' ', configuration.message.trim().split(""));
+      let wordNum = 0;
+      configuration.message.split("").map((e) => {
+        console.log('ascill', e.charCodeAt())
+        if (e.charCodeAt() == 160 || e.charCodeAt() == 32) {
+          wordNum++;
+        }
+      });
+      wordNum = wordNum + 1;
+      console.log('stone number', stonesNum, wordNum);
+      total = stonesNum * temp2.stone + temp2.basic + temp2.spacer * (letters.length - wordNum) + temp2.hexagon * (wordNum);
+      console.log('lenghts', configuration.message.split('').filter((e) => e == null), ' ', configuration.message.trim().split(""));
     }
     else { configuration.message.split("").map((e) => total += temp2.letters[e.toUpperCase()]); }
 
