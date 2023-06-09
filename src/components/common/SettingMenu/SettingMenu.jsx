@@ -228,13 +228,13 @@ const SettingMenu = (props) => {
                   <div className="message__input-container">
                     <div className="morse-code" id="morseContainer">
                       <div className={`info-message show`}>
-                        <div className="morse-code__single">
+                        <div className="morse-code__single" style={{marginLeft: "-20px"}}>
                           {props.buildMorseCode(props.msg)}
                         </div>
                       </div>
                     </div>
                     <input
-                      className="message__input cbe-font-mono tracking-[30px]"
+                      className="message__input cbe-font-mono tracking-[20px]"
                       value={props.msg}
                       onChange={props.onChangeMsg}
                       id="messageInput"
@@ -397,20 +397,19 @@ const SettingMenu = (props) => {
             {tabId == "message" && (
               <div
                 className="flex flex-row mt-4 justify-content w-full"
-                style={{ pointerEvents: "none" }}
               >
                 <div className="md:basis-11/12 w-full">
                   <div className="message__inputs">
                     <div className="message__input-container">
                       <div className="morse-code" id="morseContainer">
                         <div className={`info-message show`}>
-                          <div className="morse-code__single">
+                          <div className="morse-code__single" style={{marginLeft: "-20px"}}>
                             {props.buildMorseCode(props.msg)}
                           </div>
                         </div>
                       </div>
                       <input
-                        className="message__input cbe-font-mono tracking-[30px]"
+                        className="message__input cbe-font-mono tracking-[20px]"
                         value={props.msg}
                         onChange={props.onChangeMsg}
                         id="messageInput"
