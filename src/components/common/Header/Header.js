@@ -95,7 +95,7 @@ const Header = ({ showContactModal, value }) => {
       <div className="basis-5/12 flex pr-1 justify-end">
         <div className="md:basis-9/12 w-full flex justify-center">
           <button className={`${isDisabled ? "disabledBtn" : "bg-[#183e3f]"} hover:bg-teal-700 w-full py-8 px-4 rounded-lg justify-self-end text-2xl font-extrabold text-white`} disabled={isDisabled} onClick={() => buy()}>
-            <div className="flex justify-between items-center px-8 justify-between" >
+            <div className="flex justify-between md:flex-col lg:flex-row items-center px-8 justify-between" >
               <p style={{ fontFamily: "Comorant" }}>£{value}</p>
               <p style={{ fontFamily: "Cormorant Garamond" }}>Buy Now</p>
             </div>
