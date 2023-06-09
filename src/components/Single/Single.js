@@ -20,6 +20,7 @@ import SettingMenu from "../common/SettingMenu";
 import Menus from "../common/SingleMenu/menus";
 import Header from "../common/Header";
 import ContactModal from "./ContactModal";
+import { db } from "../common/SettingMenu/db";
 
 class Single extends React.Component {
   state = {};
@@ -1812,12 +1813,17 @@ class Single extends React.Component {
     } = this.state;
     const { chainElementsNames } = this.state || [];
     const { showLoading, product, configuration, productParts } = this.props;
-    console.log('uipd');
-    const price = configuration.message != "" ? Pricing.priceCalc(
-      product.data.id,
-      productParts.data,
-      configuration,
-    ).price : 0;
+    let tempPrice = db.filter((d) => d.id == product.data.id)[0].options;
+    console.log('tempri', tempPrice);
+    console.log('material', configuration.pa_material.name);
+    let material = configuration.pa_material.name;
+    if(material == "18kt Rose Gold") material = "18ct Recycled Rose Gold";
+    if(material == "18kt Yellow Gold") material = "18ct Recycled Yellow Gold";
+    let temp2 = tempPrice.filter((opt) => opt.text == material)[0];
+    console.log('temp2', temp2);
+    let total = 0;
+    configuration.message.split("").map((e) => total += temp2.letters[e.toUpperCase()]);
+    const price = configuration.message != "" ? total : 0;
     console.log('price product', product);
     console.log('price productPart', productParts);
     console.log('price conf', configuration);

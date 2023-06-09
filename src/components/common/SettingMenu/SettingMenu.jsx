@@ -7,6 +7,7 @@ import { setSavedAction } from "../../../store/actions";
 import Footer from "../Footer";
 import Menus from "../SingleMenu/menus";
 import { Close } from "../../../assets";
+import { db } from "./db";
 
 const SettingMenu = (props) => {
   const [tabId, setTabId] = useState("message");
@@ -43,13 +44,22 @@ const SettingMenu = (props) => {
     )
   );
   useEffect(() => {
-    console.log("product attribute in setting", props.product.attributes);
+    console.log("product ", props.product);
+    console.log("dba", db);
     console.log("themes", themes);
     setThemeCols(themes.data);
-    setMetals(
-      props.product.attributes.filter((attr) => attr.name == "Material")[0]
-        .options
-    );
+    let tempMetals = props.product.attributes.filter(
+      (attr) => attr.name == "Material"
+    )[0].options;
+    console.log("temp", tempMetals);
+
+    tempMetals.map((tempMetal) => {
+      if (tempMetal.id == 20) {
+        tempMetal.name = "950 Platinum";
+      }
+    });
+
+    setMetals(tempMetals);
     if (props.product.id !== 408) {
       setSizes(
         props.product.attributes.filter((attr) => attr.name == "Size")[0]
