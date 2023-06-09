@@ -228,7 +228,10 @@ const SettingMenu = (props) => {
                   <div className="message__input-container">
                     <div className="morse-code" id="morseContainer">
                       <div className={`info-message show`}>
-                        <div className="morse-code__single" style={{marginLeft: "-20px"}}>
+                        <div
+                          className="morse-code__single"
+                          style={{ marginLeft: "-20px" }}
+                        >
                           {props.buildMorseCode(props.msg)}
                         </div>
                       </div>
@@ -391,19 +394,24 @@ const SettingMenu = (props) => {
         </div>
         {showMobile && (
           <div className="mobile-setting-menu mobile-setting-menu--after-open flex flex-col items-end md:hidden w-full">
-            <div className="mr-3" onClick={() => setShowMobile(false)}>
+            <div
+              className="mr-3"
+              onClick={() => setShowMobile(false)}
+              style={{ zIndex: 1000 }}
+            >
               <Close />
             </div>
             {tabId == "message" && (
-              <div
-                className="flex flex-row mt-4 justify-content w-full"
-              >
+              <div className="flex flex-row mt-4 justify-content w-full">
                 <div className="md:basis-11/12 w-full">
                   <div className="message__inputs">
                     <div className="message__input-container">
                       <div className="morse-code" id="morseContainer">
                         <div className={`info-message show`}>
-                          <div className="morse-code__single" style={{marginLeft: "-20px"}}>
+                          <div
+                            className="morse-code__single"
+                            style={{ marginLeft: "-20px" }}
+                          >
                             {props.buildMorseCode(props.msg)}
                           </div>
                         </div>
