@@ -1817,12 +1817,27 @@ class Single extends React.Component {
     console.log('tempri', tempPrice);
     console.log('material', configuration.pa_material.name);
     let material = configuration.pa_material.name;
-    if(material == "18kt Rose Gold") material = "18ct Recycled Rose Gold";
-    if(material == "18kt Yellow Gold") material = "18ct Recycled Yellow Gold";
+    if (material == "18kt Rose Gold") material = "18ct Recycled Rose Gold";
+    if (material == "18kt Yellow Gold") material = "18ct Recycled Yellow Gold";
     let temp2 = tempPrice.filter((opt) => opt.text == material)[0];
     console.log('temp2', temp2);
     let total = 0;
-    configuration.message.split("").map((e) => total += temp2.letters[e.toUpperCase()]);
+    if (product.data.id == 83) {
+      let necklaceLetters = db.filter((d) => d.id == product.data.id)[0].letters;
+      console.log('necklace letters', necklaceLetters);
+      let stonesNum = 0;
+      let letters = configuration.message.trim().split("").filter((e) => e !== " ");
+      console.log('letters', letters);
+      letters.map((e) => {
+        stonesNum += necklaceLetters[e.toUpperCase()];
+      });
+      let wordNum = configuration.message.split(" ").length;
+      console.log('stone number', stonesNum);
+      total = stonesNum * temp2.stone + temp2.basic + temp2.spacer * (letters.length - wordNum) + temp2.hexagon * wordNum;
+      console.log('lenghts', configuration.message.split(" ").length, ' ', configuration.message.trim().split(""));
+    }
+    else { configuration.message.split("").map((e) => total += temp2.letters[e.toUpperCase()]); }
+
     const price = configuration.message != "" ? total : 0;
     console.log('price product', product);
     console.log('price productPart', productParts);
