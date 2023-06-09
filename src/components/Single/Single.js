@@ -1860,7 +1860,7 @@ class Single extends React.Component {
       return (
         <div>
           <Header showContactModal={this.showContactModal} value={price} />
-          <div className="single" style={{ height, maxHeight: "85vh" }}>
+          <div className="single" style={{ height: "70vh" }}>
             <div className="single__threejs">
               <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
@@ -1891,7 +1891,7 @@ class Single extends React.Component {
       return (
         <div>
           <Header showContactModal={this.showContactModal} value={price} />
-          <div className="single" style={{ height, maxHeight: "85vh" }}>
+          <div className="single" style={{ height: "70vh" }}>
             <div className="single__threejs">
               <div className={`info-message ${showInfos ? "show" : "hide"}`}>
                 <div className="morse-code__single">
@@ -1941,7 +1941,7 @@ class Single extends React.Component {
     return (
       <div>
         <Header showContactModal={this.showContactModal} value={price} />
-        <div className="single" style={{ height, maxHeight: "85vh" }}>
+        <div className="single" style={{ height: "70vh" }}>
           <div className="single__threejs">
             <div className={`info-message show`}>
               <div className="morse-code__single">

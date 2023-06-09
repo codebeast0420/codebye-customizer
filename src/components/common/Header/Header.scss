@@ -1,5 +1,15 @@
 @import "../../../styles/index.scss";
 
+.header-height {
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  .header-height {
+    height: 30vh;
+  }
+}
+
 .header {
   padding-top: 15px;
   height: 80px;
