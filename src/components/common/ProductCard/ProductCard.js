@@ -68,9 +68,6 @@ class ProductCard extends React.PureComponent {
         <div className="product__title">
           {product.name}
         </div>
-        <div className="product__subtitle">
-          {`From ${entities.decode(product.currencies.currency_symbol)}${product.prodEnPrice.value}`}
-        </div>
       </div>
     );
   }
