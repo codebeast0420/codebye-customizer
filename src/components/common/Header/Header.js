@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Logo from './logo.svg'
+import LHLogo from '../../../assets/images/lh-logo.svg';
+import APLogo from '../../../assets/images/ap-logo.svg';
 import ChatLogo from './chat.svg'
 import Pricing from '../../../lib/pricing';
 import { useSelector } from 'react-redux';
@@ -18,6 +20,7 @@ const Header = ({ showContactModal, value }) => {
   const queryString = useSelector((store) => store.queryString);
   const preMadeProduct = useSelector((store) => store.preMadeProduct);
   const [response, setResponse] = useState();
+  const [subLogo, setSubLogo] = useState("");
 
   useEffect(() => {
     console.log('project', product);
@@ -36,6 +39,17 @@ const Header = ({ showContactModal, value }) => {
       setIsDisabled(true);
     }
     else setIsDisabled(false);
+    const currentUrl = window.location.href;
+    console.log('Current URL:', currentUrl, typeof (currentUrl));
+    const lister = "lister";
+    const anjapotze = "anjapotze";
+    if (currentUrl.includes(lister)) {
+      setSubLogo("lister");
+    }
+    if (currentUrl.includes(anjapotze)) {
+      setSubLogo("anjapotze");
+    }
+
   }, [value])
 
   const buy = async () => {
@@ -57,7 +71,11 @@ const Header = ({ showContactModal, value }) => {
           })
           .then(function (response) {
             variant = response.data.variant;
-            window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
+            const open = window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
+            console.log('open', open);
+            if (open === null || typeof (open) === 'undefined') {
+              alert("Pop-Up option is disabled! Please enable Pop-up in setting and try again")
+            }
           })
           .catch(function (error) {
             console.log(error);
@@ -65,7 +83,11 @@ const Header = ({ showContactModal, value }) => {
           });
       } else {
         // ready to redirect
-        window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
+        const open = window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
+        console.log('open', open);
+        if (open === null || typeof (open) === 'undefined') {
+          alert("Pop-Up option is disabled! Please enable Pop-up in setting and try again")
+        }
       }
       console.log(res);
     })
@@ -75,8 +97,15 @@ const Header = ({ showContactModal, value }) => {
     <div className="flex md:flex-row lg:flex-row header-height  flex-col-reverse content-center  gap-4 justify-center mt-6">
       <div className="md:flex basis-1/12 justify-center items-center mx-5 hidden">
         <div className="">
-          <a role="button" tabIndex="0" href="https://codebyedge.co.uk" className="a a-link">
+          <a role="button" tabIndex="0" href="https://codebyedge.co.uk" className="a a-link flex">
             <img src={Logo} alt="logo" srcSet="" width="100" />
+            {subLogo == "lister" && (
+              <img src={LHLogo} className="ml-2" alt="lh-logo" srcSet='' width="150" />
+            )}
+            {subLogo == "anjapotze" && (
+              <img src={APLogo} className="ml-2" alt="lh-logo" srcSet='' width="150" />
+            )}
+
           </a>
         </div>
       </div>
