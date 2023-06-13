@@ -343,6 +343,7 @@ class MessageModal extends React.Component {
                 onFocus={() => this.setState({ inputFocused: true })}
                 onBlur={() => this.setState({ inputFocused: false })}
                 className="message__input"
+                style={{ height: '61px' }}
               />
               {product.messageInputs === 1 && (
                 <div className={`message__placeholder ${visible}`}>
