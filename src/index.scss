@@ -48,6 +48,14 @@
   }
 }
 
+@media (min-width:1023px) {
+  .ipad-setting-menu {
+    width: auto !important;
+    position: relative !important;
+    bottom: auto !important;
+  }
+}
+
 .mobile-setting-menu--after-open {
   transform: translateY(0%);
 }

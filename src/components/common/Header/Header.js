@@ -88,21 +88,21 @@ const Header = ({ showContactModal, value }) => {
 
   return (
     <div className="flex md:flex-row lg:flex-row header-height  flex-col-reverse content-center  gap-4 justify-center mt-6">
-      <div className="md:flex basis-1/12 justify-center items-center mx-5 hidden">
+      <div className="md:flex basis-4/12 justify-center items-center mx-5 hidden">
         <div className="">
           <a role="button" tabIndex="0" href="https://codebyedge.co.uk" className="a a-link flex">
             <img src={Logo} alt="logo" srcSet="" width="100" />
             {subLogo == "lister" && (
-              <img src={LHLogo} className="ml-2" alt="lh-logo" srcSet='' width="150" />
+              <img src={LHLogo} className="ml-2" alt="lh-logo" srcSet='' width="250" height='250' />
             )}
             {subLogo == "anjapotze" && (
-              <img src={APLogo} className="ml-2" alt="lh-logo" srcSet='' width="150" />
+              <img src={APLogo} className="ml-2" alt="lh-logo" srcSet='' width="180" />
             )}
 
           </a>
         </div>
       </div>
-      <div className="md:basis-6/12 basis-8/12 flex justify-center items-center setting-menu-tab" onClick={() => showContactModal()}>
+      <div className="md:basis-3/12 basis-8/12 flex justify-center items-center setting-menu-tab" onClick={() => showContactModal()}>
         <button className="bg-gray-100 hover:bg-gray-200 cbe-btn-text-green cbe-btn-text-font py-2 px-12 rounded-none h-3/4">
           <div className="flex flex-row content-center justify-start gap-x-2">
             <div className="basis-1/4">
