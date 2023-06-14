@@ -121,17 +121,16 @@ const SettingMenu = (props) => {
   };
 
   return (
-    <div className="basis-5/12 flex pr-1 py-4 justify-content">
-      <div className="basis-3/12 hidden md:flex"></div>
-      <div className="md:basis-9/12 w-full flex flex-col-reverse md:flex-col">
+    <div className="lg:basis-5/12 flex pr-1 py-4 justify-content ipad-setting-menu">
+      <div className="basis-3/12 hidden lg:flex"></div>
+      <div className="lg:basis-9/12 w-full flex flex-col-reverse lg:flex-col">
         <div className="flex flex-row justify-content z-50">
           <div className="basis-4/12 pr-1">
             <button
-              className={`${
-                tabId == "message"
-                  ? "bg-[#d4e4e4]"
-                  : "bg-gray-100 hover:bg-gray-200"
-              } text-[#305253] cbe-btn-text-font py-6 w-full rounded-none setting-menu-tab`}
+              className={`${tabId == "message"
+                ? "bg-[#d4e4e4]"
+                : "bg-gray-100 hover:bg-gray-200"
+                } text-[#305253] cbe-btn-text-font py-6 w-full rounded-none setting-menu-tab`}
               onClick={() => {
                 setTabId("message");
                 setShowMobile(true);
@@ -146,11 +145,10 @@ const SettingMenu = (props) => {
           </div>
           <div className="basis-4/12 pr-1">
             <button
-              className={`${
-                tabId == "metal"
-                  ? "bg-[#d4e4e4]"
-                  : "bg-gray-100 hover:bg-gray-200"
-              } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
+              className={`${tabId == "metal"
+                ? "bg-[#d4e4e4]"
+                : "bg-gray-100 hover:bg-gray-200"
+                } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
               onClick={() => {
                 setTabId("metal");
                 setShowMobile(true);
@@ -167,11 +165,10 @@ const SettingMenu = (props) => {
           {props.product.id !== 185 && props.product.id !== 186 && (
             <div className="basis-4/12 pr-1">
               <button
-                className={`${
-                  tabId == "theme"
-                    ? "bg-[#d4e4e4]"
-                    : "bg-gray-100 hover:bg-gray-200"
-                } text-[#305253] cbe-btn-text-font py-6 w-full rounded-none setting-menu-tab`}
+                className={`${tabId == "theme"
+                  ? "bg-[#d4e4e4]"
+                  : "bg-gray-100 hover:bg-gray-200"
+                  } text-[#305253] cbe-btn-text-font py-6 w-full rounded-none setting-menu-tab`}
                 onClick={() => {
                   setTabId("theme");
                   setShowMobile(true);
@@ -188,11 +185,10 @@ const SettingMenu = (props) => {
           {props.product.id !== 408 && (
             <div className="basis-4/12">
               <button
-                className={`${
-                  tabId == "size"
-                    ? "bg-[#d4e4e4]"
-                    : "bg-gray-100 hover:bg-gray-200"
-                } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
+                className={`${tabId == "size"
+                  ? "bg-[#d4e4e4]"
+                  : "bg-gray-100 hover:bg-gray-200"
+                  } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
                 onClick={() => {
                   setTabId("size");
                   setShowMobile(true);
@@ -210,11 +206,10 @@ const SettingMenu = (props) => {
           {props.product.id == 408 && (
             <div className="basis-4/12">
               <button
-                className={`${
-                  tabId == "style"
-                    ? "bg-[#d4e4e4]"
-                    : "bg-gray-100 hover:bg-gray-200"
-                } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
+                className={`${tabId == "style"
+                  ? "bg-[#d4e4e4]"
+                  : "bg-gray-100 hover:bg-gray-200"
+                  } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
                 onClick={() => {
                   setTabId("style");
                   setShowMobile(true);
@@ -230,10 +225,10 @@ const SettingMenu = (props) => {
             </div>
           )}
         </div>
-        <div className="hidden md:flex">
+        <div className="hidden lg:flex">
           {tabId == "message" && (
             <div className="flex flex-row mt-4 justify-content">
-              <div className="md:basis-11/12 w-full">
+              <div className="lg:basis-11/12 w-full">
                 <div className="message__inputs">
                   <div className="message__input-container">
                     <div className="morse-code" id="morseContainer">
@@ -276,11 +271,10 @@ const SettingMenu = (props) => {
                 {metals.map((metal, index) => (
                   <button
                     key={index}
-                    className={`${
-                      metal.name == activeMetal
-                        ? "cbe-bg-green-lightest"
-                        : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    className={`${metal.name == activeMetal
+                      ? "cbe-bg-green-lightest"
+                      : "bg-gray-100 hover:bg-gray-200"
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                     onClick={() => changeMetal(metal)}
                   >
                     <div className="flex justify-between px-8 justify-between">
@@ -324,11 +318,10 @@ const SettingMenu = (props) => {
                 {themeCols.map((theme, index) => (
                   <button
                     key={index}
-                    className={`${
-                      theme.name == activeTheme
-                        ? "cbe-bg-green-lightest"
-                        : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    className={`${theme.name == activeTheme
+                      ? "cbe-bg-green-lightest"
+                      : "bg-gray-100 hover:bg-gray-200"
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                     onClick={() => changeTheme(theme)}
                   >
                     <div className="flex justify-between px-8 justify-between">
@@ -349,11 +342,10 @@ const SettingMenu = (props) => {
                   {sizes.map((size, index) => (
                     <button
                       key={index}
-                      className={`${
-                        activeSize == size.name
-                          ? "cbe-bg-green-lightest"
-                          : "bg-gray-100 hover:bg-gray-200"
-                      } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                      className={`${activeSize == size.name
+                        ? "cbe-bg-green-lightest"
+                        : "bg-gray-100 hover:bg-gray-200"
+                        } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
                       onClick={() => setActiveSize(size.name)}
                     >
                       {size.name}
@@ -388,11 +380,10 @@ const SettingMenu = (props) => {
                 {styles.map((style, index) => (
                   <button
                     key={index}
-                    className={`${
-                      activeStyle == style.name
-                        ? "cbe-bg-green-lightest"
-                        : "bg-gray-100 hover:bg-gray-200"
-                    } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                    className={`${activeStyle == style.name
+                      ? "cbe-bg-green-lightest"
+                      : "bg-gray-100 hover:bg-gray-200"
+                      } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
                     onClick={() => changeStyle(style)}
                   >
                     {style.name}
@@ -403,7 +394,7 @@ const SettingMenu = (props) => {
           )}
         </div>
         {showMobile && (
-          <div className="mobile-setting-menu mobile-setting-menu--after-open flex flex-col items-end md:hidden w-full">
+          <div className="mobile-setting-menu mobile-setting-menu--after-open flex flex-col items-end lg:hidden w-full">
             <div
               className="mr-3"
               onClick={() => setShowMobile(false)}
@@ -413,7 +404,7 @@ const SettingMenu = (props) => {
             </div>
             {tabId == "message" && (
               <div className="flex flex-row mt-4 justify-content w-full">
-                <div className="md:basis-11/12 w-full">
+                <div className="lg:basis-11/12 w-full">
                   <div className="message__inputs">
                     <div className="message__input-container">
                       <div className="morse-code" id="morseContainer">
@@ -455,11 +446,10 @@ const SettingMenu = (props) => {
                 {metals.map((metal, index) => (
                   <button
                     key={index}
-                    className={`${
-                      metal.name == activeMetal
-                        ? "cbe-bg-green-lightest"
-                        : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    className={`${metal.name == activeMetal
+                      ? "cbe-bg-green-lightest"
+                      : "bg-gray-100 hover:bg-gray-200"
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                     onClick={() => changeMetal(metal)}
                   >
                     <div className="flex justify-between px-8 justify-between">
@@ -503,11 +493,10 @@ const SettingMenu = (props) => {
                 {themeCols.map((theme, index) => (
                   <button
                     key={index}
-                    className={`${
-                      theme.name == activeTheme
-                        ? "cbe-bg-green-lightest"
-                        : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    className={`${theme.name == activeTheme
+                      ? "cbe-bg-green-lightest"
+                      : "bg-gray-100 hover:bg-gray-200"
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                     onClick={() => changeTheme(theme)}
                   >
                     <div className="flex justify-between px-8 justify-between">
@@ -526,11 +515,10 @@ const SettingMenu = (props) => {
                   {sizes.map((size, index) => (
                     <button
                       key={index}
-                      className={`${
-                        activeSize == size.name
-                          ? "cbe-bg-green-lightest"
-                          : "bg-gray-100 hover:bg-gray-200"
-                      } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                      className={`${activeSize == size.name
+                        ? "cbe-bg-green-lightest"
+                        : "bg-gray-100 hover:bg-gray-200"
+                        } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
                       onClick={() => setActiveSize(size.name)}
                     >
                       {size.name}
@@ -564,11 +552,10 @@ const SettingMenu = (props) => {
                   {styles.map((style, index) => (
                     <button
                       key={index}
-                      className={`${
-                        activeStyle == style.name
-                          ? "cbe-bg-green-lightest"
-                          : "bg-gray-100 hover:bg-gray-200"
-                      } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                      className={`${activeStyle == style.name
+                        ? "cbe-bg-green-lightest"
+                        : "bg-gray-100 hover:bg-gray-200"
+                        } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
                       onClick={() => changeStyle(style)}
                     >
                       {style.name}

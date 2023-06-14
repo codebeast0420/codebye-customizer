@@ -36,6 +36,18 @@
   background-color: white;
 }
 
+@media (min-width: 605px) {
+  .ipad-setting-menu {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .mobile-setting-menu {
+    bottom: 10vh !important;
+  }
+}
+
 .mobile-setting-menu--after-open {
   transform: translateY(0%);
 }
