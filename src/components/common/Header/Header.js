@@ -71,11 +71,8 @@ const Header = ({ showContactModal, value }) => {
           })
           .then(function (response) {
             variant = response.data.variant;
-            const open = window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
-            console.log('open', open);
-            if (open === null || typeof (open) === 'undefined') {
-              alert("Pop-Up option is disabled! Please enable Pop-up in setting and try again")
-            }
+            window.location.assign(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "");
+
           })
           .catch(function (error) {
             console.log(error);
@@ -83,11 +80,7 @@ const Header = ({ showContactModal, value }) => {
           });
       } else {
         // ready to redirect
-        const open = window.open(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "_blank");
-        console.log('open', open);
-        if (open === null || typeof (open) === 'undefined') {
-          alert("Pop-Up option is disabled! Please enable Pop-up in setting and try again")
-        }
+        window.location.assign(`https://codebyedge.co.uk/cart/add?id=${variant.id}&quantity=1&properties[message]=${encodeURIComponent(configuration.message)}&properties[finish]=${encodeURIComponent(configuration.pa_material.name)}&properties[size]=${encodeURIComponent(configuration.pa_size.name)}`, "");
       }
       console.log(res);
     })

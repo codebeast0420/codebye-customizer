@@ -1862,6 +1862,17 @@ class Single extends React.Component {
           <Header showContactModal={this.showContactModal} value={price} />
           <div className="single" style={{ height: "70vh" }}>
             <div className="single__threejs">
+              <div className={`info-message ${showInfos ? "show" : "hide"}`}>
+                <div className="morse-code__single">
+                  {this.buildMorseCode(configuration.message)}
+                </div>
+                <div
+                  className="message-info__single"
+                  dangerouslySetInnerHTML={{
+                    __html: this.wrapChars(configuration.message),
+                  }}
+                />
+              </div>
               <JewerlyRingsRenderer
                 ringsUrls={ringsUrls}
                 stoneColor={stoneColor}
@@ -1943,7 +1954,7 @@ class Single extends React.Component {
         <Header showContactModal={this.showContactModal} value={price} />
         <div className="single" style={{ height: "70vh" }}>
           <div className="single__threejs">
-            <div className={`info-message show`}>
+            <div className={`info-message ${showInfos ? "show" : "hide"}`}>
               <div className="morse-code__single">
                 {this.buildMorseCode(configuration.message)}
               </div>
