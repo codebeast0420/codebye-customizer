@@ -88,21 +88,21 @@ const Header = ({ showContactModal, value }) => {
 
   return (
     <div className="flex md:flex-row lg:flex-row header-height  flex-col-reverse content-center  gap-4 justify-center mt-6">
-      <div className="md:flex basis-4/12 justify-center items-center mx-5 hidden">
+      <div className="md:flex basis-4/12 justify-center items-center hidden">
         <div className="">
           <a role="button" tabIndex="0" href="https://codebyedge.co.uk" className="a a-link flex">
             <img src={Logo} alt="logo" srcSet="" width="100" />
             {subLogo == "lister" && (
-              <img src={LHLogo} className="ml-2" alt="lh-logo" srcSet='' width="250" height='250' />
+              <img src={LHLogo} className="ml-2 lh-logo" alt="lh-logo" srcSet='' />
             )}
             {subLogo == "anjapotze" && (
-              <img src={APLogo} className="ml-2" alt="lh-logo" srcSet='' width="180" />
+              <img src={APLogo} className="ml-3 ap-logo" alt="lh-logo" srcSet='' />
             )}
 
           </a>
         </div>
       </div>
-      <div className="md:basis-3/12 basis-8/12 flex justify-center items-center setting-menu-tab" onClick={() => showContactModal()}>
+      <div className="md:basis-4/12 basis-8/12 flex justify-center items-center setting-menu-tab" onClick={() => showContactModal()}>
         <button className="bg-gray-100 hover:bg-gray-200 cbe-btn-text-green cbe-btn-text-font py-2 px-12 rounded-none h-3/4">
           <div className="flex flex-row content-center justify-start gap-x-2">
             <div className="basis-1/4">
@@ -114,7 +114,7 @@ const Header = ({ showContactModal, value }) => {
           </div>
         </button>
       </div>
-      <div className="basis-5/12 flex pr-1 justify-end">
+      <div className="basis-4/12 flex pr-1 justify-end">
         <div className="md:basis-9/12 w-full flex justify-center">
           <button className={`${isDisabled ? "disabledBtn" : "bg-[#183e3f]"} hover:bg-teal-700 w-full py-8 px-4 rounded-lg justify-self-end text-2xl font-extrabold text-white`} disabled={isDisabled} onClick={() => buy()}>
             <div className="flex justify-between md:flex-col lg:flex-row items-center px-8 justify-between" >

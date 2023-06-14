@@ -56,6 +56,26 @@
   }
 }
 
+@media (max-width: 1023px) {
+  .ap-logo {
+    width: 150px;
+  }
+
+  .lh-logo {
+    width: 180px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ap-logo {
+    width: 170px;
+  }
+
+  .lh-logo {
+    width: 250px;
+  }
+}
+
 .mobile-setting-menu--after-open {
   transform: translateY(0%);
 }
