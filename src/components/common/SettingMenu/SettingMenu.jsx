@@ -296,7 +296,7 @@ const SettingMenu = (props) => {
                 <p className="mb-4 font-semibold">Looking for another metal?</p>
                 <p className="mb-4 font-semibold">Contact Us</p>
                 <p className="mb-1 font-semibold">
-                  Call us on +44 20 3883 1388
+                  Contact us on WhatsApp ++44 73 8880 8226
                 </p>
                 <p className="mb-1 font-semibold">
                   Monday to Friday - 10 AM - 5:30 PM
@@ -367,7 +367,7 @@ const SettingMenu = (props) => {
                 </p>
                 <p className="mb-4 font-semibold">Contact Us</p>
                 <p className="mb-1 font-semibold">
-                  Call us on +44 20 3883 1388
+                  Contact us on WhatsApp ++44 73 8880 8226
                 </p>
                 <p className="mb-1 font-semibold">
                   Monday to Friday - 10 AM - 5:30 PM
@@ -476,7 +476,7 @@ const SettingMenu = (props) => {
                   </p>
                   <p className="mb-4 font-semibold">Contact Us</p>
                   <p className="mb-1 font-semibold">
-                    Call us on +44 20 3883 1388
+                    Contact us on WhatsApp ++44 73 8880 8226
                   </p>
                   <p className="mb-1 font-semibold">
                     Monday to Friday - 10 AM - 5:30 PM
@@ -543,7 +543,7 @@ const SettingMenu = (props) => {
                   </p>
                   <p className="mb-4 font-semibold">Contact Us</p>
                   <p className="mb-1 font-semibold">
-                    Call us on +44 20 3883 1388
+                    Contact us on WhatsApp ++44 73 8880 8226
                   </p>
                   <p className="mb-1 font-semibold">
                     Monday to Friday - 10 AM - 5:30 PM
