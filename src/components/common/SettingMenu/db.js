@@ -6,7 +6,7 @@ export const db = [
       {
         text: "18ct Recycled Yellow Gold",
         letters: {
-          A: 1325,
+          "A": 1325,
           "B": 1525,
           "C": 1775,
           "D": 1425,

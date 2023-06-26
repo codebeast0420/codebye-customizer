@@ -9,6 +9,8 @@ import { store } from '../../../lib/env';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { URL, client } from '../../../lib/env'
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
+import { firebaseDB } from '../../../lib/firebase';
 
 const Header = ({ showContactModal, value }) => {
   const product = useSelector((store) => store.product);
@@ -21,6 +23,7 @@ const Header = ({ showContactModal, value }) => {
   const preMadeProduct = useSelector((store) => store.preMadeProduct);
   const [response, setResponse] = useState();
   const [subLogo, setSubLogo] = useState("");
+  const [price, setPrice] = useState(0);
 
   useEffect(() => {
     console.log('project', product);
@@ -35,29 +38,57 @@ const Header = ({ showContactModal, value }) => {
   }, []);
 
   useEffect(() => {
-    if (!value) {
-      setIsDisabled(true);
+    console.log('changed', product.data.id);
+    if (product.data.id != 186 && product.data.id != 185) {
+      if (!value) {
+        setIsDisabled(true);
+      }
+      else setIsDisabled(false);
+      const currentUrl = window.location.href;
+      console.log('Current URL:', currentUrl, typeof (currentUrl));
+      const lister = "lister";
+      const anjapotze = "anjapotze";
+      if (currentUrl.includes(lister)) {
+        setSubLogo("lister");
+      }
+      if (currentUrl.includes(anjapotze)) {
+        setSubLogo("anjapotze");
+      }
+      setPrice(value);
     }
-    else setIsDisabled(false);
-    const currentUrl = window.location.href;
-    console.log('Current URL:', currentUrl, typeof (currentUrl));
-    const lister = "lister";
-    const anjapotze = "anjapotze";
-    if (currentUrl.includes(lister)) {
-      setSubLogo("lister");
+    else {
+      let priceDB = [];
+      let material = configuration.pa_material.name;
+      if (material == "18kt Rose Gold") material = "18ct Recycled Rose Gold";
+      if (material == "18kt Yellow Gold") material = "18ct Recycled Yellow Gold";
+      let q = null;
+      if (product.data.id == 186) {
+        q = query(collection(firebaseDB, 'amanti'))
+      }
+      if (product.data.id == 185) {
+        q = query(collection(firebaseDB, 'mayfair'))
+      }
+      onSnapshot(q, async (querySnapshot) => {
+        console.log('query', querySnapshot.docs);
+        priceDB = querySnapshot.docs.filter(doc => (
+          doc.id == material
+        ))[0].data();
+        let total = 0;
+        configuration.message.split("").map((e) => {
+          total += priceDB[e.toUpperCase()];
+          console.log('total', total)
+        });
+        setPrice(total);
+      })
     }
-    if (currentUrl.includes(anjapotze)) {
-      setSubLogo("anjapotze");
-    }
-
-  }, [value])
+  }, [configuration])
 
   const buy = async () => {
     axios.post("https://codeby-backend.vercel.app/add-to-cart", { productId: productId }).then((res) => {
       let variants = res.data.product?.variants;
       let variant = "not_found";
       variants.map((v) => {
-        if (parseInt(v.price) == parseInt(value)) {
+        if (parseInt(v.price) == parseInt(price)) {
           variant = v;
         }
       });
@@ -67,7 +98,7 @@ const Header = ({ showContactModal, value }) => {
         axios
           .post("https://codeby-backend.vercel.app/create-cart", {
             productId: productId,
-            price: value,
+            price: price,
           })
           .then(function (response) {
             variant = response.data.variant;
@@ -118,7 +149,7 @@ const Header = ({ showContactModal, value }) => {
         <div className="md:basis-9/12 w-full flex justify-center">
           <button className={`${isDisabled ? "disabledBtn" : "bg-[#183e3f]"} hover:bg-teal-700 w-full py-8 px-4 rounded-lg justify-self-end text-2xl font-extrabold text-white`} disabled={isDisabled} onClick={() => buy()}>
             <div className="flex justify-between md:flex-col lg:flex-row items-center px-8 justify-between" >
-              <p style={{ fontFamily: "Comorant" }}>£{value}</p>
+              <p style={{ fontFamily: "Comorant" }}>£{price}</p>
               <p style={{ fontFamily: "Cormorant Garamond" }}>Buy Now</p>
             </div>
           </button>
