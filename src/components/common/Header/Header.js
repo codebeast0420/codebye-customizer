@@ -39,29 +39,12 @@ const Header = ({ showContactModal, value }) => {
 
   useEffect(() => {
     console.log('changed', product.data.id);
-    if (product.data.id != 186 && product.data.id != 185) {
-      if (!value) {
-        setIsDisabled(true);
-      }
-      else setIsDisabled(false);
-      const currentUrl = window.location.href;
-      console.log('Current URL:', currentUrl, typeof (currentUrl));
-      const lister = "lister";
-      const anjapotze = "anjapotze";
-      if (currentUrl.includes(lister)) {
-        setSubLogo("lister");
-      }
-      if (currentUrl.includes(anjapotze)) {
-        setSubLogo("anjapotze");
-      }
-      setPrice(value);
-    }
-    else {
-      let priceDB = [];
-      let material = configuration.pa_material.name;
-      if (material == "18kt Rose Gold") material = "18ct Recycled Rose Gold";
-      if (material == "18kt Yellow Gold") material = "18ct Recycled Yellow Gold";
-      let q = null;
+    let priceDB = [];
+    let material = configuration.pa_material.name;
+    if (material == "18kt Rose Gold") material = "18ct Recycled Rose Gold";
+    if (material == "18kt Yellow Gold") material = "18ct Recycled Yellow Gold";
+    let q = null;
+    if (product.data.id == 186 || product.data.id == 185) {
       if (product.data.id == 186) {
         q = query(collection(firebaseDB, 'amanti'))
       }
@@ -80,6 +63,52 @@ const Header = ({ showContactModal, value }) => {
         });
         setPrice(total);
       })
+    }
+    else if (product.data.id == 83) {
+      q = query(collection(firebaseDB, 'aquafiore-neck'));
+      onSnapshot(q, async (querySnapshot) => {
+        console.log('query', querySnapshot.docs);
+        priceDB = querySnapshot.docs.filter(doc => (
+          doc.id == material
+        ))[0].data();
+        let total = 0;
+        let stonesNum = 0;
+        let letters = configuration.message.trim().split("").filter((e) => e.charCodeAt() !== 160 && e.charCodeAt() !== 32);
+        letters.map((e) => {
+          if (priceDB[e.toUpperCase()]) {
+            stonesNum += priceDB[e.toUpperCase()];
+          }
+        });
+        let wordNum = 0;
+        configuration.message.split("").map((e) => {
+          console.log('ascill', e.charCodeAt())
+          if (e.charCodeAt() == 160 || e.charCodeAt() == 32) {
+            wordNum++;
+          }
+        });
+        wordNum = wordNum + 1;
+        console.log('stone number', stonesNum, wordNum);
+        total = stonesNum * priceDB["stone"] + priceDB["basic"] + priceDB["spacer"] * (letters.length - wordNum) + priceDB["hexagon"] * (wordNum);
+        console.log('lenghts', configuration.message.split('').filter((e) => e == null), ' ', configuration.message.trim().split(""));
+        setPrice(total);
+      })
+    }
+    else {
+      if (!value) {
+        setIsDisabled(true);
+      }
+      else setIsDisabled(false);
+      const currentUrl = window.location.href;
+      console.log('Current URL:', currentUrl, typeof (currentUrl));
+      const lister = "lister";
+      const anjapotze = "anjapotze";
+      if (currentUrl.includes(lister)) {
+        setSubLogo("lister");
+      }
+      if (currentUrl.includes(anjapotze)) {
+        setSubLogo("anjapotze");
+      }
+      setPrice(value);
     }
   }, [configuration])
 
