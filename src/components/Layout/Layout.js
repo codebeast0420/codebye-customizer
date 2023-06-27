@@ -36,7 +36,13 @@ class Layout extends React.PureComponent {
         <Loading>
           <Switch>
             <Route exact path="/" component={RoutedArchive} />
-            <Route exact path="/product" component={RoutedSingle} />
+            <Route exact path="/amanti" component={RoutedSingle} />
+            <Route exact path="/mayfair" component={RoutedSingle} />
+            <Route exact path="/aquafiore/bracelet" component={RoutedSingle} />
+            <Route exact path="/aquafiore/earrings" component={RoutedSingle} />
+            <Route exact path="/aquafiore/necklace" component={RoutedSingle} />
+            <Route exact path="/aquafiore/pendant" component={RoutedSingle} />
+            <Route exact path="/bracelet" component={RoutedBracelet} />
             <Route exact path="/bracelet" component={RoutedBracelet} />
             <Route exact path="/product/:id" component={RoutedArchive} />
             <Route exact path="/s_product/:id" component={RoutedShare} />

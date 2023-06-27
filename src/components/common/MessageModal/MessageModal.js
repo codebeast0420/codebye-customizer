@@ -213,6 +213,15 @@ class MessageModal extends React.Component {
     const {
       onClose, product, dispatchGetProduct, configuration,
     } = this.props;
+    let productUrl = '';
+    switch (product.id) {
+      case 186: productUrl = "/amanti"; break;
+      case 185: productUrl = "/mayfair"; break;
+      case 402: productUrl = "/aquafiore/bracelet"; break;
+      case 405: productUrl = "/aquafiore/pendant"; break;
+      case 408: productUrl = "/aquafiore/earrings"; break;
+      default: productUrl = "/aquafiore/necklace"; break;
+    }
     const {
       html,
       htmlTwo,
@@ -403,7 +412,7 @@ class MessageModal extends React.Component {
           </div>
           <Footer
             {...this.props}
-            to="/product"
+            to={productUrl}
             message={message + textTwo}
             beforeNavigation={dispatchGetProduct}
             disabled={message === '' || (product.id === 408 && textTwo === '')}
