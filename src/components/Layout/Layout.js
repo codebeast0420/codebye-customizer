@@ -1,18 +1,13 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import _ from 'underscore';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
-import Header from '../common/Header';
 import Archive from '../Archive';
 import Single from '../Single';
 import Loading from '../common/Loading';
-import Share from '../Share';
 import NoMatch from '../common/NoMatch';
-import { URL } from '../../lib/env';
-import { setProductConfigurationAction, getProductPartsAction, getThemesAction } from '../../store/actions';
 import Amanti from '../Single/Amanti';
 import Mayfair from '../Single/Mayfair';
 import Necklace from '../Single/Necklace';
@@ -31,21 +26,7 @@ const RoutedPendant = (props) => <Loading><Pendant {...props} category='pendant'
 
 const Layout = () => {
   const product = useSelector(store => store.product);
-  const preMadeProduct = useSelector(store => store.preMadeProduct);
-  const changingProduct = useSelector(store => store.changingProduct);
 
-  const dispatch = useDispatch();
-  const dispatchSetConfiguration = (conf) => {
-    dispatch(setProductConfigurationAction(conf));
-  }
-
-  const dispatchGetProductParts = () => {
-    dispatch(getProductPartsAction);
-  }
-
-  const dispatchGetThemes = () => {
-    dispatch(getThemesAction);
-  }
   useEffect(() => {
     console.log('success', product);
   }, [])
