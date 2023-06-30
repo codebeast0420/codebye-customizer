@@ -11,8 +11,9 @@ import imageCompression from 'browser-image-compression';
 import { URL, client } from '../../../lib/env'
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
 import { firebaseDB } from '../../../lib/firebase';
+import { db } from '../SettingMenu/db';
 
-const Header = ({ showContactModal, value }) => {
+const Header = ({ showContactModal, message }) => {
   const product = useSelector((store) => store.product);
   const productParts = useSelector((store) => store.productParts);
   const configuration = useSelector((store) => store.configuration);
@@ -44,71 +45,82 @@ const Header = ({ showContactModal, value }) => {
     if (material == "18kt Rose Gold") material = "18ct Recycled Rose Gold";
     if (material == "18kt Yellow Gold") material = "18ct Recycled Yellow Gold";
     let q = null;
-    if (product.data.id == 186 || product.data.id == 185) {
-      if (product.data.id == 186) {
-        q = query(collection(firebaseDB, 'amanti'))
-      }
-      if (product.data.id == 185) {
-        q = query(collection(firebaseDB, 'mayfair'))
-      }
-      onSnapshot(q, async (querySnapshot) => {
-        console.log('query', querySnapshot.docs);
-        priceDB = querySnapshot.docs.filter(doc => (
-          doc.id == material
-        ))[0].data();
-        let total = 0;
-        configuration.message.split("").map((e) => {
-          total += priceDB[e.toUpperCase()];
-          console.log('total', total)
-        });
-        setPrice(total);
-      })
-    }
-    else if (product.data.id == 83) {
-      q = query(collection(firebaseDB, 'aquafiore-neck'));
-      onSnapshot(q, async (querySnapshot) => {
-        console.log('query', querySnapshot.docs);
-        priceDB = querySnapshot.docs.filter(doc => (
-          doc.id == material
-        ))[0].data();
-        let total = 0;
-        let stonesNum = 0;
-        let letters = configuration.message.trim().split("").filter((e) => e.charCodeAt() !== 160 && e.charCodeAt() !== 32);
-        letters.map((e) => {
-          if (priceDB[e.toUpperCase()]) {
-            stonesNum += priceDB[e.toUpperCase()];
-          }
-        });
-        let wordNum = 0;
-        configuration.message.split("").map((e) => {
-          console.log('ascill', e.charCodeAt())
-          if (e.charCodeAt() == 160 || e.charCodeAt() == 32) {
-            wordNum++;
-          }
-        });
-        wordNum = wordNum + 1;
-        console.log('stone number', stonesNum, wordNum);
-        total = stonesNum * priceDB["stone"] + priceDB["basic"] + priceDB["spacer"] * (letters.length - wordNum) + priceDB["hexagon"] * (wordNum);
-        console.log('lenghts', configuration.message.split('').filter((e) => e == null), ' ', configuration.message.trim().split(""));
-        setPrice(total);
-      })
+    if (!product.data.id || message == "") {
+      setPrice(0);
     }
     else {
-      if (!value) {
-        setIsDisabled(true);
+      if (product.data.id == 186 || product.data.id == 185) {
+        if (product.data.id == 186) {
+          q = query(collection(firebaseDB, 'amanti'))
+        }
+        if (product.data.id == 185) {
+          q = query(collection(firebaseDB, 'mayfair'))
+        }
+        onSnapshot(q, async (querySnapshot) => {
+          console.log('query', querySnapshot.docs);
+          priceDB = querySnapshot.docs.filter(doc => (
+            doc.id == material
+          ))[0].data();
+          let total = 0;
+          configuration.message.split("").map((e) => {
+            total += priceDB[e.toUpperCase()];
+            console.log('total', total)
+          });
+          setPrice(total);
+          setIsDisabled(false)
+        })
       }
-      else setIsDisabled(false);
-      const currentUrl = window.location.href;
-      console.log('Current URL:', currentUrl, typeof (currentUrl));
-      const lister = "lister";
-      const anjapotze = "anjapotze";
-      if (currentUrl.includes(lister)) {
-        setSubLogo("lister");
+      else if (product.data.id == 83) {
+        q = query(collection(firebaseDB, 'aquafiore-neck'));
+        onSnapshot(q, async (querySnapshot) => {
+          console.log('query', querySnapshot.docs);
+          priceDB = querySnapshot.docs.filter(doc => (
+            doc.id == material
+          ))[0].data();
+          let total = 0;
+          let stonesNum = 0;
+          let letters = configuration.message.trim().split("").filter((e) => e.charCodeAt() !== 160 && e.charCodeAt() !== 32);
+          letters.map((e) => {
+            if (priceDB[e.toUpperCase()]) {
+              stonesNum += priceDB[e.toUpperCase()];
+            }
+          });
+          let wordNum = 0;
+          configuration.message.split("").map((e) => {
+            console.log('ascill', e.charCodeAt())
+            if (e.charCodeAt() == 160 || e.charCodeAt() == 32) {
+              wordNum++;
+            }
+          });
+          wordNum = wordNum + 1;
+          console.log('stone number', stonesNum, wordNum);
+          total = stonesNum * priceDB["stone"] + priceDB["basic"] + priceDB["spacer"] * (letters.length - wordNum) + priceDB["hexagon"] * (wordNum);
+          console.log('lenghts', configuration.message.split('').filter((e) => e == null), ' ', configuration.message.trim().split(""));
+          setPrice(total);
+          setIsDisabled(false)
+        })
       }
-      if (currentUrl.includes(anjapotze)) {
-        setSubLogo("anjapotze");
+      else {
+        let tempPrice = db.filter((d) => d.id == product.data.id)[0].options;
+        console.log('tempri', tempPrice);
+        let temp2 = tempPrice.filter((opt) => opt.text == material)[0];
+        console.log('temp2', temp2);
+        let total = 0;
+        configuration.message.split("").map((e) => total += temp2.letters[e.toUpperCase()]);
+
+        const currentUrl = window.location.href;
+        console.log('Current URL:', currentUrl, typeof (currentUrl));
+        const lister = "lister";
+        const anjapotze = "anjapotze";
+        if (currentUrl.includes(lister)) {
+          setSubLogo("lister");
+        }
+        if (currentUrl.includes(anjapotze)) {
+          setSubLogo("anjapotze");
+        }
+        setPrice(total);
+        setIsDisabled(false);
       }
-      setPrice(value);
     }
   }, [configuration])
 

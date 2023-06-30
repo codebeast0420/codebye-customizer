@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
 import {
@@ -13,58 +13,59 @@ import Share from '../Share';
 import NoMatch from '../common/NoMatch';
 import { URL } from '../../lib/env';
 import { setProductConfigurationAction, getProductPartsAction, getThemesAction } from '../../store/actions';
-import Bracelet from '../Bracelet/Bracelet';
+import Amanti from '../Single/Amanti';
+import Mayfair from '../Single/Mayfair';
+import Necklace from '../Single/Necklace';
+import Pendant from '../Single/Pendant';
+import Earrings from '../Single/Earrings';
+import Bracelet from '../Single/Bracelet';
 
 const RoutedArchive = props => <Loading><Archive {...props} /></Loading>;
 const RoutedSingle = props => <Loading><Single {...props} /></Loading>;
-const RoutedBracelet = props => <Loading><Bracelet {...props} /></Loading>;
-const RoutedShare = props => <Loading><Share {...props} /></Loading>;
+const RoutedAmanti = (props) => <Loading><Amanti {...props} category='amanti' /></Loading>;
+const RoutedMayfair = (props) => <Loading><Mayfair {...props} category='mayfair' /></Loading>;
+const RoutedNecklace = (props) => <Loading><Necklace {...props} category='necklace' /></Loading>;
+const RoutedBracelet = (props) => <Loading><Bracelet {...props} category='bracelet' /></Loading>;
+const RoutedEarrings = (props) => <Loading><Earrings {...props} category='earrings' /></Loading>;
+const RoutedPendant = (props) => <Loading><Pendant {...props} category='pendant' /></Loading>;
 
-class Layout extends React.PureComponent {
-  static propTypes = {
-    product: PropTypes.instanceOf(Object).isRequired,
-    preMadeProduct: PropTypes.instanceOf(Object).isRequired,
-  }
- 
-  state = {}
+const Layout = () => {
+  const product = useSelector(store => store.product);
+  const preMadeProduct = useSelector(store => store.preMadeProduct);
+  const changingProduct = useSelector(store => store.changingProduct);
 
-  render() {
-    const { product, preMadeProduct } = this.props;
-    console.log('success');
-    return (
-      <Router>
-        <Loading>
-          <Switch>
-            <Route exact path="/" component={RoutedArchive} />
-            <Route exact path="/amanti" component={RoutedSingle} />
-            <Route exact path="/mayfair" component={RoutedSingle} />
-            <Route exact path="/aquafiore/bracelet" component={RoutedSingle} />
-            <Route exact path="/aquafiore/earrings" component={RoutedSingle} />
-            <Route exact path="/aquafiore/necklace" component={RoutedSingle} />
-            <Route exact path="/aquafiore/pendant" component={RoutedSingle} />
-            <Route exact path="/bracelet" component={RoutedBracelet} />
-            <Route exact path="/bracelet" component={RoutedBracelet} />
-            <Route exact path="/product/:id" component={RoutedArchive} />
-            <Route exact path="/s_product/:id" component={RoutedShare} />
-            <Route path="/share/:hash" component={RoutedShare} />
-            <Route component={NoMatch} />
-          </Switch>
-        </Loading>
-      </Router>
-    );
+  const dispatch = useDispatch();
+  const dispatchSetConfiguration = (conf) => {
+    dispatch(setProductConfigurationAction(conf));
   }
+
+  const dispatchGetProductParts = () => {
+    dispatch(getProductPartsAction);
+  }
+
+  const dispatchGetThemes = () => {
+    dispatch(getThemesAction);
+  }
+  useEffect(() => {
+    console.log('success', product);
+  }, [])
+  
+  return (
+    <Router>
+      <Loading>
+        <Switch>
+          <Route exact path="/" component={RoutedArchive} />
+          <Route exact path="/amanti" component={RoutedAmanti} />
+          <Route exact path="/mayfair" component={RoutedMayfair} />
+          <Route exact path="/aquafiore/bracelet" component={RoutedBracelet} />
+          <Route exact path="/aquafiore/earrings" component={RoutedEarrings} />
+          <Route exact path="/aquafiore/necklace" component={RoutedNecklace} />
+          <Route exact path="/aquafiore/pendant" component={RoutedPendant} />
+          <Route component={NoMatch} />
+        </Switch>
+      </Loading>
+    </Router>
+  );
 }
 
-const mapStateToProps = state => ({
-  product: state.product,
-  preMadeProduct: state.preMadeProduct,
-  changingProduct: state.changingProduct,
-});
-
-const mapDispatchToProps = {
-  dispatchSetConfiguration: setProductConfigurationAction,
-  dispatchGetProductParts: getProductPartsAction,
-  dispatchGetThemes: getThemesAction
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default Layout;
