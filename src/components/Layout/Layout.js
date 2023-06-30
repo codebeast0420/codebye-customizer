@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import _ from 'underscore';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
@@ -16,7 +15,6 @@ import Earrings from '../Single/Earrings';
 import Bracelet from '../Single/Bracelet';
 
 const RoutedArchive = props => <Loading><Archive {...props} /></Loading>;
-const RoutedSingle = props => <Loading><Single {...props} /></Loading>;
 const RoutedAmanti = (props) => <Loading><Amanti {...props} category='amanti' /></Loading>;
 const RoutedMayfair = (props) => <Loading><Mayfair {...props} category='mayfair' /></Loading>;
 const RoutedNecklace = (props) => <Loading><Necklace {...props} category='necklace' /></Loading>;

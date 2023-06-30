@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e60e971a.css",
+    "main.js": "/static/js/main.85d8b00d.js",
+    "static/media/code-360-icon.gif": "/static/media/code-360-icon.16176b841a8a6600c5d4.gif",
+    "static/media/Infinity-1s-197px.gif": "/static/media/Infinity-1s-197px.a6192aba0b1c81dc82dd.gif",
+    "static/media/lh-logo.svg": "/static/media/lh-logo.35b14e9f2fd1a57efa5a17f12cd67aa3.svg",
+    "static/media/logo.svg": "/static/media/logo.cbe66d3f2994d9dc54ebc42ddb92a82a.svg",
+    "static/media/ap-logo.svg": "/static/media/ap-logo.392f2dbb4c1468986f20d914f80d5e3b.svg",
+    "static/media/copy_link.svg": "/static/media/copy_link.5d209989ff820d4af896f8fdef3cf788.svg",
+    "static/media/share.svg": "/static/media/share.aa5e6e9eb425e6887fb7e0ee3afc0175.svg",
+    "static/media/message.svg": "/static/media/message.6e42c977a7b3d7f26176ddedefd9c257.svg",
+    "index.html": "/index.html",
+    "static/media/ring.svg": "/static/media/ring.b1239ae6d00a30c103ec3eecfd3e35d9.svg",
+    "static/media/bookmark.svg": "/static/media/bookmark.69749399965a4bd48e684b24d7577d28.svg",
+    "static/media/bag.svg": "/static/media/bag.e44bf3380f5db1729364cbf91b32e05b.svg",
+    "static/media/next.svg": "/static/media/next.49277a24127eb8cbf570641dae771d4f.svg",
+    "static/media/prev_next.svg": "/static/media/prev_next.ee29e4e4b53ac77b2db9d57129d36cc6.svg",
+    "static/media/check.svg": "/static/media/check.fac20b39bf5498cb77ca995924261da1.svg",
+    "static/media/chat.svg": "/static/media/chat.efb60676a47a176ffdf0a804a5f6d5b2.svg",
+    "static/media/dots.svg": "/static/media/dots.2627105aa8bd712b3b58cc3fa31604a5.svg",
+    "static/media/close.svg": "/static/media/close.173c5ee7b05aac61209af319c577e31e.svg",
+    "static/media/big_next.svg": "/static/media/big_next.5ebd650dd76e81be3601fb0c5b73bf49.svg",
+    "static/media/big_prev.svg": "/static/media/big_prev.e9026ddafe8e67cc2d98a8422184185a.svg",
+    "static/media/arrow.svg": "/static/media/arrow.e7ab68058bab9d802c4748d91a8f1f64.svg",
+    "static/media/back.svg": "/static/media/back.f21fdb06660d0f522a00d7b7be26ac4b.svg",
+    "main.e60e971a.css.map": "/static/css/main.e60e971a.css.map",
+    "main.85d8b00d.js.map": "/static/js/main.85d8b00d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e60e971a.css",
+    "static/js/main.85d8b00d.js"
+  ]
+}
