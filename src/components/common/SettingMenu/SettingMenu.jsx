@@ -8,6 +8,9 @@ import Footer from "../Footer";
 import Menus from "../SingleMenu/menus";
 import { Close } from "../../../assets";
 import { db } from "./db";
+import { Arrow } from "../../../assets";
+import MorseCode from "../../../lib/morse_code";
+import uuid from "uuid";
 
 const SettingMenu = (props) => {
   const [tabId, setTabId] = useState("message");
@@ -20,6 +23,12 @@ const SettingMenu = (props) => {
   const [activeStyle, setActiveStyle] = useState("");
   const [themeCols, setThemeCols] = useState([]);
   const [showMobile, setShowMobile] = useState(false);
+  const [colorType, setColorType] = useState("");
+  const [activeSolid, setActiveSolid] = useState("");
+  const [activeChoise, setActiveChoise] = useState("");
+  const [choises, setChoises] = useState([]);
+  const [colIndex, setColIndex] = useState([]);
+  const [solidColors, setSolidColors] = useState([]);
   const themes = useSelector((store) => store.themes);
   const configuration = useSelector((store) => store.configuration);
   const preMadeProduct = useSelector((store) => store.preMadeProduct);
@@ -45,10 +54,26 @@ const SettingMenu = (props) => {
   );
   useEffect(() => {
     console.log("product ", props.product);
-    console.log("dba", db);
+    console.log("dba", configuration);
     console.log("themes", themes);
     setThemeCols(themes.data);
+
     if (props.product.attributes) {
+      if (props.product.id !== 185 && props.product.id !== 186) {
+        setSolidColors(
+          props.product.attributes.filter((attr) => attr.slug == "pa_stone")[0]
+            .options
+        );
+        console.log(
+          "solid colors",
+          props.product.attributes.filter((attr) => attr.slug == "pa_stone")[0]
+            .options
+        );
+        let temp = [];
+        configuration.pa_stone.choice.map((value) => temp.push(value.value.id));
+        console.log("temp", temp);
+        setColIndex(temp);
+      }
       let tempMetals = props.product.attributes.filter(
         (attr) => attr.name == "Material"
       )[0].options;
@@ -77,9 +102,7 @@ const SettingMenu = (props) => {
     }
   }, [configuration]);
 
-  useEffect(() => {
-    console.log('qwerqwer', props.product);
-  }, [props.msg])
+  useEffect(() => {}, [props.msg]);
 
   const changeMetal = (metal) => {
     setActiveMetal(metal.name);
@@ -110,6 +133,12 @@ const SettingMenu = (props) => {
       })
     );
   };
+
+  const changeColType = (type) => {
+    if (colorType == type) setColorType("");
+    else setColorType(type);
+  };
+
   const changeTheme = (theme) => {
     setActiveTheme(theme.name);
     const colorSubMenu = Menus.getColorsSubMenu().filter(
@@ -124,6 +153,183 @@ const SettingMenu = (props) => {
       },
     };
     dispatch(setProductConfigurationAction(newConf));
+  };
+
+  const changeSolid = (solid) => {
+    setActiveSolid(solid.name);
+    const colorSubMenu = Menus.getColorsSubMenu().filter(
+      (menu) => menu.id === "solid_color"
+    );
+    const newConf = {
+      ...configuration,
+      pa_stone: {
+        ...colorSubMenu[0],
+        choice: Menus.lettersChoices(configuration.message, solid),
+        selected_theme: false,
+      },
+    };
+    dispatch(setProductConfigurationAction(newConf));
+  };
+
+  const getChoices = () => {
+    return configuration.message.split("").map((letter) => {
+      const morse = new MorseCode(letter);
+      return {
+        id: uuid(),
+        letter: letter.toUpperCase(),
+        code: morse
+          .getLetterCode()
+          .map((value) => ({ symbol: value, colors: solidColors })),
+      };
+    });
+  };
+
+  const nextCol = (index) => {
+    console.log("index", index);
+    const current = solidColors.filter((col) => col.id == colIndex[index])[0];
+    const currentIndex = solidColors.indexOf(current);
+    const next =
+      currentIndex == solidColors.length - 1
+        ? solidColors[0]
+        : solidColors[currentIndex + 1];
+    console.log("current index", currentIndex, "++", solidColors.length);
+    const colorSubMenu = Menus.getColorsSubMenu().filter(
+      (menu) => menu.id === "at_your_choice"
+    );
+    const prevChoice = configuration.pa_stone.choice;
+    prevChoice[index].value = next;
+    const newChoice = prevChoice;
+    const newConf = {
+      ...configuration,
+      pa_stone: {
+        ...colorSubMenu[0],
+        choice: newChoice,
+        slide: index,
+        selected_theme: false,
+      },
+    };
+    dispatch(setProductConfigurationAction(newConf));
+  };
+
+  const prevCol = (index) => {
+    console.log("index", index);
+    const current = solidColors.filter((col) => col.id == colIndex[index])[0];
+    const currentIndex = solidColors.indexOf(current);
+    const next =
+      currentIndex == 0
+        ? solidColors[solidColors.length - 1]
+        : solidColors[currentIndex - 1];
+    console.log("current index", currentIndex, "++", solidColors.length);
+    const colorSubMenu = Menus.getColorsSubMenu().filter(
+      (menu) => menu.id === "at_your_choice"
+    );
+    const prevChoice = configuration.pa_stone.choice;
+    prevChoice[index].value = next;
+    const newChoice = prevChoice;
+    const newConf = {
+      ...configuration,
+      pa_stone: {
+        ...colorSubMenu[0],
+        choice: newChoice,
+        slide: index,
+        selected_theme: false,
+      },
+    };
+    dispatch(setProductConfigurationAction(newConf));
+  };
+
+  const openChoice = () => {
+    let index = 0;
+    console.log("getchoice", getChoices());
+    return getChoices().map((value, i) => (
+      <div
+        className="single__menu__middle__item__choice"
+        key={value.id}
+        onClick={value.onClick}
+        role="button"
+        onKeyUp={() => false}
+        tabIndex={0}
+      >
+        <div className="single__menu__middle__item__choice__wrapper">
+          <div className="single__menu__middle__item__choice__letter">
+            {value.letter}
+          </div>
+          <div className="single__menu__middle__item__choice__symbols">
+            {!value.letter.trim().length && (
+              <div
+                key={Math.random() * 1000}
+                className="single__menu__middle__item__choice__symbols__space"
+              >
+                <span className="hexagon">&#x2B22;</span>
+              </div>
+            )}
+            {!!value.letter.trim().length &&
+              value.code.map((code, i) => {
+                index += 1;
+                return (
+                  <div
+                    key={i}
+                    className="single__menu__middle__item__choice__symbols__symbol"
+                    id={`s${index}`}
+                  >
+                    <div className="swiper-wrapper">
+                      {code.colors.map((color) => (
+                        <>
+                          {colIndex[index - 1] == color.id && (
+                            <div
+                              className="flex w-full items-center justify-around"
+                              key={Math.random() * 1000}
+                            >
+                              <div
+                                value={index}
+                                onClick={(e) =>
+                                  nextCol(
+                                    e.currentTarget.getAttribute("value") - 1
+                                  )
+                                }
+                              >
+                                <Arrow />
+                              </div>
+                              <div className="flex flex-col items-center">
+                                <div
+                                  className={`single__menu__middle__item__choice__stone-color menu_${code.symbol}`}
+                                  style={{ backgroundColor: color.color }}
+                                />
+                                <div className="single__menu__middle__item__title">
+                                  {color.name}
+                                </div>
+                              </div>
+                              <div
+                                className='rotate-180'
+                                value={index}
+                                onClick={(e) =>
+                                  prevCol(
+                                    e.currentTarget.getAttribute("value") - 1
+                                  )
+                                }
+                              >
+                                <Arrow />
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+        {menus.getAtYourChoiceColorsMenu()[i + 1] &&
+          !!menus.getAtYourChoiceColorsMenu()[i + 1].letter.trim().length &&
+          !!value.letter.trim().length && (
+            <span
+              key={Math.random() * 1000}
+              className="single__menu__middle__item__choice__symbols__letter-divider"
+            />
+          )}
+      </div>
+    ));
   };
 
   return (
@@ -174,12 +380,12 @@ const SettingMenu = (props) => {
             <div className="basis-4/12 pr-1">
               <button
                 className={`${
-                  tabId == "theme"
+                  tabId == "colors"
                     ? "bg-[#d4e4e4]"
                     : "bg-gray-100 hover:bg-gray-200"
                 } text-[#305253] cbe-btn-text-font py-6 w-full rounded-none setting-menu-tab`}
                 onClick={() => {
-                  setTabId("theme");
+                  setTabId("colors");
                   setShowMobile(true);
                 }}
               >
@@ -324,27 +530,102 @@ const SettingMenu = (props) => {
               </div>
             </div>
           )}
-          {tabId == "theme" && (
+          {tabId == "colors" && (
             <div className="flex flex-col basis-12/12 w-full justify-center">
               <div className="mb-1">
-                {themeCols.map((theme, index) => (
-                  <button
-                    key={index}
-                    className={`${
-                      theme.name == activeTheme
-                        ? "cbe-bg-green-lightest"
-                        : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                    onClick={() => changeTheme(theme)}
-                  >
-                    <div className="flex justify-between px-8 justify-between">
-                      <p className="cbe-btn-text-font text-sm font-medium">
-                        {theme.name}
-                      </p>
-                      <p className="text-sm text-gray-500"></p>
-                    </div>
-                  </button>
-                ))}
+                <button
+                  className={`${
+                    colorType == "solid"
+                      ? "cbe-bg-green-lightest"
+                      : "bg-gray-100 hover:bg-gray-200"
+                  } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                  onClick={() => changeColType("solid")}
+                >
+                  <div className="flex justify-between px-8 justify-between">
+                    <p className="cbe-btn-text-font text-sm font-medium">
+                      Solid Color
+                    </p>
+                    <p className="text-sm text-gray-500"></p>
+                  </div>
+                </button>
+                {colorType == "solid" &&
+                  solidColors.map((solid, index) => (
+                    <button
+                      key={index}
+                      className={`${
+                        solid.name == activeSolid
+                          ? "cbe-bg-green-lightest"
+                          : "bg-gray-100 hover:bg-gray-200"
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                      onClick={() => changeSolid(solid)}
+                    >
+                      <div className="single__menu__middle__item--content">
+                        <div
+                          className="single__menu__middle__item__color"
+                          style={{ backgroundColor: solid.color }}
+                        />
+                        <div className="single__menu__middle__item__title">
+                          {solid.name}
+                        </div>
+                      </div>
+                      {/* <div className="flex justify-between px-8 justify-between">
+                        <p className="cbe-btn-text-font text-sm font-medium">
+                          {solid.name}
+                        </p>
+                        <p className="text-sm text-gray-500"></p>
+                      </div> */}
+                    </button>
+                  ))}
+                <button
+                  className={`${
+                    colorType == "theme"
+                      ? "cbe-bg-green-lightest"
+                      : "bg-gray-100 hover:bg-gray-200"
+                  } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                  onClick={() => changeColType("theme")}
+                >
+                  <div className="flex justify-between px-8 justify-between">
+                    <p className="cbe-btn-text-font text-sm font-medium">
+                      Theme
+                    </p>
+                    <p className="text-sm text-gray-500"></p>
+                  </div>
+                </button>
+                {colorType == "theme" &&
+                  themeCols.map((theme, index) => (
+                    <button
+                      key={index}
+                      className={`${
+                        theme.name == activeTheme
+                          ? "cbe-bg-green-lightest"
+                          : "bg-gray-100 hover:bg-gray-200"
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                      onClick={() => changeTheme(theme)}
+                    >
+                      <div className="flex justify-between px-8 justify-between">
+                        <p className="cbe-btn-text-font text-sm font-medium">
+                          {theme.name}
+                        </p>
+                        <p className="text-sm text-gray-500"></p>
+                      </div>
+                    </button>
+                  ))}
+                <button
+                  className={`${
+                    colorType == "choice"
+                      ? "cbe-bg-green-lightest"
+                      : "bg-gray-100 hover:bg-gray-200"
+                  } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                  onClick={() => changeColType("choice")}
+                >
+                  <div className="flex justify-between px-8 justify-between">
+                    <p className="cbe-btn-text-font text-sm font-medium">
+                      At your choice
+                    </p>
+                    <p className="text-sm text-gray-500"></p>
+                  </div>
+                </button>
+                {colorType == "choice" && openChoice()}
               </div>
             </div>
           )}
@@ -504,7 +785,7 @@ const SettingMenu = (props) => {
                 </div>
               </div>
             )}
-            {tabId == "theme" && (
+            {/* {tabId == "theme" && (
               <div className="flex flex-col basis-12/12 w-full">
                 {themeCols.map((theme, index) => (
                   <button
@@ -524,6 +805,105 @@ const SettingMenu = (props) => {
                     </div>
                   </button>
                 ))}
+              </div>
+            )} */}
+            {tabId == "colors" && (
+              <div className="flex flex-col basis-12/12 w-full justify-center">
+                <div className="mb-1">
+                  <button
+                    className={`${
+                      colorType == "solid"
+                        ? "cbe-bg-green-lightest"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    onClick={() => changeColType("solid")}
+                  >
+                    <div className="flex justify-between px-8 justify-between">
+                      <p className="cbe-btn-text-font text-sm font-medium">
+                        Solid Color
+                      </p>
+                      <p className="text-sm text-gray-500"></p>
+                    </div>
+                  </button>
+                  {colorType == "solid" &&
+                    solidColors.map((solid, index) => (
+                      <button
+                        key={index}
+                        className={`${
+                          solid.name == activeSolid
+                            ? "cbe-bg-green-lightest"
+                            : "bg-gray-100 hover:bg-gray-200"
+                        } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                        onClick={() => changeSolid(solid)}
+                      >
+                        <div className="single__menu__middle__item--content">
+                          <div
+                            className="single__menu__middle__item__color"
+                            style={{ backgroundColor: solid.color }}
+                          />
+                          <div className="single__menu__middle__item__title">
+                            {solid.name}
+                          </div>
+                        </div>
+                        {/* <div className="flex justify-between px-8 justify-between">
+                        <p className="cbe-btn-text-font text-sm font-medium">
+                          {solid.name}
+                        </p>
+                        <p className="text-sm text-gray-500"></p>
+                      </div> */}
+                      </button>
+                    ))}
+                  <button
+                    className={`${
+                      colorType == "theme"
+                        ? "cbe-bg-green-lightest"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    onClick={() => changeColType("theme")}
+                  >
+                    <div className="flex justify-between px-8 justify-between">
+                      <p className="cbe-btn-text-font text-sm font-medium">
+                        Theme
+                      </p>
+                      <p className="text-sm text-gray-500"></p>
+                    </div>
+                  </button>
+                  {colorType == "theme" &&
+                    themeCols.map((theme, index) => (
+                      <button
+                        key={index}
+                        className={`${
+                          theme.name == activeTheme
+                            ? "cbe-bg-green-lightest"
+                            : "bg-gray-100 hover:bg-gray-200"
+                        } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                        onClick={() => changeTheme(theme)}
+                      >
+                        <div className="flex justify-between px-8 justify-between">
+                          <p className="cbe-btn-text-font text-sm font-medium">
+                            {theme.name}
+                          </p>
+                          <p className="text-sm text-gray-500"></p>
+                        </div>
+                      </button>
+                    ))}
+                  <button
+                    className={`${
+                      colorType == "choice"
+                        ? "cbe-bg-green-lightest"
+                        : "bg-gray-100 hover:bg-gray-200"
+                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    onClick={() => changeColType("choice")}
+                  >
+                    <div className="flex justify-between px-8 justify-between">
+                      <p className="cbe-btn-text-font text-sm font-medium">
+                        At your choice
+                      </p>
+                      <p className="text-sm text-gray-500"></p>
+                    </div>
+                  </button>
+                  {colorType == "choice" && openChoice()}
+                </div>
               </div>
             )}
             {tabId == "size" && (

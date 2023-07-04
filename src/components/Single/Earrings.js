@@ -252,7 +252,7 @@ class Earrings extends React.Component {
 			product.data.id !== 2124
 		) {
 			console.log('test', configuration);
-			if (configuration.pa_stone === "solid_color") {
+			if (configuration.pa_stone.id === "solid_color") {
 				console.log('one');
 				this.handleOverrideAllMorseCharColors(
 					configuration.pa_stone.choice[0].value.color
