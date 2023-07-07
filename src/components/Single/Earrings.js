@@ -351,6 +351,54 @@ class Earrings extends React.Component {
 		this.chainElementSize = this.chainElementUnitsSize;
 	}
 
+	mobileChangeMsg = (msg) => {
+		const { product, configuration, productParts } = this.props;
+		let text = msg;
+
+		if (product.data.id !== 2096 && product.data.id !== 2124) {
+			const rings = [];
+			const letters = msg.split("");
+			text = msg.substring(0, 2) || "";
+
+			console.log('text', text);
+			this.setState({ msg: text });
+			for (let i = 0; i < 26; i++) {
+				// C5R
+				rings.push(
+					this.create_link(
+						"../assets/jewerly/ringsAquafiore/Aquafiore_Chain_element.glb"
+					)
+				);
+			}
+			let jewerly = "EARRINGS";
+			// this.jewerlyRingsRenderer = null;
+
+			this.createNew(text, product.data, configuration, Pricing, productParts);
+
+			this.setState({
+				ringsUrls: rings,
+				stoneColor: "#FFFFFF",
+				ringColor: configuration.pa_material.color,
+				createChainType: jewerly,
+				chainElementsNames: ["Aquafiore_Chain_element.glb"],
+				stoneColorMessage: [],
+				chainLength:
+					product.data.id === 408
+						? configuration.pa_hook_type_earrings.id
+						: parseInt(configuration.pa_size.name, 10),
+				height: window.innerHeight - 80,
+				load: false,
+				galleryModal: false,
+				showInfos: true,
+			});
+			if (product.data.id == 402) this.create_BRACELET(text);
+			if (product.data.id == 405) this.create_PENDANT(text);
+			if (product.data.id == 408) this.create_EARRINGS(text);
+			// if(product.data.id == 186) 
+		}
+		this.chainElementSize = this.chainElementUnitsSize;
+	}
+
 	createNew = (message, product, configuration, Pricing, productParts) => {
 		const paStone = _.find(Menus.getColorsSubMenu(), item => item.selected);
 		const { themes, dispatchChangingProduct, dispatchSetConfiguration } = this.props;
@@ -1804,6 +1852,7 @@ class Earrings extends React.Component {
 						buildMorseCode={this.buildMorseCode}
 						onChangeMsg={this.onChangeMsg}
 						product={product.data}
+						mobileChangeMsg={this.mobileChangeMsg}
 					/>
 				</div >
 				{this.state.showContact && (

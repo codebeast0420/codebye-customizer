@@ -203,6 +203,39 @@ class Amanti extends React.Component {
 		}
 	}
 
+	mobileChangeMsg = (msg) => {
+		const { product, configuration, productParts } = this.props;
+		let text = msg;
+
+		if (product.data.id !== 2096 && product.data.id !== 2124) {
+			const rings = [];
+			const letters = msg.split("");
+			this.setState({ msg: msg });
+			console.log('state', this.state.msg);
+			_.each(letters, (letter) =>
+				rings.push(
+					`../assets/jewerly/rings_amanti/ring_${letter.toUpperCase()}.glb`
+				)
+			);
+			// this.jewerlyRingsRenderer = null;
+
+			this.createNew(text, product.data, configuration);
+
+			this.setState({
+				ringsUrls: rings,
+				stoneColor: "#FFFFFF",
+				ringColor: configuration.pa_material.color,
+				chainElementsNames: ["Aquafiore_Chain_element.glb"],
+				stoneColorMessage: [],
+				chainLength: parseInt(configuration.pa_size.name, 10),
+				height: window.innerHeight - 80,
+				load: false,
+				galleryModal: false,
+				showInfos: true,
+			});
+		}
+	}
+
 	createNew = (message, product, configuration) => {
 		const paStone = _.find(Menus.getColorsSubMenu(), item => item.selected);
 		const { themes, dispatchChangingProduct, dispatchSetConfiguration } = this.props;
@@ -589,6 +622,7 @@ class Amanti extends React.Component {
 							buildMorseCode={this.buildMorseCode}
 							onChangeMsg={this.onChangeMsg}
 							product={product.data}
+							mobileChangeMsg={this.mobileChangeMsg}
 						/>
 					</div>
 					{this.state.showContact && (

@@ -18,6 +18,7 @@ const SettingMenu = (props) => {
   const [activeSize, setActiveSize] = useState("");
   const [activeTheme, setActiveTheme] = useState("");
   const [metals, setMetals] = useState([]);
+  const [msg, setMsg] = useState("");
   const [sizes, setSizes] = useState([]);
   const [styles, setStyles] = useState([]);
   const [activeStyle, setActiveStyle] = useState("");
@@ -29,6 +30,7 @@ const SettingMenu = (props) => {
   const [choises, setChoises] = useState([]);
   const [colIndex, setColIndex] = useState([]);
   const [solidColors, setSolidColors] = useState([]);
+  const [newConf, setNewConf] = useState({});
   const themes = useSelector((store) => store.themes);
   const configuration = useSelector((store) => store.configuration);
   const preMadeProduct = useSelector((store) => store.preMadeProduct);
@@ -52,11 +54,14 @@ const SettingMenu = (props) => {
       preMadeProduct
     )
   );
+
   useEffect(() => {
-    console.log("product ", props.product);
-    console.log("dba", configuration);
-    console.log("themes", themes);
+    setMsg("");
+  }, []);
+
+  useEffect(() => {
     setThemeCols(themes.data);
+    setNewConf(configuration);
 
     if (props.product.attributes) {
       if (props.product.id !== 185 && props.product.id !== 186) {
@@ -102,36 +107,59 @@ const SettingMenu = (props) => {
     }
   }, [configuration]);
 
-  useEffect(() => {}, [props.msg]);
-
-  const changeMetal = (metal) => {
+  const changeMetal = (metal, isMobile) => {
     setActiveMetal(metal.name);
-    dispatch(
-      setProductConfigurationAction({
-        ...configuration,
+    console.log("isMobile", isMobile);
+    if (!isMobile) {
+      dispatch(
+        setProductConfigurationAction({
+          ...configuration,
+          pa_material: {
+            color: metal.color,
+            id: metal.id,
+            name: metal.name,
+            selected: true,
+          },
+        })
+      );
+    } else {
+      setNewConf({
+        ...newConf,
         pa_material: {
           color: metal.color,
           id: metal.id,
           name: metal.name,
           selected: true,
         },
-      })
-    );
+      });
+    }
   };
 
-  const changeStyle = (style) => {
+  const changeStyle = (style, isMobile) => {
     setActiveStyle(style.name);
-    dispatch(
-      setProductConfigurationAction({
-        ...configuration,
+    if (!isMobile) {
+      dispatch(
+        setProductConfigurationAction({
+          ...configuration,
+          pa_hook_type_earrings: {
+            color: null,
+            id: style.id,
+            name: style.name,
+            selected: true,
+          },
+        })
+      );
+    } else {
+      setNewConf({
+        ...newConf,
         pa_hook_type_earrings: {
           color: null,
           id: style.id,
           name: style.name,
           selected: true,
         },
-      })
-    );
+      });
+    }
   };
 
   const changeColType = (type) => {
@@ -139,12 +167,12 @@ const SettingMenu = (props) => {
     else setColorType(type);
   };
 
-  const changeTheme = (theme) => {
+  const changeTheme = (theme, isMobile) => {
     setActiveTheme(theme.name);
     const colorSubMenu = Menus.getColorsSubMenu().filter(
       (menu) => menu.id === "themes"
     );
-    const newConf = {
+    const _newConf = {
       ...configuration,
       pa_stone: {
         ...colorSubMenu[0],
@@ -152,15 +180,22 @@ const SettingMenu = (props) => {
         selected_theme: theme.slug,
       },
     };
-    dispatch(setProductConfigurationAction(newConf));
+    if (!isMobile) {
+      dispatch(setProductConfigurationAction(_newConf));
+    } else {
+      setNewConf({
+        ...newConf,
+        pa_stone: _newConf.pa_stone,
+      });
+    }
   };
 
-  const changeSolid = (solid) => {
+  const changeSolid = (solid, isMobile) => {
     setActiveSolid(solid.name);
     const colorSubMenu = Menus.getColorsSubMenu().filter(
       (menu) => menu.id === "solid_color"
     );
-    const newConf = {
+    const _newConf = {
       ...configuration,
       pa_stone: {
         ...colorSubMenu[0],
@@ -168,7 +203,14 @@ const SettingMenu = (props) => {
         selected_theme: false,
       },
     };
-    dispatch(setProductConfigurationAction(newConf));
+    if (!isMobile) {
+      dispatch(setProductConfigurationAction(_newConf));
+    } else {
+      setNewConf({
+        ...newConf,
+        pa_stone: _newConf.pa_stone,
+      });
+    }
   };
 
   const getChoices = () => {
@@ -199,7 +241,7 @@ const SettingMenu = (props) => {
     const prevChoice = configuration.pa_stone.choice;
     prevChoice[index].value = next;
     const newChoice = prevChoice;
-    const newConf = {
+    const _newConf = {
       ...configuration,
       pa_stone: {
         ...colorSubMenu[0],
@@ -208,7 +250,7 @@ const SettingMenu = (props) => {
         selected_theme: false,
       },
     };
-    dispatch(setProductConfigurationAction(newConf));
+    dispatch(setProductConfigurationAction(_newConf));
   };
 
   const prevCol = (index) => {
@@ -226,7 +268,7 @@ const SettingMenu = (props) => {
     const prevChoice = configuration.pa_stone.choice;
     prevChoice[index].value = next;
     const newChoice = prevChoice;
-    const newConf = {
+    const _newConf = {
       ...configuration,
       pa_stone: {
         ...colorSubMenu[0],
@@ -235,7 +277,7 @@ const SettingMenu = (props) => {
         selected_theme: false,
       },
     };
-    dispatch(setProductConfigurationAction(newConf));
+    dispatch(setProductConfigurationAction(_newConf));
   };
 
   const openChoice = () => {
@@ -300,7 +342,7 @@ const SettingMenu = (props) => {
                                 </div>
                               </div>
                               <div
-                                className='rotate-180'
+                                className="rotate-180"
                                 value={index}
                                 onClick={(e) =>
                                   prevCol(
@@ -330,6 +372,45 @@ const SettingMenu = (props) => {
           )}
       </div>
     ));
+  };
+
+  const changeMsg = (e) => {
+    if (props.product.id !== 186 && props.product.id !== 185) {
+      if (props.product.id == 408) {
+        setMsg(e.target.value.substring(0, 2) || "");
+      }
+      if (props.product.id == 402 || props.product.id == 405) {
+        setMsg(e.target.value[0] || "");
+      } else {
+        setMsg(e.target.value);
+      }
+    } else {
+      setMsg(e.target.value);
+    }
+  };
+
+  const saveChanges = () => {
+    if (msg == configuration.message) {
+      props.mobileChangeMsg(msg);
+      dispatch(
+        setProductConfigurationAction({
+          ...configuration,
+          message: msg,
+          pa_material: newConf.pa_material,
+          pa_stone: newConf.pa_stone,
+          pa_hook_type_earrings: newConf.pa_hook_type_earrings,
+        })
+      );
+    } else {
+      props.mobileChangeMsg(msg);
+    }
+    setShowMobile(false);
+  };
+
+  const cancelChanges = () => {
+    setNewConf(configuration);
+    setMsg(configuration.message);
+    setShowMobile(false);
   };
 
   return (
@@ -493,7 +574,7 @@ const SettingMenu = (props) => {
                         ? "cbe-bg-green-lightest"
                         : "bg-gray-100 hover:bg-gray-200"
                     } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                    onClick={() => changeMetal(metal)}
+                    onClick={() => changeMetal(metal, false)}
                   >
                     <div className="flex justify-between px-8 justify-between">
                       <p className="cbe-btn-text-font text-sm font-medium">
@@ -557,7 +638,7 @@ const SettingMenu = (props) => {
                           ? "cbe-bg-green-lightest"
                           : "bg-gray-100 hover:bg-gray-200"
                       } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                      onClick={() => changeSolid(solid)}
+                      onClick={() => changeSolid(solid, false)}
                     >
                       <div className="single__menu__middle__item--content">
                         <div
@@ -568,12 +649,6 @@ const SettingMenu = (props) => {
                           {solid.name}
                         </div>
                       </div>
-                      {/* <div className="flex justify-between px-8 justify-between">
-                        <p className="cbe-btn-text-font text-sm font-medium">
-                          {solid.name}
-                        </p>
-                        <p className="text-sm text-gray-500"></p>
-                      </div> */}
                     </button>
                   ))}
                 <button
@@ -600,7 +675,7 @@ const SettingMenu = (props) => {
                           ? "cbe-bg-green-lightest"
                           : "bg-gray-100 hover:bg-gray-200"
                       } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                      onClick={() => changeTheme(theme)}
+                      onClick={() => changeTheme(theme, false)}
                     >
                       <div className="flex justify-between px-8 justify-between">
                         <p className="cbe-btn-text-font text-sm font-medium">
@@ -691,12 +766,19 @@ const SettingMenu = (props) => {
         </div>
         {showMobile && (
           <div className="mobile-setting-menu mobile-setting-menu--after-open flex flex-col items-end lg:hidden w-full">
-            <div
-              className="mr-3"
-              onClick={() => setShowMobile(false)}
-              style={{ zIndex: 1000 }}
-            >
-              <Close />
+            <div className="flex uppercase w-full z-[1000]">
+              <div
+                className="bg-[#317f81] text-white p-3 w-[35%] text-center"
+                onClick={() => cancelChanges()}
+              >
+                Cancel X
+              </div>
+              <div
+                className="bg-[#183e3f] text-white p-3 w-[65%] text-center"
+                onClick={() => saveChanges()}
+              >
+                Save changes & close X
+              </div>
             </div>
             {tabId == "message" && (
               <div className="flex flex-row mt-4 justify-content w-full">
@@ -709,14 +791,14 @@ const SettingMenu = (props) => {
                             className="morse-code__single"
                             style={{ marginLeft: "-20px" }}
                           >
-                            {props.buildMorseCode(props.msg)}
+                            {props.buildMorseCode(msg)}
                           </div>
                         </div>
                       </div>
                       <input
                         className="message__input cbe-font-mono tracking-[20px]"
-                        value={props.msg}
-                        onChange={props.onChangeMsg}
+                        value={msg}
+                        onChange={changeMsg}
                         id="messageInput"
                       />
                       <div className="message__placeholder message__placeholder--visible cbe-font cbe-message-placeholder-fix mt-1">
@@ -747,7 +829,7 @@ const SettingMenu = (props) => {
                         ? "cbe-bg-green-lightest"
                         : "bg-gray-100 hover:bg-gray-200"
                     } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                    onClick={() => changeMetal(metal)}
+                    onClick={() => changeMetal(metal, true)}
                   >
                     <div className="flex justify-between px-8 justify-between">
                       <p className="cbe-btn-text-font text-sm font-medium">
@@ -785,28 +867,6 @@ const SettingMenu = (props) => {
                 </div>
               </div>
             )}
-            {/* {tabId == "theme" && (
-              <div className="flex flex-col basis-12/12 w-full">
-                {themeCols.map((theme, index) => (
-                  <button
-                    key={index}
-                    className={`${
-                      theme.name == activeTheme
-                        ? "cbe-bg-green-lightest"
-                        : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                    onClick={() => changeTheme(theme)}
-                  >
-                    <div className="flex justify-between px-8 justify-between">
-                      <p className="cbe-btn-text-font text-sm font-medium">
-                        {theme.name}
-                      </p>
-                      <p className="text-sm text-gray-500"></p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )} */}
             {tabId == "colors" && (
               <div className="flex flex-col basis-12/12 w-full justify-center">
                 <div className="mb-1">
@@ -834,7 +894,7 @@ const SettingMenu = (props) => {
                             ? "cbe-bg-green-lightest"
                             : "bg-gray-100 hover:bg-gray-200"
                         } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                        onClick={() => changeSolid(solid)}
+                        onClick={() => changeSolid(solid, true)}
                       >
                         <div className="single__menu__middle__item--content">
                           <div
@@ -845,12 +905,6 @@ const SettingMenu = (props) => {
                             {solid.name}
                           </div>
                         </div>
-                        {/* <div className="flex justify-between px-8 justify-between">
-                        <p className="cbe-btn-text-font text-sm font-medium">
-                          {solid.name}
-                        </p>
-                        <p className="text-sm text-gray-500"></p>
-                      </div> */}
                       </button>
                     ))}
                   <button
@@ -877,7 +931,7 @@ const SettingMenu = (props) => {
                             ? "cbe-bg-green-lightest"
                             : "bg-gray-100 hover:bg-gray-200"
                         } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
-                        onClick={() => changeTheme(theme)}
+                        onClick={() => changeTheme(theme, true)}
                       >
                         <div className="flex justify-between px-8 justify-between">
                           <p className="cbe-btn-text-font text-sm font-medium">
