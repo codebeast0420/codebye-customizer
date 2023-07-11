@@ -200,29 +200,7 @@ class NeckLace extends React.Component {
 	componentDidUpdate(prevProps, prevState) {
 		const { configuration, product, productParts } = this.props;
 		if (prevProps.configuration.message !== configuration.message) {
-			if (product.data.id === 186 || product.data.id === 185) {
-				const rings = [];
-				const letters = configuration.message.split("");
-				if (product.data.id === 186) {
-					_.each(letters, (letter) =>
-						rings.push(
-							`../assets/jewerly/rings_amanti/ring_${letter.toUpperCase()}.glb`
-						)
-					);
-				}
-				if (product.data.id === 185) {
-					_.each(letters, (letter) =>
-						rings.push(
-							`../assets/jewerly/rings_mayfair/ring_mayfair_${letter.toUpperCase()}.glb`
-						)
-					);
-				}
-				// this.setState({ ringsUrls: rings });
-			} else if (product.data.id === 2096 || product.data.id === 2124) {
-				this.createBangle(configuration.message, this.state.bangleSize);
-			} else {
-				this.create_chain(configuration.message);
-			}
+			this.create_chain(configuration.message);
 		}
 		if (
 			prevProps.configuration.pa_material.color !==
@@ -248,18 +226,6 @@ class NeckLace extends React.Component {
 					this.createBangle(configuration.message, configuration.pa_size.name);
 				});
 			}
-		}
-		if (
-			product.data.id === 408 &&
-			prevProps.configuration.pa_hook_type_earrings.id !==
-			configuration.pa_hook_type_earrings.id
-		) {
-			this.setState(
-				{ chainLength: configuration.pa_hook_type_earrings.id },
-				() => {
-					this.create_chain(configuration.message);
-				}
-			);
 		}
 		if (
 			!_.isEqual(configuration.pa_stone, prevProps.configuration.pa_stone) &&
@@ -289,10 +255,11 @@ class NeckLace extends React.Component {
 				configuration.pa_stone.id === "at_your_choice" ||
 				configuration.pa_stone.id === "themes"
 			) {
-				console.log('here');
+				console.log('here__________', this.state.stoneColorMessage);
 				const items = [];
 				_.each(this.state.stoneColorMessage, (stoneColorMessageItem) => {
 					_.each(stoneColorMessageItem.lCodeArray, (lCode) => {
+						console.log('lcode', lCode);
 						items.push(lCode.item);
 					});
 				});
@@ -494,9 +461,8 @@ class NeckLace extends React.Component {
 				galleryModal: false,
 				showInfos: true,
 			});
-			if (product.data.id == 402) this.create_BRACELET(text);
-			if (product.data.id == 405) this.create_PENDANT(text);
-			if (product.data.id == 408) this.create_EARRINGS(text);
+			this.create_NECKLACE(text);
+
 			// if(product.data.id == 186) 
 		}
 		this.chainElementSize = this.chainElementUnitsSize;
@@ -784,6 +750,7 @@ class NeckLace extends React.Component {
 
 	create_NECKLACE(message) {
 		// AQUAFIORI - NECKLACE
+		console.log("asdfasdfasdfasdf_________", message);
 
 		const self = this;
 
@@ -1580,6 +1547,7 @@ class NeckLace extends React.Component {
 	}
 
 	handleMorseCharColorChange(color, item) {
+		console.log('item', item);
 		if (!this.jewerlyRingsRenderer) {
 			return;
 		}

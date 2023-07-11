@@ -56,7 +56,7 @@ const SettingMenu = (props) => {
   );
 
   useEffect(() => {
-    setMsg("");
+    setMsg(configuration.message);
   }, []);
 
   useEffect(() => {
@@ -464,15 +464,17 @@ const SettingMenu = (props) => {
                   tabId == "colors"
                     ? "bg-[#d4e4e4]"
                     : "bg-gray-100 hover:bg-gray-200"
-                } text-[#305253] cbe-btn-text-font py-6 w-full rounded-none setting-menu-tab`}
+                } text-[#305253] cbe-btn-text-font w-full rounded-none setting-menu-tab`}
+                style={{ height: "100%" }}
                 onClick={() => {
                   setTabId("colors");
                   setShowMobile(true);
                 }}
               >
                 <div className="flex flex-row content-center justify-center gap-x-2">
-                  <div className="basis-3/4">
-                    <p className="font-bold">Colors</p>
+                  <div className="basis-3/4 flex flex-col">
+                    <p className="italic text-xs">Select</p>
+                    <p className="font-bold">Gemstones</p>
                   </div>
                 </div>
               </button>
@@ -695,7 +697,7 @@ const SettingMenu = (props) => {
                 >
                   <div className="flex justify-between px-8 justify-between">
                     <p className="cbe-btn-text-font text-sm font-medium">
-                      At your choice
+                      Custome
                     </p>
                     <p className="text-sm text-gray-500"></p>
                   </div>
@@ -951,7 +953,7 @@ const SettingMenu = (props) => {
                   >
                     <div className="flex justify-between px-8 justify-between">
                       <p className="cbe-btn-text-font text-sm font-medium">
-                        At your choice
+                        Custome
                       </p>
                       <p className="text-sm text-gray-500"></p>
                     </div>
