@@ -172,10 +172,10 @@ const Header = ({ showContactModal, message }) => {
         <div className="">
           <a role="button" tabIndex="0" href="https://codebyedge.co.uk" className="a a-link flex">
             <img src={Logo} alt="logo" srcSet="" width="100" />
-            {subLogo == "lister" && (
+            {window.location.href.includes("lister") && (
               <img src={LHLogo} className="ml-2 lh-logo" alt="lh-logo" srcSet='' />
             )}
-            {subLogo == "anjapotze" && (
+            {window.location.href.includes("anjapotze") && (
               <img src={APLogo} className="ml-3 ap-logo" alt="lh-logo" srcSet='' />
             )}
 
