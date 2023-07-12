@@ -697,7 +697,7 @@ const SettingMenu = (props) => {
                 >
                   <div className="flex justify-between px-8 justify-between">
                     <p className="cbe-btn-text-font text-sm font-medium">
-                      Custome
+                      Custom
                     </p>
                     <p className="text-sm text-gray-500"></p>
                   </div>
@@ -953,7 +953,7 @@ const SettingMenu = (props) => {
                   >
                     <div className="flex justify-between px-8 justify-between">
                       <p className="cbe-btn-text-font text-sm font-medium">
-                        Custome
+                        Custom
                       </p>
                       <p className="text-sm text-gray-500"></p>
                     </div>
