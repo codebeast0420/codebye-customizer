@@ -218,7 +218,7 @@ class JewerlyRingsRenderer extends React.Component {
 		const webgldrawarea_size_allocator_id = this.webgldrawarea_size_allocator_id;
 
 		return (
-			<div style={{ width: "100%", height: "100%" }} className="canvas">
+			<div style={{ width: "100%", height: "100%" }} className="canvas" id="getImage">
 				<canvas
 					id={webgldrawarea_size_allocator_id}
 					style={{ width: "100%", height: "100%", opacity: 0 }}></canvas>

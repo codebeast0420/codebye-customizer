@@ -9,9 +9,10 @@ import { store } from '../../../lib/env';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 import { URL, client } from '../../../lib/env'
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
+import { collection, query, orderBy, onSnapshot, addDoc } from "firebase/firestore"
 import { firebaseDB } from '../../../lib/firebase';
 import { db } from '../SettingMenu/db';
+import DomToImage from 'dom-to-image';
 
 const Header = ({ showContactModal, message }) => {
   const product = useSelector((store) => store.product);
@@ -39,7 +40,6 @@ const Header = ({ showContactModal, message }) => {
   }, []);
 
   useEffect(() => {
-    console.log('changed', product.data.id);
     let priceDB = [];
     let material = configuration.pa_material.name;
     if (material == "18kt Rose Gold") material = "18ct Recycled Rose Gold";
@@ -125,6 +125,14 @@ const Header = ({ showContactModal, message }) => {
   }, [configuration])
 
   const buy = async () => {
+    // const dbRef = collection(firebaseDB, "carts");
+    // const image = document.getElementById('getImage');
+    // const docId = "images";
+    // DomToImage.toJpeg(image, { quality: 0.95 }).then(async (dataUrl) => {
+    //   console.log('success', dataUrl);
+    //   const docRef = await addDoc(dbRef, docId, {image: dataUrl});
+    // })
+
     axios.post("https://codeby-backend.vercel.app/add-to-cart", { productId: productId }).then((res) => {
       let variants = res.data.product?.variants;
       let variant = "not_found";
