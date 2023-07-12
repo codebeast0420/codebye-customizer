@@ -31,6 +31,7 @@ const SettingMenu = (props) => {
   const [colIndex, setColIndex] = useState([]);
   const [solidColors, setSolidColors] = useState([]);
   const [newConf, setNewConf] = useState({});
+  const [gradient, setGradient] = useState([]);
   const themes = useSelector((store) => store.themes);
   const configuration = useSelector((store) => store.configuration);
   const preMadeProduct = useSelector((store) => store.preMadeProduct);
@@ -60,9 +61,23 @@ const SettingMenu = (props) => {
   }, []);
 
   useEffect(() => {
+    let gradientTemp = [];
     setThemeCols(themes.data);
+    console.log("theme data", themes);
     setNewConf(configuration);
-
+    themes.data.map((theme, key) => {
+      let gradient = "linear-gradient(";
+      theme.gradient.map((color, index) => {
+        if (index + 1 < theme.gradient.length) {
+          gradient += `${color}, `;
+        } else {
+          gradient += color;
+        }
+      });
+      gradient += ")";
+      gradientTemp[key] = gradient;
+    });
+    setGradient(gradientTemp);
     if (props.product.attributes) {
       if (props.product.id !== 185 && props.product.id !== 186) {
         setSolidColors(
@@ -290,6 +305,7 @@ const SettingMenu = (props) => {
         onClick={value.onClick}
         role="button"
         onKeyUp={() => false}
+        style={{ paddingLeft: "5px" }}
         tabIndex={0}
       >
         <div className="single__menu__middle__item__choice__wrapper">
@@ -679,7 +695,11 @@ const SettingMenu = (props) => {
                       } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                       onClick={() => changeTheme(theme, false)}
                     >
-                      <div className="flex justify-between px-8 justify-between">
+                      <div className="flex justify-between px-8 justify-between single__menu__middle__item--content">
+                        <div
+                          className="single__menu__middle__item__color h-[36px] w-[36px] rounded-[18px]"
+                          style={{ backgroundImage: gradient[index] }}
+                        />
                         <p className="cbe-btn-text-font text-sm font-medium">
                           {theme.name}
                         </p>
@@ -936,6 +956,10 @@ const SettingMenu = (props) => {
                         onClick={() => changeTheme(theme, true)}
                       >
                         <div className="flex justify-between px-8 justify-between">
+                          <div
+                            className="single__menu__middle__item__color h-[36px] w-[36px] rounded-[18px]"
+                            style={{ backgroundImage: gradient[index] }}
+                          />
                           <p className="cbe-btn-text-font text-sm font-medium">
                             {theme.name}
                           </p>
