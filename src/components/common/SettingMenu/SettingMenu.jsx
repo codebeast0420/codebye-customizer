@@ -65,19 +65,21 @@ const SettingMenu = (props) => {
     setThemeCols(themes.data);
     console.log("theme data", themes);
     setNewConf(configuration);
-    themes.data.map((theme, key) => {
-      let gradient = "linear-gradient(";
-      theme.gradient.map((color, index) => {
-        if (index + 1 < theme.gradient.length) {
-          gradient += `${color}, `;
-        } else {
-          gradient += color;
-        }
+    if (themes.data.length > 0) {
+      themes.data.map((theme, key) => {
+        let gradient = "linear-gradient(";
+        theme.gradient.map((color, index) => {
+          if (index + 1 < theme.gradient.length) {
+            gradient += `${color}, `;
+          } else {
+            gradient += color;
+          }
+        });
+        gradient += ")";
+        gradientTemp[key] = gradient;
       });
-      gradient += ")";
-      gradientTemp[key] = gradient;
-    });
-    setGradient(gradientTemp);
+      setGradient(gradientTemp);
+    }
     if (props.product.attributes) {
       if (props.product.id !== 185 && props.product.id !== 186) {
         setSolidColors(
@@ -121,6 +123,17 @@ const SettingMenu = (props) => {
       }
     }
   }, [configuration]);
+
+  useEffect(() => {
+    if(showMobile) {
+      document.getElementById('header').classList.add('opacity-50');
+      document.getElementsByClassName('single__threejs')[0].classList.add('opacity-50');
+    }
+    else {
+      document.getElementById('header').classList.remove('opacity-50');
+      document.getElementsByClassName('single__threejs')[0].classList.remove('opacity-50');
+    }
+  }, [showMobile])
 
   const changeMetal = (metal, isMobile) => {
     setActiveMetal(metal.name);
@@ -430,7 +443,7 @@ const SettingMenu = (props) => {
   };
 
   return (
-    <div className="lg:basis-5/12 flex pr-1 py-4 justify-content ipad-setting-menu">
+    <div className="lg:basis-5/12 lg:flex absolute pr-1 bottom-0 w-full lg:py-4 justify-content ipad-setting-menu">
       <div className="basis-3/12 hidden lg:flex"></div>
       <div className="lg:basis-9/12 w-full flex flex-col-reverse lg:flex-col">
         <div className="flex flex-row justify-content z-50">
@@ -788,7 +801,7 @@ const SettingMenu = (props) => {
         </div>
         {showMobile && (
           <div className="mobile-setting-menu mobile-setting-menu--after-open flex flex-col items-end lg:hidden w-full">
-            <div className="flex uppercase w-full z-[1000]">
+            <div className="flex uppercase w-full z-[1000] sticky top-0">
               <div
                 className="bg-[#317f81] text-white p-3 w-[35%] text-center"
                 onClick={() => cancelChanges()}

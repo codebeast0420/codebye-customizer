@@ -167,7 +167,7 @@ const Header = ({ showContactModal, message }) => {
   }
 
   return (
-    <div className="flex md:flex-row lg:flex-row header-height  flex-col-reverse content-center  gap-4 justify-center mt-6">
+    <div className="flex md:flex-row lg:flex-row header-height  flex-col-reverse content-center  gap-4 justify-center mt-6" id='header'>
       <div className="md:flex basis-4/12 justify-center items-center hidden">
         <div className="">
           <a role="button" tabIndex="0" href="https://codebyedge.co.uk" className="a a-link flex">
