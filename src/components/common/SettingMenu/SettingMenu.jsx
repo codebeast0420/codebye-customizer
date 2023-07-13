@@ -968,12 +968,12 @@ const SettingMenu = (props) => {
                         } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                         onClick={() => changeTheme(theme, true)}
                       >
-                        <div className="flex justify-between px-8 justify-between">
+                        <div className="flex justify-between px-8 justify-between items-center">
                           <div
                             className="single__menu__middle__item__color h-[36px] w-[36px] rounded-[18px]"
                             style={{ backgroundImage: gradient[index] }}
                           />
-                          <p className="cbe-btn-text-font text-sm font-medium">
+                          <p className="cbe-btn-text-font ml-2 text-sm font-medium">
                             {theme.name}
                           </p>
                           <p className="text-sm text-gray-500"></p>
