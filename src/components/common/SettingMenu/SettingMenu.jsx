@@ -125,13 +125,15 @@ const SettingMenu = (props) => {
   }, [configuration]);
 
   useEffect(() => {
-    if(showMobile) {
-      document.getElementById('header').classList.add('opacity-50');
-      document.getElementsByClassName('single__threejs')[0].classList.add('opacity-50');
-    }
-    else {
-      document.getElementById('header').classList.remove('opacity-50');
-      document.getElementsByClassName('single__threejs')[0].classList.remove('opacity-50');
+    if (window.innerWidth < 1024) {
+      if (showMobile) {
+        document.getElementById('header').classList.add('opacity-50');
+        document.getElementsByClassName('single__threejs')[0].classList.add('opacity-50');
+      }
+      else {
+        document.getElementById('header').classList.remove('opacity-50');
+        document.getElementsByClassName('single__threejs')[0].classList.remove('opacity-50');
+      }
     }
   }, [showMobile])
 
@@ -318,7 +320,7 @@ const SettingMenu = (props) => {
         onClick={value.onClick}
         role="button"
         onKeyUp={() => false}
-        style={{ paddingLeft: "5px" }}
+        style={{ paddingLeft: "10px" }}
         tabIndex={0}
       >
         <div className="single__menu__middle__item__choice__wrapper">
@@ -326,14 +328,14 @@ const SettingMenu = (props) => {
             {value.letter}
           </div>
           <div className="single__menu__middle__item__choice__symbols">
-            {!value.letter.trim().length && (
+            {/* {!value.letter.trim().length && (
               <div
                 key={Math.random() * 1000}
                 className="single__menu__middle__item__choice__symbols__space"
               >
                 <span className="hexagon">&#x2B22;</span>
               </div>
-            )}
+            )} */}
             {!!value.letter.trim().length &&
               value.code.map((code, i) => {
                 index += 1;
@@ -449,11 +451,10 @@ const SettingMenu = (props) => {
         <div className="flex flex-row justify-content z-50">
           <div className="basis-4/12 pr-1">
             <button
-              className={`${
-                tabId == "message"
+              className={`${tabId == "message"
                   ? "bg-[#d4e4e4]"
                   : "bg-gray-100 hover:bg-gray-200"
-              } text-[#305253] cbe-btn-text-font py-6 w-full rounded-none setting-menu-tab`}
+                } text-[#305253] cbe-btn-text-font py-6 w-full rounded-none setting-menu-tab`}
               onClick={() => {
                 setTabId("message");
                 setShowMobile(true);
@@ -468,11 +469,10 @@ const SettingMenu = (props) => {
           </div>
           <div className="basis-4/12 pr-1">
             <button
-              className={`${
-                tabId == "metal"
+              className={`${tabId == "metal"
                   ? "bg-[#d4e4e4]"
                   : "bg-gray-100 hover:bg-gray-200"
-              } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
+                } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
               onClick={() => {
                 setTabId("metal");
                 setShowMobile(true);
@@ -489,11 +489,10 @@ const SettingMenu = (props) => {
           {props.product.id !== 185 && props.product.id !== 186 && (
             <div className="basis-4/12 pr-1">
               <button
-                className={`${
-                  tabId == "colors"
+                className={`${tabId == "colors"
                     ? "bg-[#d4e4e4]"
                     : "bg-gray-100 hover:bg-gray-200"
-                } text-[#305253] cbe-btn-text-font w-full rounded-none setting-menu-tab`}
+                  } text-[#305253] cbe-btn-text-font w-full rounded-none setting-menu-tab`}
                 style={{ height: "100%" }}
                 onClick={() => {
                   setTabId("colors");
@@ -512,11 +511,10 @@ const SettingMenu = (props) => {
           {props.product.id !== 408 && (
             <div className="basis-4/12">
               <button
-                className={`${
-                  tabId == "size"
+                className={`${tabId == "size"
                     ? "bg-[#d4e4e4]"
                     : "bg-gray-100 hover:bg-gray-200"
-                } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
+                  } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
                 onClick={() => {
                   setTabId("size");
                   setShowMobile(true);
@@ -534,11 +532,10 @@ const SettingMenu = (props) => {
           {props.product.id == 408 && (
             <div className="basis-4/12">
               <button
-                className={`${
-                  tabId == "style"
+                className={`${tabId == "style"
                     ? "bg-[#d4e4e4]"
                     : "bg-gray-100 hover:bg-gray-200"
-                } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
+                  } text-[#305253] cbe-btn-text-font py-[1rem] w-full rounded-none setting-menu-tab`}
                 onClick={() => {
                   setTabId("style");
                   setShowMobile(true);
@@ -600,11 +597,10 @@ const SettingMenu = (props) => {
                 {metals.map((metal, index) => (
                   <button
                     key={index}
-                    className={`${
-                      metal.name == activeMetal
+                    className={`${metal.name == activeMetal
                         ? "cbe-bg-green-lightest"
                         : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                     onClick={() => changeMetal(metal, false)}
                   >
                     <div className="flex justify-between px-8 justify-between">
@@ -646,11 +642,10 @@ const SettingMenu = (props) => {
             <div className="flex flex-col basis-12/12 w-full justify-center">
               <div className="mb-1">
                 <button
-                  className={`${
-                    colorType == "solid"
+                  className={`${colorType == "solid"
                       ? "cbe-bg-green-lightest"
                       : "bg-gray-100 hover:bg-gray-200"
-                  } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                   onClick={() => changeColType("solid")}
                 >
                   <div className="flex justify-between px-8 justify-between">
@@ -664,11 +659,10 @@ const SettingMenu = (props) => {
                   solidColors.map((solid, index) => (
                     <button
                       key={index}
-                      className={`${
-                        solid.name == activeSolid
+                      className={`${solid.name == activeSolid
                           ? "cbe-bg-green-lightest"
                           : "bg-gray-100 hover:bg-gray-200"
-                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                        } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                       onClick={() => changeSolid(solid, false)}
                     >
                       <div className="single__menu__middle__item--content">
@@ -683,11 +677,10 @@ const SettingMenu = (props) => {
                     </button>
                   ))}
                 <button
-                  className={`${
-                    colorType == "theme"
+                  className={`${colorType == "theme"
                       ? "cbe-bg-green-lightest"
                       : "bg-gray-100 hover:bg-gray-200"
-                  } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                   onClick={() => changeColType("theme")}
                 >
                   <div className="flex justify-between px-8 justify-between">
@@ -701,11 +694,10 @@ const SettingMenu = (props) => {
                   themeCols.map((theme, index) => (
                     <button
                       key={index}
-                      className={`${
-                        theme.name == activeTheme
+                      className={`${theme.name == activeTheme
                           ? "cbe-bg-green-lightest"
                           : "bg-gray-100 hover:bg-gray-200"
-                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                        } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                       onClick={() => changeTheme(theme, false)}
                     >
                       <div className="flex justify-between px-8 justify-between single__menu__middle__item--content">
@@ -721,11 +713,10 @@ const SettingMenu = (props) => {
                     </button>
                   ))}
                 <button
-                  className={`${
-                    colorType == "choice"
+                  className={`${colorType == "choice"
                       ? "cbe-bg-green-lightest"
                       : "bg-gray-100 hover:bg-gray-200"
-                  } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                   onClick={() => changeColType("choice")}
                 >
                   <div className="flex justify-between px-8 justify-between">
@@ -746,11 +737,10 @@ const SettingMenu = (props) => {
                   {sizes.map((size, index) => (
                     <button
                       key={index}
-                      className={`${
-                        activeSize == size.name
+                      className={`${activeSize == size.name
                           ? "cbe-bg-green-lightest"
                           : "bg-gray-100 hover:bg-gray-200"
-                      } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                        } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
                       onClick={() => setActiveSize(size.name)}
                     >
                       {size.name}
@@ -785,11 +775,10 @@ const SettingMenu = (props) => {
                 {styles.map((style, index) => (
                   <button
                     key={index}
-                    className={`${
-                      activeStyle == style.name
+                    className={`${activeStyle == style.name
                         ? "cbe-bg-green-lightest"
                         : "bg-gray-100 hover:bg-gray-200"
-                    } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                      } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
                     onClick={() => changeStyle(style)}
                   >
                     {style.name}
@@ -859,11 +848,10 @@ const SettingMenu = (props) => {
                 {metals.map((metal, index) => (
                   <button
                     key={index}
-                    className={`${
-                      metal.name == activeMetal
+                    className={`${metal.name == activeMetal
                         ? "cbe-bg-green-lightest"
                         : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                     onClick={() => changeMetal(metal, true)}
                   >
                     <div className="flex justify-between px-8 justify-between">
@@ -906,11 +894,10 @@ const SettingMenu = (props) => {
               <div className="flex flex-col basis-12/12 w-full justify-center">
                 <div className="mb-1">
                   <button
-                    className={`${
-                      colorType == "solid"
+                    className={`${colorType == "solid"
                         ? "cbe-bg-green-lightest"
                         : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                     onClick={() => changeColType("solid")}
                   >
                     <div className="flex justify-between px-8 justify-between">
@@ -924,11 +911,10 @@ const SettingMenu = (props) => {
                     solidColors.map((solid, index) => (
                       <button
                         key={index}
-                        className={`${
-                          solid.name == activeSolid
+                        className={`${solid.name == activeSolid
                             ? "cbe-bg-green-lightest"
                             : "bg-gray-100 hover:bg-gray-200"
-                        } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                          } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                         onClick={() => changeSolid(solid, true)}
                       >
                         <div className="single__menu__middle__item--content">
@@ -943,11 +929,10 @@ const SettingMenu = (props) => {
                       </button>
                     ))}
                   <button
-                    className={`${
-                      colorType == "theme"
+                    className={`${colorType == "theme"
                         ? "cbe-bg-green-lightest"
                         : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                     onClick={() => changeColType("theme")}
                   >
                     <div className="flex justify-between px-8 justify-between">
@@ -961,11 +946,10 @@ const SettingMenu = (props) => {
                     themeCols.map((theme, index) => (
                       <button
                         key={index}
-                        className={`${
-                          theme.name == activeTheme
+                        className={`${theme.name == activeTheme
                             ? "cbe-bg-green-lightest"
                             : "bg-gray-100 hover:bg-gray-200"
-                        } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                          } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                         onClick={() => changeTheme(theme, true)}
                       >
                         <div className="flex justify-between px-8 justify-between items-center">
@@ -981,11 +965,10 @@ const SettingMenu = (props) => {
                       </button>
                     ))}
                   <button
-                    className={`${
-                      colorType == "choice"
+                    className={`${colorType == "choice"
                         ? "cbe-bg-green-lightest"
                         : "bg-gray-100 hover:bg-gray-200"
-                    } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
+                      } py-6  rounded-none w-full py-8 px-10 rounded-lg justify-self-end setting-menu-tab mt-2`}
                     onClick={() => changeColType("choice")}
                   >
                     <div className="flex justify-between px-8 justify-between">
@@ -1005,11 +988,10 @@ const SettingMenu = (props) => {
                   {sizes.map((size, index) => (
                     <button
                       key={index}
-                      className={`${
-                        activeSize == size.name
+                      className={`${activeSize == size.name
                           ? "cbe-bg-green-lightest"
                           : "bg-gray-100 hover:bg-gray-200"
-                      } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                        } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
                       onClick={() => setActiveSize(size.name)}
                     >
                       {size.name}
@@ -1043,11 +1025,10 @@ const SettingMenu = (props) => {
                   {styles.map((style, index) => (
                     <button
                       key={index}
-                      className={`${
-                        activeStyle == style.name
+                      className={`${activeStyle == style.name
                           ? "cbe-bg-green-lightest"
                           : "bg-gray-100 hover:bg-gray-200"
-                      } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
+                        } bg-gray-100 cbe-btn-text-green cbe-bnt-text-font py-6 w-full rounded-none setting-menu-tab mt-2`}
                       onClick={() => changeStyle(style)}
                     >
                       {style.name}
