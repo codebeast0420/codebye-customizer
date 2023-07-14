@@ -489,7 +489,8 @@
         }
 
         &__choice {
-          width: auto;
+          width: 100%;
+          overflow-x: scroll;
           display: flex;
           align-items: center;
 
