@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import axios from "axios";
 
 const ContactModal = ({ hide }) => {
 
@@ -23,36 +24,51 @@ const ContactModal = ({ hide }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		axios
+			.post("https://codeby-backend.vercel.app/mail", {
+				from: form.email,
+				text: form.message,
+			})
+			.then((res) => {
+				alert("Thank you. We will get back to you as soon as possible.");
+				hide();
+				setForm({
+					name: "",
+					email: "",
+					message: "",
+				});
+			})
 
-		emailjs
-			.send(
-				"service_whuxj0o",
-				"template_73xpiqg",
-				{
-					from_name: form.name,
-					to_name: "David Evans",
-					from_email: form.email,
-					to_email: "codebeast0420@gmail.com",
-					message: form.message,
-				},
-				"8lUOVKLjkzOm91o7c"
-			)
-			.then(
-				() => {
-					alert("Thank you. I will get back to you as soon as possible.");
-					hide();
-					setForm({
-						name: "",
-						email: "",
-						message: "",
-					});
-				},
-				(error) => {
-					console.error(error);
+		// emailjs
+		// 	.send(
+		// 		"service_whuxj0o",
+		// 		"template_73xpiqg",
+		// 		{
+		// 			from_name: form.name,
+		// 			to_name: "David Evans",
+		// 			from_email: form.email,
+		// 			to_email: "johnleedevlead@gmail.com, codebeast0420@gmail.com, hello@codebyedge.com, david.evans@codebyedge.com",
+		// 			message: form.message,
+		// 		},
+		// 		"8lUOVKLjkzOm91o7c"
+		// 	)
+		// 	.then(
+		// 		() => {
+		// 			alert("Thank you. I will get back to you as soon as possible.");
+		// 			hide();
+		// 			setForm({
+		// 				name: "",
+		// 				email: "",
+		// 				message: "",
+		// 			});
+		// 		},
+		// 		(error) => {
+		// 			console.error(error);
 
-					alert("Ahh, something went wrong. Please try again.");
-				}
-			);
+		// 			alert("Ahh, something went wrong. Please try again.");
+		// 		}
+		// 	);
+
 	};
 
 	return (
